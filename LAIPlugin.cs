@@ -2,7 +2,7 @@
 
 namespace LobbyAppearanceImprovements
 {
-    public class Class1
+    public class LAIPlugin
     {
     }
 }
