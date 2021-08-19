@@ -66,6 +66,15 @@ namespace LobbyAppearanceImprovements
         public void Awake()
         {
             SetupConfig();
+
+            On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
+            // Hook Start instead?
+        }
+
+        private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
+        {
+            orig(self);
+
         }
 
         public void SetupConfig()
