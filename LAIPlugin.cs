@@ -143,20 +143,19 @@ namespace LobbyAppearanceImprovements
             // Background Elements //
             if (MeshProps.Value)
             {
-                GameObject.Find("HANDTeaser")?.SetActive(false);
-                GameObject.Find("MeshProps").SetActive(false);
-                GameObject.Find("HumanCrate1Mesh").SetActive(false);
-                GameObject.Find("HumanCrate2Mesh").SetActive(false);
-                GameObject.Find("HumanCanister1Mesh").SetActive(false);
-            }
-            else if (PhysicsProps.Value)
-            {
-                var thing = GameObject.Find("MeshProps").transform;
-                foreach (string text in new string[] { "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
-                    "ChairWeight","PropAnchor (1)","ExtinguisherMesh (1)","ExtinguisherMesh (2)", "FolderMesh (1)", "LaptopMesh (2)"})
+                foreach (var propName in MeshPropNames)
                 {
-                    thing.Find(text)?.gameObject.SetActive(false);
+                    GameObject.Find(propName)?.SetActive(false);
                 }
+            }
+            if (PhysicsProps.Value)
+            {
+                var meshPropHolder = GameObject.Find("MeshProps").transform;
+                if (meshPropHolder)
+                    foreach (var propName in PhysicsPropNames)
+                    {
+                        meshPropHolder.Find(propName)?.gameObject.SetActive(false);
+                    }
             }
 
         }
