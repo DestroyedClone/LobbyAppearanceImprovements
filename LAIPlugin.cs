@@ -65,7 +65,51 @@ namespace LobbyAppearanceImprovements
 
         public void Awake()
         {
+            SetupConfig();
+        }
 
+        public void SetupConfig()
+        {
+            // CONFIG //
+            // Ordered by Layer //
+            // UI //
+            HideFade = Config.Bind("UI", "Hide Fade", true, "There's a dark fade on the top and bottom, this disables it.");
+            BlurValue = Config.Bind("UI", "Adjust Blur (Not Implemented)", 255, "Adjusts the blur behind the UI elements on the left and right." +
+                "\n0:fully transparent - 255:default");
+            UIScale = Config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
+
+            // Overlay //
+            // Anything that affects the scene as a whole //
+            // Post Processing //
+            PostProcessing = Config.Bind("UI", "Disable Post Processing", true, "Disables the blurry post processing.");
+
+            // Lights //
+            // The primary light over the scene //
+            Light_Color = Config.Bind("Lights", "Hex Color", "default", "Change the default color of the light"); //#fa5a5a
+            Light_Flicker_Disable = Config.Bind("Lights", "Disable FlickerLight", true, "Makes the light not flicker anymore.");
+            Light_Intensity = Config.Bind("Lights", "Intensity", 1f, "Change the intensity of the light.");
+
+            // Character Pad Displays //
+            CharacterPadScale = Config.Bind("Background", "Character Display Scale", 1f, "Resizes character displays. "); //def 1f
+
+            // Background Elements //
+            // Anything in the background unrelated to the characters //
+            MeshProps = Config.Bind("Background", "Hide MeshProps", false, "Hides all the background meshprops.");
+            PhysicsProps = Config.Bind("Background", "Hide Physics Props", false, "Hides only the physics props like the Chair.");
+            DisableShaking = Config.Bind("Background", "Disable Shaking", false, "Disables the random shaking that rattles the ship.");
+
+            // Custom Background //
+            SelectedScene = Config.Bind("Background", "Select Scene", 0, "0 = Default");
+
+            // Survivors In Lobby //
+            // Anything related to the config setting to show displays in the lobby //
+            SurvivorsInLobby = Config.Bind("Background", "Survivors In Lobby", true, "Shows survivors in the lobby." +
+                "\nThese background survivors don't reflect the loadouts in the lobby.");
+            SelectViewMode = Config.Bind("Other", "Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
+                "\n1 = Disappear on selection" +
+                "\n2 = Zoom on selection"); //def 1f
+            ReplayAnim = Config.Bind("Background", "Replay Animation", true, "Replays the animation for the selected character.");
+            LivePreview = Config.Bind("Background", "Live Preview", true, "Updates the appearance for the selected character.");
         }
     }
 }
