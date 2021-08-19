@@ -13,7 +13,7 @@ using static LobbyAppearanceImprovements.LAIPlugin;
 
 namespace LobbyAppearanceImprovements
 {
-    public class Configuration
+    public static class Configuration
     {
         public static void SetupConfig()
         {
