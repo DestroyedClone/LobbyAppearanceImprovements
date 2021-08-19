@@ -9,6 +9,14 @@ using System.Security.Permissions;
 using UnityEngine;
 using static UnityEngine.ColorUtility;
 using static LobbyAppearanceImprovements.ConfigSetup;
+using System;
+using System.Reflection;
+using JetBrains.Annotations;
+using LobbyAppearanceImprovements.Scenes;
+using R2API;
+using R2API.Networking;
+using System.Linq;
+
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
@@ -35,17 +43,19 @@ namespace LobbyAppearanceImprovements
         {
             "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
         };
+        public static LAIScene chosenScene = null;
 
         public void Awake()
         {
             ConfigSetup.Bind(Config);
-
+            AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
 
             if (DisableShaking.Value)
                 On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
+
         }
 
         private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
@@ -114,10 +124,6 @@ namespace LobbyAppearanceImprovements
             }
 
             // Background Elements //
-            if (MeshProps.Value && PhysicsProps.Value)
-            {
-                GameObject.Find("MeshProps").SetActive(false);
-            }
             if (MeshProps.Value)
             {
                 foreach (var propName in MeshPropNames)
@@ -145,10 +151,30 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-
+            if (chosenScene != null)
+            {
+                SetupScene();
+            }
+        }
+        private void SetupScene()
+        {
+            var backgroundInstance = UnityEngine.Object.Instantiate<GameObject>(chosenScene.BackgroundPrefab);
+            backgroundInstance.transform.position = chosenScene.Position;
         }
 
-
-
+        public void AssemblySetup() //credit to bubbet
+        {
+            var scenes = new Dictionary<string, System.Type>();
+            var parentType = typeof(LAIScene);
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                if (parentType.IsAssignableFrom(type))
+                {
+                    scenes[type.Name] = type;
+                }
+            }
+            var sceneObject = (LAIScene)Activator.CreateInstance(scenes[SelectedScene.Value]);
+            chosenScene = sceneObject;
+        }
     }
 }
