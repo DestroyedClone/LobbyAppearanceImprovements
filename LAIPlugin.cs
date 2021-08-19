@@ -44,6 +44,7 @@ namespace LobbyAppearanceImprovements
             "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
         };
         public static LAIScene chosenScene = null;
+        public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
 
         public void Awake()
         {
@@ -165,16 +166,15 @@ namespace LobbyAppearanceImprovements
 
         public void AssemblySetup() //credit to bubbet
         {
-            var scenes = new Dictionary<string, System.Type>();
             var parentType = typeof(LAIScene);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (parentType.IsAssignableFrom(type))
                 {
-                    scenes[type.Name] = type;
+                    scenesDict[type.Name] = type;
                 }
             }
-            var sceneObject = (LAIScene)Activator.CreateInstance(scenes[SelectedScene.Value]);
+            var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
             chosenScene = sceneObject;
         }
     }
