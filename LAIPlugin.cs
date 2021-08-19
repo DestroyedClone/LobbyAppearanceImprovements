@@ -109,6 +109,12 @@ namespace LobbyAppearanceImprovements
             {
                 GameObject.Find("PP")?.SetActive(false);
             }
+
+            // Lights //
+            if (Light_Color.Value != "default" && TryParseHtmlString(Light_Color.Value, out Color color))
+                Methods.ChangeLobbyLightColor(color);
+            directionalLight.gameObject.GetComponent<Light>().intensity = Light_Intensity.Value;
+            directionalLight.gameObject.GetComponent<FlickerLight>().enabled = !Light_Flicker_Disable.Value;
         }
 
         public void SetupConfig()
