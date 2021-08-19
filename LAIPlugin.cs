@@ -43,8 +43,10 @@ namespace LobbyAppearanceImprovements
         {
             "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
         };
+
         public static LAIScene chosenScene = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
+        public static GameObject sceneInstance;
 
         public void Awake()
         {
@@ -154,14 +156,8 @@ namespace LobbyAppearanceImprovements
 
             if (chosenScene != null)
             {
-                SetupScene();
+                SelectScene(chosenScene);
             }
-        }
-        private void SetupScene()
-        {
-            var backgroundInstance = UnityEngine.Object.Instantiate<GameObject>(chosenScene.BackgroundPrefab);
-            backgroundInstance.transform.position = chosenScene.Position;
-            backgroundInstance.transform.localScale = chosenScene.Scale;
         }
 
         public void AssemblySetup() //credit to bubbet
@@ -176,6 +172,16 @@ namespace LobbyAppearanceImprovements
             }
             var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
             chosenScene = sceneObject;
+        }
+
+        private void SelectScene(LAIScene scene)
+        {
+            if (sceneInstance)
+                UnityEngine.Object.Destroy(sceneInstance);
+
+            var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
+            chosenScene = sceneObject;
+            sceneInstance = sceneObject.CreateInstance();
         }
     }
 }
