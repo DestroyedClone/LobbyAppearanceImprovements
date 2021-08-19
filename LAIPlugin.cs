@@ -160,6 +160,7 @@ namespace LobbyAppearanceImprovements
         {
             var backgroundInstance = UnityEngine.Object.Instantiate<GameObject>(chosenScene.BackgroundPrefab);
             backgroundInstance.transform.position = chosenScene.Position;
+            backgroundInstance.transform.localScale = chosenScene.Scale;
         }
 
         public void AssemblySetup() //credit to bubbet
