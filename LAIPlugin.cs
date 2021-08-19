@@ -102,6 +102,13 @@ namespace LobbyAppearanceImprovements
                     ui_right.localScale *= UIScale.Value;
                 }
             }
+
+            // Overlay //
+            // Post Processing //
+            if (PostProcessing.Value)
+            {
+                GameObject.Find("PP").SetActive(false);
+            }
         }
 
         public void SetupConfig()
