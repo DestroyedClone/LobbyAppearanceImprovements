@@ -75,6 +75,33 @@ namespace LobbyAppearanceImprovements
         {
             orig(self);
 
+            var directionalLight = GameObject.Find("Directional Light");
+            var ui_origin = GameObject.Find("CharacterSelectUI").transform;
+            var SafeArea = ui_origin.Find("SafeArea").transform;
+            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+            var ui_right = SafeArea.Find("RightHandPanel");
+
+            // UI //
+            if (ui_origin)
+            {
+                if (HideFade.Value)
+                {
+                    ui_origin.Find("BottomSideFade").gameObject.SetActive(false);
+                    ui_origin.Find("TopSideFade").gameObject.SetActive(false);
+                }
+                if (BlurValue.Value != 255) // default value doesnt cast well
+                {
+                    var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>().color;
+                    leftBlurColor.a = Mathf.Clamp(BlurValue.Value, 0f, 255f);
+                    var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>().color;
+                    rightBlurColor.a = Mathf.Clamp(BlurValue.Value, 0f, 255f);
+                }
+                if (UIScale.Value != 1f)
+                {
+                    ui_left.localScale *= UIScale.Value;
+                    ui_right.localScale *= UIScale.Value;
+                }
+            }
         }
 
         public void SetupConfig()
