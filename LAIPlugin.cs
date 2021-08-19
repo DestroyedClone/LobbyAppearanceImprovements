@@ -63,6 +63,16 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> LivePreview { get; set; }
         #endregion
 
+        public static string[] PhysicsPropNames = new string[]
+        {
+            "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
+                    "ChairWeight","PropAnchor (1)","ExtinguisherMesh (1)","ExtinguisherMesh (2)", "FolderMesh (1)", "LaptopMesh (2)"
+        };
+        public static string[] MeshPropNames = new string[]
+        {
+            "HANDTeaser", "MeshProps", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
+        };
+
         public void Awake()
         {
             SetupConfig();
@@ -130,6 +140,24 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
+            // Background Elements //
+            if (MeshProps.Value)
+            {
+                GameObject.Find("HANDTeaser")?.SetActive(false);
+                GameObject.Find("MeshProps").SetActive(false);
+                GameObject.Find("HumanCrate1Mesh").SetActive(false);
+                GameObject.Find("HumanCrate2Mesh").SetActive(false);
+                GameObject.Find("HumanCanister1Mesh").SetActive(false);
+            }
+            else if (PhysicsProps.Value)
+            {
+                var thing = GameObject.Find("MeshProps").transform;
+                foreach (string text in new string[] { "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
+                    "ChairWeight","PropAnchor (1)","ExtinguisherMesh (1)","ExtinguisherMesh (2)", "FolderMesh (1)", "LaptopMesh (2)"})
+                {
+                    thing.Find(text)?.gameObject.SetActive(false);
+                }
+            }
 
         }
 
@@ -159,8 +187,8 @@ namespace LobbyAppearanceImprovements
 
             // Background Elements //
             // Anything in the background unrelated to the characters //
-            MeshProps = Config.Bind("Background", "Hide MeshProps", false, "Hides all the background meshprops.");
-            PhysicsProps = Config.Bind("Background", "Hide Physics Props", false, "Hides only the physics props like the Chair.");
+            MeshProps = Config.Bind("Background", "Hide Static MeshProps", false, "Hides all the stationary meshprops.");
+            PhysicsProps = Config.Bind("Background", "Hide Physics Props", false, "Hides all the physics props like the Chair.");
             DisableShaking = Config.Bind("Background", "Disable Shaking", false, "Disables the random shaking that rattles the ship.");
 
             // Custom Background //
