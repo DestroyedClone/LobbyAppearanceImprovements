@@ -53,7 +53,7 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> DisableShaking { get; set; }
 
         // Custom Background //
-        public static ConfigEntry<int> SelectedScene { get; set; }
+        public static ConfigEntry<string> SelectedScene { get; set; }
 
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
@@ -99,7 +99,7 @@ namespace LobbyAppearanceImprovements
             DisableShaking = Config.Bind("Background", "Disable Shaking", false, "Disables the random shaking that rattles the ship.");
 
             // Custom Background //
-            SelectedScene = Config.Bind("Background", "Select Scene", 0, "0 = Default");
+            SelectedScene = Config.Bind("Background", "Select Scene", "default", "Sets the current scene of the lobby.");
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
@@ -111,5 +111,7 @@ namespace LobbyAppearanceImprovements
             ReplayAnim = Config.Bind("Background", "Replay Animation", true, "Replays the animation for the selected character.");
             LivePreview = Config.Bind("Background", "Live Preview", true, "Updates the appearance for the selected character.");
         }
+
+
     }
 }
