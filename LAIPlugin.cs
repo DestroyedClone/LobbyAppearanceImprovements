@@ -1,21 +1,16 @@
 ﻿using BepInEx;
-using BepInEx.Configuration;
 using LeTai.Asset.TranslucentImage;
+using LobbyAppearanceImprovements.Scenes;
 using R2API.Utils;
 using RoR2;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
 using UnityEngine;
-using static UnityEngine.ColorUtility;
 using static LobbyAppearanceImprovements.ConfigSetup;
-using System;
-using System.Reflection;
-using JetBrains.Annotations;
-using LobbyAppearanceImprovements.Scenes;
-using R2API;
-using R2API.Networking;
-using System.Linq;
+using static UnityEngine.ColorUtility;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -33,12 +28,12 @@ namespace LobbyAppearanceImprovements
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
-
         public static string[] PhysicsPropNames = new string[]
         {
             "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
                     "ChairWeight","PropAnchor (1)","ExtinguisherMesh (1)","ExtinguisherMesh (2)", "FolderMesh (1)", "LaptopMesh (2)"
         };
+
         public static string[] MeshPropNames = new string[]
         {
             "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
@@ -58,7 +53,6 @@ namespace LobbyAppearanceImprovements
 
             if (DisableShaking.Value)
                 On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
-
         }
 
         private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)

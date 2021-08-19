@@ -1,15 +1,6 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
-using LeTai.Asset.TranslucentImage;
-using R2API.Utils;
-using RoR2;
-using System.Collections.Generic;
-using System.Security;
-using System.Security.Permissions;
-using UnityEngine;
-using static UnityEngine.ColorUtility;
+﻿using UnityEngine;
+
 //using static LobbyAppearanceImprovements.StaticValues;
-using static LobbyAppearanceImprovements.LAIPlugin;
 
 namespace LobbyAppearanceImprovements
 {
