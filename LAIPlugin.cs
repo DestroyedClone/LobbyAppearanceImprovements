@@ -80,6 +80,7 @@ namespace LobbyAppearanceImprovements
             var SafeArea = ui_origin.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
+            var characterPadAlignments = GameObject.Find("CharacterPadAlignments");
 
             // UI //
             if (ui_origin)
@@ -118,6 +119,18 @@ namespace LobbyAppearanceImprovements
                 directionalLight.gameObject.GetComponent<Light>().intensity = Light_Intensity.Value;
                 directionalLight.gameObject.GetComponent<FlickerLight>().enabled = !Light_Flicker_Disable.Value;
             }
+
+            // Character Pad Displays //
+            if (characterPadAlignments)
+            {
+                if (CharacterPadScale.Value != 1f)
+                {
+                    //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
+                    characterPadAlignments.transform.localScale *= CharacterPadScale.Value;
+                }
+            }
+
+
         }
 
         public void SetupConfig()
