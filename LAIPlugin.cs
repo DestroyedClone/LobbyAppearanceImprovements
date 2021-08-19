@@ -79,6 +79,15 @@ namespace LobbyAppearanceImprovements
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
+
+            if (DisableShaking.Value)
+                On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
+        }
+
+        private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
+        {
+            orig(self);
+            self.gameObject.SetActive(false);
         }
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
@@ -157,6 +166,7 @@ namespace LobbyAppearanceImprovements
                         meshPropHolder.Find(propName)?.gameObject.SetActive(false);
                     }
             }
+
 
         }
 
