@@ -33,7 +33,7 @@ namespace LobbyAppearanceImprovements
         };
         public static string[] MeshPropNames = new string[]
         {
-            "HANDTeaser", "MeshProps", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
+            "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
         };
 
         public void Awake()
@@ -114,6 +114,10 @@ namespace LobbyAppearanceImprovements
             }
 
             // Background Elements //
+            if (MeshProps.Value && PhysicsProps.Value)
+            {
+                GameObject.Find("MeshProps").SetActive(false);
+            }
             if (MeshProps.Value)
             {
                 foreach (var propName in MeshPropNames)
@@ -125,10 +129,20 @@ namespace LobbyAppearanceImprovements
             {
                 var meshPropHolder = GameObject.Find("MeshProps").transform;
                 if (meshPropHolder)
-                    foreach (var propName in PhysicsPropNames)
+                {
+                    if (MeshProps.Value)
                     {
-                        meshPropHolder.Find(propName)?.gameObject.SetActive(false);
+                        // MeshProps holds both static and physics, so we save processing time(?) if we just disable the whole thing.
+                        meshPropHolder.gameObject.SetActive(false);
                     }
+                    else
+                    {
+                        foreach (var propName in PhysicsPropNames)
+                        {
+                            meshPropHolder.Find(propName)?.gameObject.SetActive(false);
+                        }
+                    }
+                }
             }
 
 
