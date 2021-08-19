@@ -47,6 +47,7 @@ namespace LobbyAppearanceImprovements
         {
             ConfigSetup.Bind(Config);
             AssemblySetup();
+            CommandHelper.AddToConsoleWhenReady();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
