@@ -100,8 +100,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CharacterSceneSetups\" />
-  </ItemGroup>
-
 </Project>
