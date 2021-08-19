@@ -107,7 +107,7 @@ namespace LobbyAppearanceImprovements
             // Post Processing //
             if (PostProcessing.Value)
             {
-                GameObject.Find("PP").SetActive(false);
+                GameObject.Find("PP")?.SetActive(false);
             }
         }
 
