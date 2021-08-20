@@ -20,7 +20,6 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             { "Merc", new [] {new Vector3(4.16f, 1.3f, 17f), new Vector3(0f, 240f, 0f) } },
             { "Loader", new [] {new Vector3(-4f, 0f, 20.22f), new Vector3(0f, 140f, 0f) } },
             { "Croco", new [] {new Vector3(-4f, 0f, 13f), new Vector3(0f, 120f, 0f) } },
-
         };
     }
 }
