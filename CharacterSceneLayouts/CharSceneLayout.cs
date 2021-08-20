@@ -9,6 +9,10 @@ namespace LobbyAppearanceImprovements.CharacterSceneSetups
 {
     public abstract class CharSceneLayout
     {
+        public CharSceneLayout()
+        {
+
+        }
         // Technical Name of the scene
         public abstract string SceneLayout { get; }
         // Name of the Scene : "Lobby"

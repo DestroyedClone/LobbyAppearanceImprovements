@@ -160,7 +160,7 @@ namespace LobbyAppearanceImprovements
                 }
         }
 
-        public void AssemblySetup() //credit to bubbet
+        public void AssemblySetup() //credit to bubbet for base code
         {
             var sceneType = typeof(LAIScene);
             var layoutType = typeof(CharacterSceneSetups.CharSceneLayout);
@@ -175,12 +175,12 @@ namespace LobbyAppearanceImprovements
                     layoutsDict[type.Name] = type;
                 }
             }
-            if (scenesDict[SelectedScene.Value] != null)
+            if (SelectedScene.Value.ToLower() != "default" && scenesDict[SelectedScene.Value] != null)
             {
                 var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
                 chosenScene = sceneObject;
             }
-            if (layoutsDict[SelectedLayout.Value] != null)
+            if (SelectedLayout.Value.ToLower() != "default" && layoutsDict[SelectedLayout.Value] != null)
             {
                 var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SelectedLayout.Value]);
                 chosenLayout = layoutObject;
