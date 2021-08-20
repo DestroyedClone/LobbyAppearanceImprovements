@@ -34,7 +34,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             },
             new CharacterLayout
             {
-                BodyName = "EngiBody",
+                BodyName = "Engi",
                 Position = new Vector3 (0.47f, 0.92f, 20.4f),
                 Rotation = new Vector3 (0f, 240f, 0f)
             },
@@ -52,7 +52,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             },
             new CharacterLayout
             {
-                BodyName = "Acrid",
+                BodyName = "Croco",
                 Position = new Vector3 (-4.85f, 1.5f, 12.66f),
                 Rotation = new Vector3 (0f, 240f, 0f)
             },

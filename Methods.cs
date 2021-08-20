@@ -83,16 +83,6 @@ namespace LobbyAppearanceImprovements
             sceneInstance = sceneObject.CreateScene();
         }
 
-        public static void SelectLayout(CharSceneLayout scene)
-        {
-            if (layoutInstance)
-                UnityEngine.Object.Destroy(layoutInstance);
-
-            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SelectedLayout.Value]);
-            chosenLayout = layoutObject;
-            layoutInstance = layoutObject.CreateLayout();
-        }
-
         public static void SelectLayout(string layoutName)
         {
             var selectedLayout = layoutsDict.TryGetValue(layoutName, out var layout);
