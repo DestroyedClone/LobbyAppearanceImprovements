@@ -1,22 +1,10 @@
-﻿using UnityEngine;
-using RoR2;
-using LobbyAppearanceImprovements;
-using static LobbyAppearanceImprovements.LAIPlugin;
+﻿using LobbyAppearanceImprovements.CharacterSceneSetups;
 using LobbyAppearanceImprovements.Scenes;
-using LobbyAppearanceImprovements.CharacterSceneSetups;
-using BepInEx;
-using LeTai.Asset.TranslucentImage;
-using LobbyAppearanceImprovements.Scenes;
-using R2API.Utils;
 using RoR2;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Security;
-using System.Security.Permissions;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
-using static UnityEngine.ColorUtility;
+using static LobbyAppearanceImprovements.LAIPlugin;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -28,6 +16,7 @@ namespace LobbyAppearanceImprovements
         {
             GameObject.Find("Directional Light").gameObject.GetComponent<Light>().color = color;
         }
+
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null)
         {
             var bodyPrefab = GetBodyPrefab(bodyPrefabName);
@@ -40,8 +29,10 @@ namespace LobbyAppearanceImprovements
                 case "Croco":
                     gameObject.transform.Find("mdlCroco")?.transform.Find("Spawn")?.transform.Find("FloorMesh")?.gameObject.SetActive(false);
                     break;
+
                 case "RobEnforcer":
                     break;
+
                 case "HANDOverclocked":
                     GameObject.Find("HANDTeaser").SetActive(false);
                     break;
@@ -55,6 +46,7 @@ namespace LobbyAppearanceImprovements
             {
                 case "CHEF":
                     break;
+
                 default:
                     bodyPrefabName += "Body";
                     break;
@@ -113,10 +105,13 @@ namespace LobbyAppearanceImprovements
             if (layoutInstance)
                 UnityEngine.Object.Destroy(layoutInstance);
 
-
             var layoutObject = (CharacterSceneSetups.CharSceneLayout)Activator.CreateInstance(layout);
             chosenLayout = layoutObject;
             layoutInstance = layoutObject.CreateLayout();
+        }
+
+        public static string GetDefaultLayoutNameForScene(string sceneName)
+        {
 
         }
     }

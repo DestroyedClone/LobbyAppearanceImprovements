@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using LeTai.Asset.TranslucentImage;
-using LobbyAppearanceImprovements.Scenes;
 using LobbyAppearanceImprovements.CharacterSceneSetups;
+using LobbyAppearanceImprovements.Scenes;
 using R2API.Utils;
 using RoR2;
 using System;
@@ -151,7 +151,7 @@ namespace LobbyAppearanceImprovements
             if (chosenScene != null)
             {
                 Methods.SelectScene(chosenScene);
-            }  
+            }
 
             if (SurvivorsInLobby.Value)
                 if (chosenLayout != null)
@@ -186,7 +186,6 @@ namespace LobbyAppearanceImprovements
                 chosenLayout = layoutObject;
             }
         }
-
 
         private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
         {

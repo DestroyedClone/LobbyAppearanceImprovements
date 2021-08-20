@@ -1,26 +1,16 @@
-﻿using BepInEx;
-using BepInEx.Configuration;
-using LeTai.Asset.TranslucentImage;
-using R2API.Utils;
-using RoR2;
-using System.Collections.Generic;
-using System.Security;
-using System.Security.Permissions;
-using UnityEngine;
-using static UnityEngine.ColorUtility;
-using static BepInEx.BaseUnityPlugin;
-using static LobbyAppearanceImprovements.LAIPlugin;
+﻿using BepInEx.Configuration;
 
 namespace LobbyAppearanceImprovements
 {
     public static class ConfigSetup
     {
-
         #region Config
+
         // CONFIG //
         // Ordered by Layer //
         // UI //
         public static ConfigEntry<bool> HideFade { get; set; }
+
         public static ConfigEntry<int> BlurValue { get; set; }
         public static ConfigEntry<float> UIScale { get; set; }
 
@@ -32,6 +22,7 @@ namespace LobbyAppearanceImprovements
         // Lights //
         // The primary light over the scene //
         public static ConfigEntry<string> Light_Color { get; set; }
+
         public static ConfigEntry<bool> Light_Flicker_Disable { get; set; }
         public static ConfigEntry<float> Light_Intensity { get; set; }
 
@@ -41,6 +32,7 @@ namespace LobbyAppearanceImprovements
         // Background Elements //
         // Anything in the background unrelated to the characters //
         public static ConfigEntry<bool> MeshProps { get; set; }
+
         public static ConfigEntry<bool> PhysicsProps { get; set; }
         public static ConfigEntry<bool> DisableShaking { get; set; }
 
@@ -50,11 +42,14 @@ namespace LobbyAppearanceImprovements
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
         public static ConfigEntry<bool> SurvivorsInLobby { get; set; }
+
         public static ConfigEntry<string> SelectedLayout { get; set; }
         public static ConfigEntry<int> SelectViewMode { get; set; }
         public static ConfigEntry<bool> ReplayAnim { get; set; }
         public static ConfigEntry<bool> LivePreview { get; set; }
-        #endregion
+
+        #endregion Config
+
         public static void Bind(ConfigFile config)
         {
             // CONFIG //

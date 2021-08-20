@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 using static LobbyAppearanceImprovements.Methods;
-using System.Collections.ObjectModel;
 
 namespace LobbyAppearanceImprovements.CharacterSceneSetups
 {
@@ -11,16 +7,20 @@ namespace LobbyAppearanceImprovements.CharacterSceneSetups
     {
         public CharSceneLayout()
         {
-
         }
+
         // Technical Name of the scene
         public abstract string SceneLayout { get; }
+
         // Name of the Scene : "Lobby"
         public abstract string SceneName { get; }
+
         // Author of the scene : "DestroyedClone"
         public abstract string Author { get; }
+
         // Name of the layout : "Original Crew"
         public abstract string LayoutName { get; }
+
         public abstract CharacterLayout[] CharacterLayouts { get; }
 
         public struct CharacterLayout
