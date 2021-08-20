@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using static LobbyAppearanceImprovements.Methods;
+using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
@@ -21,21 +22,14 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // Name of the layout : "Original Crew"
         public abstract string LayoutName { get; }
 
-        public abstract CharacterLayout[] CharacterLayouts { get; }
-
-        public struct CharacterLayout
-        {
-            public string BodyName;
-            public Vector3 Position;
-            public Vector3 Rotation;
-        }
+        public abstract Dictionary<string, Vector3[]> CharacterLayouts { get; }
 
         public GameObject CreateLayout()
         {
             var layoutHolder = new GameObject();
             foreach (var characterLayout in CharacterLayouts)
             {
-                CreateDisplay(characterLayout.BodyName, characterLayout.Position, characterLayout.Rotation, layoutHolder.transform);
+                CreateDisplay(characterLayout.Key, characterLayout.Value[0], characterLayout.Value[1], layoutHolder.transform);
             }
             return layoutHolder;
         }

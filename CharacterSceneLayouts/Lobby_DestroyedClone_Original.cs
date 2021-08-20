@@ -11,8 +11,12 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneName => "Lobby";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Default";
+        public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
+        {
 
-        public override CharacterLayout[] CharacterLayouts => new CharacterLayout[]
+        };
+
+        public override CharacterLayouzt[] CharacterLayouts => new CharacterLayout[]
         {
             new CharacterLayout
             {
