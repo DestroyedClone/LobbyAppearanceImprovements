@@ -3,6 +3,7 @@ using RoR2;
 using LobbyAppearanceImprovements;
 using static LobbyAppearanceImprovements.LAIPlugin;
 using LobbyAppearanceImprovements.Scenes;
+using LobbyAppearanceImprovements.CharacterSceneSetups;
 using BepInEx;
 using LeTai.Asset.TranslucentImage;
 using LobbyAppearanceImprovements.Scenes;
@@ -88,6 +89,16 @@ namespace LobbyAppearanceImprovements
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateInstance();
+        }
+
+        public static void SelectLayout(CharacterSceneSetups.CharSceneLayout scene)
+        {
+            if (layoutInstance)
+                UnityEngine.Object.Destroy(layoutInstance);
+
+            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SurvivorsInLobbyLayout.Value]);
+            chosenLayout = layoutObject;
+            layoutInstance = layoutObject.CreateLayout();
         }
 
         public static void SelectLayout(string layoutName)

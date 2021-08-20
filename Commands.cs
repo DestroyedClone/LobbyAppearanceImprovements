@@ -38,13 +38,14 @@ namespace LobbyAppearanceImprovements
             "\n lai_listlayouts {sceneName} - shows all layouts for a particular scene")]
         public static void CMD_ListLayouts(ConCommandArgs args)
         {
-            var sceneName = args.TryGetArgString(0);
             if (args.Count == 1)
             {
+                var sceneName = args.GetArgString(0);
                 foreach (var keyValuePair in layoutsDict)
                 {
-                    if (keyValuePair.)
-                    Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                    var instance = (CharacterSceneSetups.CharSceneLayout)Activator.CreateInstance(keyValuePair.Value);
+                    if (instance.SceneName == sceneName)
+                        Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
                 }
             }
             foreach (var keyValuePair in layoutsDict)
@@ -53,10 +54,10 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        [ConCommand(commandName = "LAI_SetLayout", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets the current scene to the specified name. | For previewing, does not save.")]
+        [ConCommand(commandName = "LAI_SetLayout", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets the current layout to the specified name. | For previewing, does not save.")]
         public static void CMD_SetLayout(ConCommandArgs args)
         {
-            SelectScene(args.GetArgString(0));
+            SelectLayout(args.GetArgString(0));
         }
 
         [ConCommand(commandName = "LAI_ChangeLobbyColor", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_ChangeLobbyColor {r} {g} {b} {a} | For previewing, does not save.")]

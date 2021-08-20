@@ -31,8 +31,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneSetups
             var layoutHolder = new GameObject();
             foreach (var characterLayout in CharacterLayouts)
             {
-                var createdInstance = CreateDisplay(characterLayout.BodyName, characterLayout.Position, characterLayout.Rotation, layoutHolder.transform);
-
+                CreateDisplay(characterLayout.BodyName, characterLayout.Position, characterLayout.Rotation, layoutHolder.transform);
             }
             return layoutHolder;
         }
