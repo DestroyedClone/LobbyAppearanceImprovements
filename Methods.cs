@@ -1,4 +1,4 @@
-﻿using LobbyAppearanceImprovements.CharacterSceneSetups;
+﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
 using LobbyAppearanceImprovements.Scenes;
 using RoR2;
 using System;
@@ -83,7 +83,7 @@ namespace LobbyAppearanceImprovements
             sceneInstance = sceneObject.CreateScene();
         }
 
-        public static void SelectLayout(CharacterSceneSetups.CharSceneLayout scene)
+        public static void SelectLayout(CharSceneLayout scene)
         {
             if (layoutInstance)
                 UnityEngine.Object.Destroy(layoutInstance);
@@ -105,7 +105,7 @@ namespace LobbyAppearanceImprovements
             if (layoutInstance)
                 UnityEngine.Object.Destroy(layoutInstance);
 
-            var layoutObject = (CharacterSceneSetups.CharSceneLayout)Activator.CreateInstance(layout);
+            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layout);
             chosenLayout = layoutObject;
             layoutInstance = layoutObject.CreateLayout();
         }
