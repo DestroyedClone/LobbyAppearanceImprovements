@@ -150,7 +150,6 @@ namespace LobbyAppearanceImprovements
             
             var currentSceneIsNotLobby = SelectedScene.Value != (string)SelectedScene.DefaultValue;
             
-            Debug.Log("TR03");
             if (currentSceneIsNotLobby)
             {
                 if (!scenesDict.ContainsKey(SelectedScene.Value))
@@ -158,7 +157,6 @@ namespace LobbyAppearanceImprovements
                     Debug.Log("Selected Scene Not Found : " + SelectedScene.Value);
                     return;
                 }
-                Debug.Log("TR04");
                 GameObject.Find("MeshProps")?.SetActive(false);
                 Methods.SelectScene(chosenScene);
 
@@ -176,14 +174,20 @@ namespace LobbyAppearanceImprovements
                     }
             } else
             {
-                Debug.Log("TR05");
                 GameObject.Find("MeshProps")?.SetActive(true);
-
-                var defaultLayoutName = Methods.GetDefaultLayoutNameForScene("lobby");
-                if (defaultLayoutName != null)
-                {
-                    Methods.SelectLayout(defaultLayoutName);
-                }
+                if (SurvivorsInLobby.Value)
+                    if (SelectedLayout.Value != (string)SelectedLayout.DefaultValue)
+                    {
+                        Methods.SelectLayout(SelectedLayout.Value);
+                    }
+                    else
+                    {
+                        var defaultLayoutName = Methods.GetDefaultLayoutNameForScene("lobby");
+                        if (defaultLayoutName != null)
+                        {
+                            Methods.SelectLayout(defaultLayoutName);
+                        }
+                    }
             }
         }
 

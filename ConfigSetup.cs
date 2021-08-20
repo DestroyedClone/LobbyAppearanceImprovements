@@ -50,6 +50,8 @@ namespace LobbyAppearanceImprovements
 
         #endregion Config
 
+
+
         public static void Bind(ConfigFile config)
         {
             // CONFIG //
