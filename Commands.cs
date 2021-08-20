@@ -66,5 +66,17 @@ namespace LobbyAppearanceImprovements
                 Methods.ChangeLobbyLightColor(new Color32((byte)args.GetArgInt(0), (byte)args.GetArgInt(1), (byte)args.GetArgInt(2), (byte)args.GetArgInt(3)));
             }
         }
+        [ConCommand(commandName = "LAI_getpos", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_getpos | Returns bodyname, pos, rotation, in format for scenelayout file")]
+        public static void CMD_GetPos(ConCommandArgs args)
+        {
+            var bodyName = args.senderBody.name;
+            // https://stackoverflow.com/questions/15564944/remove-the-last-three-characters-from-a-string
+            bodyName = bodyName.Remove(bodyName.Length - 8);
+            var position = args.senderBody.footPosition;
+            var rotation = args.senderBody.transform.rotation;
+            var text = "{ \"{0}\", new [] {new Vector3({1}f, {2}f, {3}f), new Vector3({4}, {5}f, {6}f) } },";
+            var finalText = string.Format(text, bodyName, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
+            Debug.Log(finalText);
+        }
     }
 }
