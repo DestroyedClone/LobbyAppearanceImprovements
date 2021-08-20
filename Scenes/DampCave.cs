@@ -4,7 +4,7 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class DampCave : LAIScene
     {
-        public override string SceneName => "Damp Cave";
+        public override string SceneName => "Abyssal Depths";
         public override GameObject BackgroundPrefab => Resources.Load<GameObject>("prefabs/stagedisplay/BlackbeachDioramaDisplay");
         public override Vector3 Position => new Vector3(4f, -2f, 4);
         public override Quaternion Rotation => Quaternion.Euler(0, 60, 0);

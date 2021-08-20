@@ -112,7 +112,11 @@ namespace LobbyAppearanceImprovements
 
         public static string GetDefaultLayoutNameForScene(string sceneName)
         {
+            foreach (var kvp in layoutsDict)
+            {
 
+            }
+            return null;
         }
     }
 }
