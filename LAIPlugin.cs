@@ -181,5 +181,22 @@ namespace LobbyAppearanceImprovements
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateInstance();
         }
+
+        public static void SelectScene(string sceneName)
+        {
+            var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
+            if (!selectedScene)
+            {
+                Debug.LogError("Requested Scene "+sceneName+" returned null!");
+                return;
+            }
+
+            if (sceneInstance)
+                UnityEngine.Object.Destroy(sceneInstance);
+
+            var sceneObject = (LAIScene)Activator.CreateInstance(scene);
+            chosenScene = sceneObject;
+            sceneInstance = sceneObject.CreateInstance();
+        }
     }
 }

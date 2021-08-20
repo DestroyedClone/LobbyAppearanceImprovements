@@ -23,14 +23,14 @@ namespace LobbyAppearanceImprovements
         {
             foreach (var keyValuePair in scenesDict)
             {
-                Debug.Log("Key = {0},Value = {1}" + keyValuePair.Key + keyValuePair.Value);
+                Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
             }
         }
 
         [ConCommand(commandName = "LAI_SetScene", flags = ConVarFlags.ExecuteOnServer, helpText = "stagename x y z")]
         public static void CMD_SetScene(ConCommandArgs args)
         {
-            //SelectScene(scenesDict[args.GetArgString(0)]);
+            SelectScene(args.GetArgString(0));
         }
     }
 }
