@@ -148,32 +148,31 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-            RestartSceneAndLayout();
+            RestartSceneAndLayout(SelectedScene.Value, SelectedLayout.Value);
         }
 
-        public void RestartSceneAndLayout()
+        public void RestartSceneAndLayout(string sceneName, string layoutName = null)
         {
-
-            var currentSceneIsNotLobby = SelectedScene.Value != (string)SelectedScene.DefaultValue;
+            var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
 
             if (currentSceneIsNotLobby)
             {
-                if (!scenesDict.ContainsKey(SelectedScene.Value))
+                if (!scenesDict.ContainsKey(sceneName))
                 {
-                    Debug.Log("Selected Scene Not Found : " + SelectedScene.Value);
+                    Debug.Log("Selected Scene Not Found : " + sceneName);
                     return;
                 }
                 GameObject.Find("MeshProps")?.SetActive(false);
                 Methods.SelectScene(chosenScene);
 
                 if (SurvivorsInLobby.Value)
-                    if (SelectedLayout.Value != (string)SelectedLayout.DefaultValue)
+                    if (layoutName != (string)SelectedLayout.DefaultValue)
                     {
                         Methods.SelectLayout(SelectedLayout.Value);
                     }
                     else
                     {
-                        var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(SelectedScene.Value);
+                        var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(sceneName);
                         if (defaultLayoutName != null)
                         {
                             Methods.SelectLayout(defaultLayoutName);
@@ -184,7 +183,7 @@ namespace LobbyAppearanceImprovements
             {
                 GameObject.Find("MeshProps")?.SetActive(true);
                 if (SurvivorsInLobby.Value)
-                    if (SelectedLayout.Value != (string)SelectedLayout.DefaultValue)
+                    if (layoutName != (string)SelectedLayout.DefaultValue)
                     {
                         Methods.SelectLayout(SelectedLayout.Value);
                     }
