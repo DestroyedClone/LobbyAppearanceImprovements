@@ -172,7 +172,7 @@ namespace LobbyAppearanceImprovements
             chosenScene = sceneObject;
         }
 
-        private void SelectScene(LAIScene scene)
+        public static void SelectScene(LAIScene scene)
         {
             if (sceneInstance)
                 UnityEngine.Object.Destroy(sceneInstance);
