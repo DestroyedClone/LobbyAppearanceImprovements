@@ -158,6 +158,7 @@ namespace LobbyAppearanceImprovements
         public void AssemblySetup() //credit to bubbet
         {
             var parentType = typeof(LAIScene);
+            Debug.Log("1");
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (parentType.IsAssignableFrom(type))
@@ -165,7 +166,9 @@ namespace LobbyAppearanceImprovements
                     scenesDict[type.Name] = type;
                 }
             }
+            Debug.Log("2");
             var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
+            Debug.Log("3");
             chosenScene = sceneObject;
         }
 
