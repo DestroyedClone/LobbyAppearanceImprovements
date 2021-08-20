@@ -10,7 +10,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public abstract Quaternion Rotation { get; }
         public abstract Vector3 Scale { get; }
 
-        public GameObject CreateInstance()
+        public GameObject CreateScene()
         {
             var sceneInstance = UnityEngine.Object.Instantiate<GameObject>(BackgroundPrefab);
             sceneInstance.transform.position = Position;

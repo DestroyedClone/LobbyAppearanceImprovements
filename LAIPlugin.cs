@@ -41,17 +41,18 @@ namespace LobbyAppearanceImprovements
         };
 
         public static LAIScene chosenScene = null;
-        public static CharacterSceneSetups.CharSceneLayout chosenLayout = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
         public static GameObject sceneInstance;
+
+        public static CharSceneLayout chosenLayout = null;
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
         public static GameObject layoutInstance;
 
         public void Awake()
         {
             ConfigSetup.Bind(Config);
-            AssemblySetup();
             CommandHelper.AddToConsoleWhenReady();
+            AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
@@ -174,10 +175,16 @@ namespace LobbyAppearanceImprovements
                     layoutsDict[type.Name] = type;
                 }
             }
-            var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
-            chosenScene = sceneObject;
-            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SurvivorsInLobbyLayout.Value]);
-            chosenLayout = layoutObject;
+            if (scenesDict[SelectedScene.Value] != null)
+            {
+                var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
+                chosenScene = sceneObject;
+            }
+            if (layoutsDict[SelectedLayout.Value] != null)
+            {
+                var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SelectedLayout.Value]);
+                chosenLayout = layoutObject;
+            }
         }
 
 

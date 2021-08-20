@@ -71,7 +71,7 @@ namespace LobbyAppearanceImprovements
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
             chosenScene = sceneObject;
-            sceneInstance = sceneObject.CreateInstance();
+            sceneInstance = sceneObject.CreateScene();
         }
 
         public static void SelectScene(string sceneName)
@@ -88,7 +88,7 @@ namespace LobbyAppearanceImprovements
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
-            sceneInstance = sceneObject.CreateInstance();
+            sceneInstance = sceneObject.CreateScene();
         }
 
         public static void SelectLayout(CharacterSceneSetups.CharSceneLayout scene)
@@ -96,7 +96,7 @@ namespace LobbyAppearanceImprovements
             if (layoutInstance)
                 UnityEngine.Object.Destroy(layoutInstance);
 
-            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SurvivorsInLobbyLayout.Value]);
+            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SelectedLayout.Value]);
             chosenLayout = layoutObject;
             layoutInstance = layoutObject.CreateLayout();
         }

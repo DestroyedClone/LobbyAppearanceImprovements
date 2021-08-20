@@ -50,7 +50,7 @@ namespace LobbyAppearanceImprovements
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
         public static ConfigEntry<bool> SurvivorsInLobby { get; set; }
-        public static ConfigEntry<string> SurvivorsInLobbyLayout { get; set; }
+        public static ConfigEntry<string> SelectedLayout { get; set; }
         public static ConfigEntry<int> SelectViewMode { get; set; }
         public static ConfigEntry<bool> ReplayAnim { get; set; }
         public static ConfigEntry<bool> LivePreview { get; set; }
@@ -92,7 +92,7 @@ namespace LobbyAppearanceImprovements
             // Anything related to the config setting to show displays in the lobby //
             SurvivorsInLobby = config.Bind("Background", "Survivors In Lobby", true, "Shows survivors in the lobby." +
                 "\nThese background survivors don't reflect the loadouts in the lobby.");
-            SurvivorsInLobbyLayout = config.Bind("Background", "Survivors In Lobby", "default", "Layout of the survivors in the scene.");
+            SelectedLayout = config.Bind("Background", "Survivors In Lobby Layout", "default", "Layout of the survivors in the scene.");
             SelectViewMode = config.Bind("Other", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
                 "\n2 = Zoom on selection"); //def 1f
