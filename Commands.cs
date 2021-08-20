@@ -41,7 +41,7 @@ namespace LobbyAppearanceImprovements
                 var sceneName = args.GetArgString(0);
                 foreach (var keyValuePair in layoutsDict)
                 {
-                    var instance = (CharacterSceneSetups.CharSceneLayout)Activator.CreateInstance(keyValuePair.Value);
+                    var instance = (CharacterSceneLayouts.CharSceneLayout)Activator.CreateInstance(keyValuePair.Value);
                     if (instance.SceneName == sceneName)
                         Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
                 }

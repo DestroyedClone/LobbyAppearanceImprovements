@@ -1,6 +1,6 @@
 ﻿using BepInEx;
 using LeTai.Asset.TranslucentImage;
-using LobbyAppearanceImprovements.CharacterSceneSetups;
+using LobbyAppearanceImprovements.CharacterSceneLayouts;
 using LobbyAppearanceImprovements.Scenes;
 using R2API.Utils;
 using RoR2;
@@ -147,23 +147,50 @@ namespace LobbyAppearanceImprovements
                     }
                 }
             }
-
-            if (chosenScene != null)
+            
+            var currentSceneIsNotLobby = SelectedScene.Value != (string)SelectedScene.DefaultValue;
+            
+            Debug.Log("TR03");
+            if (currentSceneIsNotLobby)
             {
-                Methods.SelectScene(chosenScene);
-            }
-
-            if (SurvivorsInLobby.Value)
-                if (chosenLayout != null)
+                if (!scenesDict.ContainsKey(SelectedScene.Value))
                 {
-                    Methods.SelectLayout(chosenLayout);
+                    Debug.Log("Selected Scene Not Found : " + SelectedScene.Value);
+                    return;
                 }
+                Debug.Log("TR04");
+                GameObject.Find("MeshProps")?.SetActive(false);
+                Methods.SelectScene(chosenScene);
+
+                if (SurvivorsInLobby.Value)
+                    if (SelectedLayout.Value != (string)SelectedLayout.DefaultValue)
+                    {
+                        Methods.SelectLayout(SelectedLayout.Value);
+                    } else
+                    {
+                        var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(SelectedScene.Value);
+                        if (defaultLayoutName != null)
+                        {
+                            Methods.SelectLayout(defaultLayoutName);
+                        }
+                    }
+            } else
+            {
+                Debug.Log("TR05");
+                GameObject.Find("MeshProps")?.SetActive(true);
+
+                var defaultLayoutName = Methods.GetDefaultLayoutNameForScene("lobby");
+                if (defaultLayoutName != null)
+                {
+                    Methods.SelectLayout(defaultLayoutName);
+                }
+            }
         }
 
         public void AssemblySetup() //credit to bubbet for base code
         {
             var sceneType = typeof(LAIScene);
-            var layoutType = typeof(CharacterSceneSetups.CharSceneLayout);
+            var layoutType = typeof(CharacterSceneLayouts.CharSceneLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (sceneType.IsAssignableFrom(type))

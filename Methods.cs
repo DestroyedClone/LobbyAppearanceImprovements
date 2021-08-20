@@ -114,7 +114,8 @@ namespace LobbyAppearanceImprovements
         {
             foreach (var kvp in layoutsDict)
             {
-
+                if (kvp.Key.ToLower().Contains(sceneName.ToLower()) && kvp.Key.ToLower().Contains("default"))
+                    return kvp.Key;
             }
             return null;
         }

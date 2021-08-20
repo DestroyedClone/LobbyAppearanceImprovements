@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LobbyAppearanceImprovements.CharacterSceneSetups
+namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
     public class Lobby_DestroyedClone_Default : CharSceneLayout
     {

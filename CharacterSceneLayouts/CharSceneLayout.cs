@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using static LobbyAppearanceImprovements.Methods;
 
-namespace LobbyAppearanceImprovements.CharacterSceneSetups
+namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
     public abstract class CharSceneLayout
     {
