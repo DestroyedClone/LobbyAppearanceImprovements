@@ -37,7 +37,12 @@ namespace LobbyAppearanceImprovements
 
                 case "RobEnforcer":
                     break;
-
+                case "Treebot":
+                    gameObject.transform.Find("ModelBase/mdlTreebot").gameObject.GetComponent<CharacterModel>().enabled = false;
+                    break;
+                case "Toolbot":
+                    gameObject.transform.Find("Base/mdlToolbot").gameObject.GetComponent<CharacterModel>().enabled = false;
+                    break;
                 case "HANDOverclocked":
                     GameObject.Find("HANDTeaser").SetActive(false);
                     break;
