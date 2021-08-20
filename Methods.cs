@@ -17,13 +17,18 @@ namespace LobbyAppearanceImprovements
             GameObject.Find("Directional Light").gameObject.GetComponent<Light>().color = color;
         }
 
-        public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null)
+        public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
         {
             var bodyPrefab = GetBodyPrefab(bodyPrefabName);
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             GameObject displayPrefab = survivorDef.displayPrefab;
             var gameObject = UnityEngine.Object.Instantiate<GameObject>(displayPrefab, position, Quaternion.Euler(rotation), parent);
+            if (addCollider)
+            {
+                var comp = gameObject.AddComponent<CapsuleCollider>();
+                comp.radius = 1f;
+            }
             switch (bodyPrefabName)
             {
                 case "Croco":
