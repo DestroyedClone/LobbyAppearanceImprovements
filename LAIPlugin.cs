@@ -1,6 +1,7 @@
 ﻿using BepInEx;
 using LeTai.Asset.TranslucentImage;
 using LobbyAppearanceImprovements.Scenes;
+using LobbyAppearanceImprovements.CharacterSceneSetups;
 using R2API.Utils;
 using RoR2;
 using System;
@@ -40,8 +41,11 @@ namespace LobbyAppearanceImprovements
         };
 
         public static LAIScene chosenScene = null;
+        public static CharacterSceneSetups.CharSceneLayout chosenLayout = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
         public static GameObject sceneInstance;
+        public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
+        public static GameObject layoutInstance;
 
         public void Awake()
         {
@@ -54,12 +58,6 @@ namespace LobbyAppearanceImprovements
 
             if (DisableShaking.Value)
                 On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
-        }
-
-        private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
-        {
-            orig(self);
-            self.gameObject.SetActive(false);
         }
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
@@ -151,52 +149,42 @@ namespace LobbyAppearanceImprovements
 
             if (chosenScene != null)
             {
-                SelectScene(chosenScene);
-            }
+                Methods.SelectScene(chosenScene);
+            }  
+
+            if (SurvivorsInLobby.Value)
+                if (chosenLayout != null)
+                {
+                    Methods.SelectLayout(chosenLayout);
+                }
         }
 
         public void AssemblySetup() //credit to bubbet
         {
-            var parentType = typeof(LAIScene);
-            Debug.Log("1");
+            var sceneType = typeof(LAIScene);
+            var layoutType = typeof(CharacterSceneSetups.CharSceneLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (parentType.IsAssignableFrom(type))
+                if (sceneType.IsAssignableFrom(type))
                 {
                     scenesDict[type.Name] = type;
                 }
+                else if (layoutType.IsAssignableFrom(type))
+                {
+                    layoutsDict[type.Name] = type;
+                }
             }
-            Debug.Log("2");
-            var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
-            Debug.Log("3");
-            chosenScene = sceneObject;
-        }
-
-        public static void SelectScene(LAIScene scene)
-        {
-            if (sceneInstance)
-                UnityEngine.Object.Destroy(sceneInstance);
-
             var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
             chosenScene = sceneObject;
-            sceneInstance = sceneObject.CreateInstance();
+            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SurvivorsInLobbyLayout.Value]);
+            chosenLayout = layoutObject;
         }
 
-        public static void SelectScene(string sceneName)
+
+        private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
         {
-            var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
-            if (!selectedScene)
-            {
-                Debug.LogError("Requested Scene "+sceneName+" returned null!");
-                return;
-            }
-
-            if (sceneInstance)
-                UnityEngine.Object.Destroy(sceneInstance);
-
-            var sceneObject = (LAIScene)Activator.CreateInstance(scene);
-            chosenScene = sceneObject;
-            sceneInstance = sceneObject.CreateInstance();
+            orig(self);
+            self.gameObject.SetActive(false);
         }
     }
 }

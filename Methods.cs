@@ -1,5 +1,21 @@
 ﻿using UnityEngine;
 using RoR2;
+using LobbyAppearanceImprovements;
+using static LobbyAppearanceImprovements.LAIPlugin;
+using LobbyAppearanceImprovements.Scenes;
+using BepInEx;
+using LeTai.Asset.TranslucentImage;
+using LobbyAppearanceImprovements.Scenes;
+using R2API.Utils;
+using RoR2;
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Security;
+using System.Security.Permissions;
+using UnityEngine;
+using static LobbyAppearanceImprovements.ConfigSetup;
+using static UnityEngine.ColorUtility;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -45,6 +61,52 @@ namespace LobbyAppearanceImprovements
             var bodyPrefab = BodyCatalog.FindBodyPrefab(bodyPrefabName);
             if (!bodyPrefab) return null;
             return bodyPrefab;
+        }
+
+        public static void SelectScene(LAIScene scene)
+        {
+            if (sceneInstance)
+                UnityEngine.Object.Destroy(sceneInstance);
+
+            var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
+            chosenScene = sceneObject;
+            sceneInstance = sceneObject.CreateInstance();
+        }
+
+        public static void SelectScene(string sceneName)
+        {
+            var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
+            if (!selectedScene)
+            {
+                Debug.LogError("Requested Scene " + sceneName + " returned null!");
+                return;
+            }
+
+            if (sceneInstance)
+                UnityEngine.Object.Destroy(sceneInstance);
+
+            var sceneObject = (LAIScene)Activator.CreateInstance(scene);
+            chosenScene = sceneObject;
+            sceneInstance = sceneObject.CreateInstance();
+        }
+
+        public static void SelectLayout(string layoutName)
+        {
+            var selectedLayout = layoutsDict.TryGetValue(layoutName, out var layout);
+            if (!selectedLayout)
+            {
+                Debug.LogError("Requested Layout " + layoutName + " returned null!");
+                return;
+            }
+
+            if (layoutInstance)
+                UnityEngine.Object.Destroy(layoutInstance);
+
+
+            var layoutObject = (CharacterSceneSetups.CharSceneLayout)Activator.CreateInstance(layout);
+            chosenLayout = layoutObject;
+            layoutInstance = layoutObject.CreateLayout();
+
         }
     }
 }
