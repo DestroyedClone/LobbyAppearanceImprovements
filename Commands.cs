@@ -72,11 +72,10 @@ namespace LobbyAppearanceImprovements
             var bodyName = args.senderBody.name;
             // https://stackoverflow.com/questions/15564944/remove-the-last-three-characters-from-a-string
             bodyName = bodyName.Remove(bodyName.Length - 8);
-            var position = args.senderBody.footPosition;
-            var rotation = args.senderBody.transform.rotation;
-            var text = "{ \"{0}\", new [] {new Vector3({1}f, {2}f, {3}f), new Vector3({4}, {5}f, {6}f) } },";
-            var finalText = string.Format(text, bodyName, position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
-            Debug.Log(finalText);
+            var pos = args.senderBody.footPosition;
+            var rot = args.senderBody.transform.rotation;
+            var text = "{ \""+bodyName+"\", new [] {new Vector3("+ pos.x+ "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
+            Debug.Log(text);
         }
     }
 }
