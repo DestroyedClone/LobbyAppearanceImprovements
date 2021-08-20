@@ -147,9 +147,15 @@ namespace LobbyAppearanceImprovements
                     }
                 }
             }
-            
+
+            RestartSceneAndLayout();
+        }
+
+        public void RestartSceneAndLayout()
+        {
+
             var currentSceneIsNotLobby = SelectedScene.Value != (string)SelectedScene.DefaultValue;
-            
+
             if (currentSceneIsNotLobby)
             {
                 if (!scenesDict.ContainsKey(SelectedScene.Value))
@@ -164,7 +170,8 @@ namespace LobbyAppearanceImprovements
                     if (SelectedLayout.Value != (string)SelectedLayout.DefaultValue)
                     {
                         Methods.SelectLayout(SelectedLayout.Value);
-                    } else
+                    }
+                    else
                     {
                         var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(SelectedScene.Value);
                         if (defaultLayoutName != null)
@@ -172,7 +179,8 @@ namespace LobbyAppearanceImprovements
                             Methods.SelectLayout(defaultLayoutName);
                         }
                     }
-            } else
+            }
+            else
             {
                 GameObject.Find("MeshProps")?.SetActive(true);
                 if (SurvivorsInLobby.Value)
