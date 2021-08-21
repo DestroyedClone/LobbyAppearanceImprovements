@@ -164,11 +164,13 @@ namespace LobbyAppearanceImprovements
 
             public void Start()
             {
-                highlight = gameObject.AddComponent<Highlight>();
-                highlight.highlightColor = Highlight.HighlightColor.interactive;
-                highlight.isOn = false;
                 if (survivorDef)
+                {
+                    highlight = gameObject.AddComponent<Highlight>();
+                    highlight.highlightColor = Highlight.HighlightColor.interactive;
+                    highlight.isOn = false;
                     highlight.targetRenderer = GetTargetRenderer();
+                }
                 else
                     Debug.LogWarning("No survivorDef found for " + gameObject.name);
 
@@ -179,14 +181,48 @@ namespace LobbyAppearanceImprovements
                     capsuleCollider.direction = 1;
                 capsuleCollider.center = Vector3.up* 1.2f;
             }
+
             public SkinnedMeshRenderer GetTargetRenderer()
+            {
+                Transform transform = null;
+                Debug.Log("Checking cached name " + survivorDef.cachedName);
+                string path = "";
+
+                switch (survivorDef.cachedName)
+                {
+                    case "Commando":
+                        path = "mdlCommandoDualies/CommandoMesh";
+                        break;
+                    case "Huntress":
+                        path = "mdlHuntress/HuntressMesh";
+                        break;
+                    case "Toolbot":
+                        path = "Base/mdlToolbot/ToolbotMesh";
+                        break;
+                    case "Engi":
+                        path = "mdlEngi/EngiMesh";
+                        break;
+                    case "Mage":
+                        path = "mdlMage/MageMesh";
+                        break;
+                    case "Merc":
+                        path = "mdlMerc/MercMesh";
+                        break;
+                    default:
+                        break;
+                }
+                transform = gameObject.transform.Find(path);
+                return transform?.GetComponent<SkinnedMeshRenderer>();
+            }
+
+            public SkinnedMeshRenderer GetTargetRendererFallback()
             {
                 var cow = GetComponentsInChildren<Transform>();
                 var displayNameLower = Language.GetString(survivorDef.displayNameToken).ToLower();
                 foreach (Transform calf in cow)
                 {
-                    Debug.Log("3 "+ calf.name);
-                    if (calf.name.StartsWith("HAN-D") || calf.name.ToLower().Contains(displayNameLower))
+                    var shark = calf.name.ToLower();
+                    if (shark.Contains(displayNameLower) && shark.Contains("mesh"))
                     {
                         Debug.Log("4");
                         var comp = calf.gameObject.GetComponent<SkinnedMeshRenderer>();
@@ -199,12 +235,12 @@ namespace LobbyAppearanceImprovements
             public void OnMouseEnter()
             {
                 mousedOverObjects.Add(survivorDef);
-                highlight.isOn = true;
+                if (highlight) highlight.isOn = true;
             }
             public void OnMouseExit()
             {
                 mousedOverObjects.Remove(survivorDef);
-                highlight.isOn = false;
+                if (highlight) highlight.isOn = false;
             }
         }
         public class ClickToSetFirstEntryAsChar : MonoBehaviour
