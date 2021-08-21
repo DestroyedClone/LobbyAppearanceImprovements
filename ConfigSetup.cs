@@ -44,6 +44,7 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> LockedCharactersBlack { get; set; }
         public static ConfigEntry<string> SelectedLayout { get; set; }
         public static ConfigEntry<int> SelectViewMode { get; set; }
+        public static ConfigEntry<bool> ClickOnCharacterToSwap { get; set; }
         public static ConfigEntry<bool> ReplayAnim { get; set; }
         public static ConfigEntry<bool> LivePreview { get; set; }
 
@@ -95,6 +96,7 @@ namespace LobbyAppearanceImprovements
                 "\n2 = Zoom on selection"); //def 1f
             ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");
             LivePreview = config.Bind("Background", "X Live Preview", true, "Updates the appearance for the selected character.");
+            ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select", true, "Updates the appearance for the selected character.");
         }
     }
 }

@@ -48,6 +48,8 @@ namespace LobbyAppearanceImprovements
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
         public static GameObject layoutInstance;
 
+        public static List<SurvivorDef> mousedOverObjects = new List<SurvivorDef>();
+
         public void Awake()
         {
             ConfigSetup.Bind(Config);
@@ -64,6 +66,8 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
+
+            self.gameObject.AddComponent<Methods.ClickToSetFirstEntryAsChar>().characterSelectController = self;
 
             var directionalLight = GameObject.Find("Directional Light");
             var ui_origin = GameObject.Find("CharacterSelectUI").transform;
