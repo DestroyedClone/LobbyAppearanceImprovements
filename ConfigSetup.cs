@@ -10,7 +10,6 @@ namespace LobbyAppearanceImprovements
         // Ordered by Layer //
         // UI //
         public static ConfigEntry<bool> HideFade { get; set; }
-
         public static ConfigEntry<int> BlurValue { get; set; }
         public static ConfigEntry<float> UIScale { get; set; }
 
@@ -42,7 +41,7 @@ namespace LobbyAppearanceImprovements
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
         public static ConfigEntry<bool> SurvivorsInLobby { get; set; }
-
+        public static ConfigEntry<bool> LockedCharactersBlack { get; set; }
         public static ConfigEntry<string> SelectedLayout { get; set; }
         public static ConfigEntry<int> SelectViewMode { get; set; }
         public static ConfigEntry<bool> ReplayAnim { get; set; }
@@ -69,7 +68,7 @@ namespace LobbyAppearanceImprovements
 
             // Lights //
             // The primary light over the scene //
-            Light_Color = config.Bind("Lights", "Hex Color", "default", "Change the default color of the light"); //#fa5a5a
+            Light_Color = config.Bind("Lights", "Hex Color", "default", "Change the default color of the light, include the # for hex values"); //#fa5a5a
             Light_Flicker_Disable = config.Bind("Lights", "Disable FlickerLight", true, "Makes the light not flicker anymore.");
             Light_Intensity = config.Bind("Lights", "Intensity", 1f, "Change the intensity of the light.");
 
@@ -89,8 +88,9 @@ namespace LobbyAppearanceImprovements
             // Anything related to the config setting to show displays in the lobby //
             SurvivorsInLobby = config.Bind("Background", "Survivors In Lobby", true, "Shows survivors in the lobby." +
                 "\nThese background survivors don't reflect the loadouts in the lobby.");
+            LockedCharactersBlack = config.Bind("Background", "Lobby Survivors", true, "If survivors are in the lobby, then blacks out the ones you don't have unlocked..");
             SelectedLayout = config.Bind("Background", "Survivors In Lobby Layout", "default", "Layout of the survivors in the scene.");
-            SelectViewMode = config.Bind("Other", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
+            SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
                 "\n2 = Zoom on selection"); //def 1f
             ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");

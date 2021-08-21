@@ -35,6 +35,18 @@ namespace LobbyAppearanceImprovements
                 var comp = gameObject.AddComponent<CapsuleCollider>();
                 comp.radius = 1f;
             }
+            if (LockedCharactersBlack.Value)
+            {
+                var hasUnlocked = LocalUserManager.GetFirstLocalUser().userProfile.HasUnlockable(survivorDef.unlockableDef);
+                if (!hasUnlocked)
+                {
+                    var cm = gameObject.transform.GetComponentsInChildren<CharacterModel>();
+                    if (cm.Length > 0)
+                    {
+                        cm[0].isDoppelganger = true;
+                    }
+                }
+            }
             switch (bodyPrefabName)
             {
                 case "Croco":
