@@ -19,7 +19,13 @@ namespace LobbyAppearanceImprovements
 
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
         {
+            Debug.Log("Attempting to display "+bodyPrefabName);
             var bodyPrefab = GetBodyPrefab(bodyPrefabName);
+            if (!bodyPrefab)
+            {
+                Debug.LogWarning("Aborted attempting to load body prefab "+bodyPrefabName);
+                return null;
+            }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             GameObject displayPrefab = survivorDef.displayPrefab;
