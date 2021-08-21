@@ -194,19 +194,13 @@ namespace LobbyAppearanceImprovements
                         path = "mdlCommandoDualies/CommandoMesh";
                         break;
                     case "Huntress":
-                        path = "mdlHuntress/HuntressMesh";
+                    case "Engi":
+                    case "Mage":
+                    case "Merc":
+                        path = "mdl"+ survivorDef.cachedName + "/"+ survivorDef.cachedName + "Mesh";
                         break;
                     case "Toolbot":
                         path = "Base/mdlToolbot/ToolbotMesh";
-                        break;
-                    case "Engi":
-                        path = "mdlEngi/EngiMesh";
-                        break;
-                    case "Mage":
-                        path = "mdlMage/MageMesh";
-                        break;
-                    case "Merc":
-                        path = "mdlMerc/MercMesh";
                         break;
                     default:
                         break;
