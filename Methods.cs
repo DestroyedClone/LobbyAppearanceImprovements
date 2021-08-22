@@ -162,15 +162,22 @@ namespace LobbyAppearanceImprovements
             BoxCollider boxCollider;
             public SurvivorDef survivorDef;
             public Highlight highlight;
+            public bool survivorUnlocked = false;
+            public LocalUser localUser;
+            CharacterSelectController characterSelectController;
 
             public void Start()
             {
+                characterSelectController = GameObject.Find("CharacterSelectUI").GetComponent<CharacterSelectController>();
+                localUser = ((MPEventSystem)EventSystem.current).localUser;
                 if (survivorDef)
                 {
+                    survivorUnlocked = SurvivorCatalog.SurvivorIsUnlockedOnThisClient(survivorDef.survivorIndex);
+
                     highlight = gameObject.AddComponent<Highlight>();
-                    highlight.highlightColor = Highlight.HighlightColor.interactive;
+                    highlight.highlightColor = survivorUnlocked ? Highlight.HighlightColor.interactive : Highlight.HighlightColor.unavailable;
                     highlight.isOn = false;
-                    highlight.targetRenderer = GetTargetRenderer();
+                    highlight.targetRenderer = GetTargetRenderer(survivorDef.cachedName);
                 }
                 else
                     Debug.LogWarning("No survivorDef found for " + gameObject.name);
@@ -182,10 +189,31 @@ namespace LobbyAppearanceImprovements
                     capsuleCollider.direction = 1;
                 capsuleCollider.center = Vector3.up* 1.2f;*/
 
-                SetupBoxCollider();
+                //SetupBoxCollider();
+                SetupBoxColliderOld();
             }
-            //https://stackoverflow.com/questions/62986775/how-can-get-the-size-of-an-object-and-add-boxcollider-that-will-cover-automatic
+
             public void SetupBoxCollider()
+            {
+                boxCollider = gameObject.AddComponent<BoxCollider>();
+
+                var renderer = highlight.targetRenderer;
+
+                var bounds = renderer.bounds;
+                // In world-space!
+                var size = bounds.size;
+                var center = bounds.center;
+
+                // converted to local space of the collider
+                //size = boxCollider.transform.InverseTransformVector(size);
+                //center = boxCollider.transform.InverseTransformPoint(center);
+
+                boxCollider.size = size;
+                boxCollider.center = center;
+            }
+
+            //https://stackoverflow.com/questions/62986775/how-can-get-the-size-of-an-object-and-add-boxcollider-that-will-cover-automatic
+            public void SetupBoxColliderOld()
             {
                 boxCollider = gameObject.AddComponent<BoxCollider>();
 
@@ -205,12 +233,12 @@ namespace LobbyAppearanceImprovements
 
             }
 
-            public SkinnedMeshRenderer GetTargetRenderer()
+            public SkinnedMeshRenderer GetTargetRenderer(string cachedName)
             {
-                Debug.Log("Checking cached name " + survivorDef.cachedName);
+                Debug.Log("Checking cached name " + cachedName);
                 string path = "";
 
-                switch (survivorDef.cachedName)
+                switch (cachedName)
                 {
                     case "Commando":
                         path = "mdlCommandoDualies/CommandoMesh";
@@ -222,7 +250,7 @@ namespace LobbyAppearanceImprovements
                     case "Mage":
                     case "Merc":
                     case "Croco":
-                        path = "mdl"+ survivorDef.cachedName + "/"+ survivorDef.cachedName + "Mesh";
+                        path = "mdl"+ cachedName + "/"+ cachedName + "Mesh";
                         break;
                     case "Toolbot":
                         path = "Base/mdlToolbot/ToolbotMesh";
@@ -259,7 +287,7 @@ namespace LobbyAppearanceImprovements
                         break;
                 }
                 Transform transform = gameObject.transform.Find(path);
-                return transform?.GetComponent<SkinnedMeshRenderer>();
+                return path != "" ? transform?.GetComponent<SkinnedMeshRenderer>() : null;
             }
 
             public SkinnedMeshRenderer GetTargetRendererFallback()
@@ -279,14 +307,25 @@ namespace LobbyAppearanceImprovements
                 return null;
             }
 
+            public void OnMouseOver()
+            {
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    if (!survivorUnlocked)
+                        return;
+                    characterSelectController.SelectSurvivor(survivorDef.survivorIndex);
+                    characterSelectController.SetSurvivorInfoPanelActive(true);
+                    localUser.currentNetworkUser?.CallCmdSetBodyPreference(BodyCatalog.FindBodyIndex(survivorDef.bodyPrefab));
+                    return;
+                }
+            }
+
             public void OnMouseEnter()
             {
-                mousedOverObjects.Add(survivorDef);
                 if (highlight) highlight.isOn = true;
             }
             public void OnMouseExit()
             {
-                mousedOverObjects.Remove(survivorDef);
                 if (highlight) highlight.isOn = false;
             }
         }
@@ -296,35 +335,17 @@ namespace LobbyAppearanceImprovements
             public LocalUser localUser;
             public GameObject sceneCamera;
             public float movementModifier = 1f;
+            public Vector3 startingPosition;
 
             public void Awake()
             {
                 localUser = ((MPEventSystem)EventSystem.current).localUser;
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
+                startingPosition = sceneCamera.transform.position;
             }
-
-
 
             public void Update()
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    if (mousedOverObjects.Count > 0)
-                    {
-                        foreach (var chosenSurvivorDef in mousedOverObjects)
-                        {
-                            if (!SurvivorCatalog.SurvivorIsUnlockedOnThisClient(chosenSurvivorDef.survivorIndex))
-                            {
-                                continue;
-                            }
-                            characterSelectController.SelectSurvivor(chosenSurvivorDef.survivorIndex);
-                            characterSelectController.SetSurvivorInfoPanelActive(true);
-                            localUser.currentNetworkUser?.CallCmdSetBodyPreference(BodyCatalog.FindBodyIndex(chosenSurvivorDef.bodyPrefab));
-                            mousedOverObjects.Clear();
-                            return;
-                        }
-                    }
-                }
 
                 var w = Input.GetKey(KeyCode.W);
                 var a = Input.GetKey(KeyCode.A);
@@ -332,6 +353,7 @@ namespace LobbyAppearanceImprovements
                 var d = Input.GetKey(KeyCode.D);
                 var q = Input.GetKey(KeyCode.Q);
                 var e = Input.GetKey(KeyCode.E);
+                var space = Input.GetKey(KeyCode.Space);
                 //var limit = 10f;
                 //var t = sceneCamera.transform.position; ;
                 var mult = movementModifier;
@@ -342,18 +364,7 @@ namespace LobbyAppearanceImprovements
                 if (d) sceneCamera.transform.Translate(mult, 0, 0);
                 if (q) sceneCamera.transform.Translate(0, mult, 0);
                 if (e) sceneCamera.transform.Translate(0, -mult, 0);
-            }
-            public void FixedUpdate()
-            {
-                if (mousedOverObjects.Count > 0)
-                {
-                    int i = 0;
-                    foreach (var characterMaster in mousedOverObjects)
-                    {
-                        //Debug.Log(i + " " + Language.GetString(characterMaster.displayNameToken));
-                        i++;
-                    }
-                }
+                if (space) sceneCamera.transform.position = startingPosition;
             }
         }
     }

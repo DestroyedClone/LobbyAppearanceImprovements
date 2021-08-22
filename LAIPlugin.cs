@@ -48,8 +48,6 @@ namespace LobbyAppearanceImprovements
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
         public static GameObject layoutInstance;
 
-        public static List<SurvivorDef> mousedOverObjects = new List<SurvivorDef>();
-
         public static GameObject PickupEliteOnlyPrefab = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupEliteOnly");
 
         public void Awake()
