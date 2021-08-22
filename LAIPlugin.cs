@@ -161,6 +161,7 @@ namespace LobbyAppearanceImprovements
         public void RestartSceneAndLayout(string sceneName, string layoutName = null)
         {
             var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
+            var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "lobby";
 
             if (currentSceneIsNotLobby)
             {
@@ -171,38 +172,26 @@ namespace LobbyAppearanceImprovements
                 }
                 MeshPropsRef.SetActive(false);
                 Methods.SelectScene(chosenScene);
-
-                if (SurvivorsInLobby.Value)
-                    if (layoutName != (string)SelectedLayout.DefaultValue)
-                    {
-                        Methods.SelectLayout(SelectedLayout.Value);
-                    }
-                    else
-                    {
-                        var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(sceneName);
-                        if (defaultLayoutName != null)
-                        {
-                            Methods.SelectLayout(defaultLayoutName);
-                        }
-                    }
             }
             else
             {
                 MeshPropsRef.SetActive(true);
-                if (SurvivorsInLobby.Value)
-                    if (layoutName != (string)SelectedLayout.DefaultValue)
-                    {
-                        Methods.SelectLayout(SelectedLayout.Value);
-                    }
-                    else
-                    {
-                        var defaultLayoutName = Methods.GetDefaultLayoutNameForScene("lobby");
-                        if (defaultLayoutName != null)
-                        {
-                            Methods.SelectLayout(defaultLayoutName);
-                        }
-                    }
             }
+            if (SurvivorsInLobby.Value)
+                if (layoutName != (string)SelectedLayout.DefaultValue)
+                {
+                    Methods.SelectLayout(SelectedLayout.Value);
+                }
+                else
+                {
+                    var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(sceneNameForLayout);
+                    if (defaultLayoutName != null)
+                    {
+                        Methods.SelectLayout(defaultLayoutName);
+                    }
+                }
+
+
         }
 
         public void AssemblySetup() //credit to bubbet for base code
