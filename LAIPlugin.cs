@@ -50,6 +50,8 @@ namespace LobbyAppearanceImprovements
 
         public static GameObject PickupEliteOnlyPrefab = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupEliteOnly");
 
+        public static GameObject MeshPropsRef;
+
         public void Awake()
         {
             ConfigSetup.Bind(Config);
@@ -66,6 +68,7 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
+            MeshPropsRef = GameObject.Find("MeshProps");
 
             self.gameObject.AddComponent<Methods.ClickToSetFirstEntryAsChar>().characterSelectController = self;
 
@@ -134,7 +137,7 @@ namespace LobbyAppearanceImprovements
             }
             if (PhysicsProps.Value)
             {
-                var meshPropHolder = GameObject.Find("MeshProps").transform;
+                var meshPropHolder = MeshPropsRef.transform;
                 if (meshPropHolder)
                 {
                     if (MeshProps.Value)
@@ -166,7 +169,7 @@ namespace LobbyAppearanceImprovements
                     Debug.Log("Selected Scene Not Found : " + sceneName);
                     return;
                 }
-                GameObject.Find("MeshProps")?.SetActive(false);
+                MeshPropsRef.SetActive(false);
                 Methods.SelectScene(chosenScene);
 
                 if (SurvivorsInLobby.Value)
@@ -185,7 +188,7 @@ namespace LobbyAppearanceImprovements
             }
             else
             {
-                GameObject.Find("MeshProps")?.SetActive(true);
+                MeshPropsRef.SetActive(true);
                 if (SurvivorsInLobby.Value)
                     if (layoutName != (string)SelectedLayout.DefaultValue)
                     {
