@@ -158,7 +158,8 @@ namespace LobbyAppearanceImprovements
 
         public class MouseOverAddToList : MonoBehaviour
         {
-            CapsuleCollider capsuleCollider;
+            //CapsuleCollider capsuleCollider;
+            BoxCollider boxCollider;
             public SurvivorDef survivorDef;
             public Highlight highlight;
 
@@ -174,17 +175,38 @@ namespace LobbyAppearanceImprovements
                 else
                     Debug.LogWarning("No survivorDef found for " + gameObject.name);
 
-                capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
+                /*capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
                     capsuleCollider.contactOffset = 0.1f;
                     capsuleCollider.radius = 0.5f;
                     capsuleCollider.height = 1.82f;
                     capsuleCollider.direction = 1;
-                capsuleCollider.center = Vector3.up* 1.2f;
+                capsuleCollider.center = Vector3.up* 1.2f;*/
+
+                SetupBoxCollider();
+            }
+            //https://stackoverflow.com/questions/62986775/how-can-get-the-size-of-an-object-and-add-boxcollider-that-will-cover-automatic
+            public void SetupBoxCollider()
+            {
+                boxCollider = gameObject.AddComponent<BoxCollider>();
+
+                var renderer = highlight.targetRenderer;
+
+                var bounds = renderer.bounds;
+                // In world-space!
+                var size = bounds.size;
+                var center = bounds.center;
+
+                // converted to local space of the collider
+                size = boxCollider.transform.InverseTransformVector(size);
+                center = boxCollider.transform.InverseTransformPoint(center);
+
+                boxCollider.size = size;
+                boxCollider.center = center;
+
             }
 
             public SkinnedMeshRenderer GetTargetRenderer()
             {
-                Transform transform = null;
                 Debug.Log("Checking cached name " + survivorDef.cachedName);
                 string path = "";
 
@@ -194,18 +216,49 @@ namespace LobbyAppearanceImprovements
                         path = "mdlCommandoDualies/CommandoMesh";
                         break;
                     case "Huntress":
+                        path = "mdlHuntress (1)/HuntressMesh";
+                        break;
                     case "Engi":
                     case "Mage":
                     case "Merc":
+                    case "Croco":
                         path = "mdl"+ survivorDef.cachedName + "/"+ survivorDef.cachedName + "Mesh";
                         break;
                     case "Toolbot":
                         path = "Base/mdlToolbot/ToolbotMesh";
                         break;
+                    case "Treebot":
+                        path = "";
+                        break;
+                    case "Loader":
+                        break;
+                    case "Enforcer":
+                        path = "meshEnforcer";
+                        break;
+                    case "Nemforcer":
+                        path = "Nemforcer";
+                        break;
+                    case "SniperClassic":
+                        path = "SniperMesh";
+                        break;
+                    case "HAND":
+                    case "HAN-D":
+                        path = "HAN-DMesh";
+                        break;
+                    case "Miner":
+                        path = "MinerDisplay/MinerBody";
+                        break;
+                    case "Paladin":
+                        path = "meshPaladin";
+                        break;
+                    case "CHEF":
+                    case "Chef":
+                        path = "Chef";
+                        break;
                     default:
                         break;
                 }
-                transform = gameObject.transform.Find(path);
+                Transform transform = gameObject.transform.Find(path);
                 return transform?.GetComponent<SkinnedMeshRenderer>();
             }
 
@@ -240,12 +293,17 @@ namespace LobbyAppearanceImprovements
         public class ClickToSetFirstEntryAsChar : MonoBehaviour
         {
             public RoR2.UI.CharacterSelectController characterSelectController;
-            LocalUser localUser;
+            public LocalUser localUser;
+            public GameObject sceneCamera;
+            public float movementModifier = 1f;
 
             public void Awake()
             {
                 localUser = ((MPEventSystem)EventSystem.current).localUser;
+                sceneCamera = GameObject.Find("Main Camera/Scene Camera");
             }
+
+
 
             public void Update()
             {
@@ -267,6 +325,23 @@ namespace LobbyAppearanceImprovements
                         }
                     }
                 }
+
+                var w = Input.GetKey(KeyCode.W);
+                var a = Input.GetKey(KeyCode.A);
+                var s = Input.GetKey(KeyCode.S);
+                var d = Input.GetKey(KeyCode.D);
+                var q = Input.GetKey(KeyCode.Q);
+                var e = Input.GetKey(KeyCode.E);
+                //var limit = 10f;
+                //var t = sceneCamera.transform.position; ;
+                var mult = movementModifier;
+
+                if (w) sceneCamera.transform.Translate(0, 0, mult);
+                if (s) sceneCamera.transform.Translate(0, 0, -mult);
+                if (a) sceneCamera.transform.Translate(-mult, 0, 0);
+                if (d) sceneCamera.transform.Translate(mult, 0, 0);
+                if (q) sceneCamera.transform.Translate(0, mult, 0);
+                if (e) sceneCamera.transform.Translate(0, -mult, 0);
             }
             public void FixedUpdate()
             {
@@ -275,7 +350,7 @@ namespace LobbyAppearanceImprovements
                     int i = 0;
                     foreach (var characterMaster in mousedOverObjects)
                     {
-                        Debug.Log(i + " " + Language.GetString(characterMaster.displayNameToken));
+                        //Debug.Log(i + " " + Language.GetString(characterMaster.displayNameToken));
                         i++;
                     }
                 }

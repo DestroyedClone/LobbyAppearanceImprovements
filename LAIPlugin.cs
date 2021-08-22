@@ -50,6 +50,8 @@ namespace LobbyAppearanceImprovements
 
         public static List<SurvivorDef> mousedOverObjects = new List<SurvivorDef>();
 
+        public static GameObject PickupEliteOnlyPrefab = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupEliteOnly");
+
         public void Awake()
         {
             ConfigSetup.Bind(Config);
