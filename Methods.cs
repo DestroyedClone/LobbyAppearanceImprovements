@@ -338,6 +338,8 @@ namespace LobbyAppearanceImprovements
             private Vector3 velocity;
             public float screenLimitDistance = 5f;
 
+            bool hasFocus = true;
+
             public void Awake()
             {
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
@@ -355,42 +357,6 @@ namespace LobbyAppearanceImprovements
             public void DampPosition()
             {
                 sceneCamera.transform.position = Vector3.SmoothDamp(sceneCamera.transform.position, desiredPosition, ref velocity, 0.4f, float.PositiveInfinity, Time.deltaTime);
-            }
-
-            public Vector3 MouseVersusCenterScreen()
-            {
-                Vector3 mousePos = Input.mousePosition;
-                var center = new Vector3(Screen.width / 2, Screen.height / 2);
-                var value = new Vector3();
-
-                if (mousePos.x < center.x) value.x = -1;
-                else if (mousePos.x == center.x) value.x = 0;
-                else value.x = 1;
-
-                if (mousePos.y < center.y) value.y = -1;
-                else if (mousePos.y == center.y) value.y = 0;
-                else value.y = 1;
-
-                var fractionX = (Screen.width - mousePos.x) / Screen.width;
-                var fractionY = (Screen.height - mousePos.y) / Screen.height;
-                return Vector3.zero;
-            }
-
-            public Vector3 cocks()
-            {
-                Vector3 mousePos = Input.mousePosition;
-                var center = new Vector3(Screen.width / 2, Screen.height / 2);
-                var value = new Vector3();
-
-
-                //x
-                // left
-                if (mousePos.x < center.x) value.x = -(center.x - mousePos.x) / center.x;
-                // center
-                else if (Mathf.Abs(mousePos.x - center.x) < 0.001) value.x = 0;
-                //right
-                else value.x = (Screen.width - mousePos.x) / Screen.width;
-                return Vector3.zero;
             }
 
             public Vector3 dicks()
