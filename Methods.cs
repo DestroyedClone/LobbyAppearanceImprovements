@@ -48,7 +48,7 @@ namespace LobbyAppearanceImprovements
                 var comp = gameObject.AddComponent<CapsuleCollider>();
                 comp.radius = 1f;
             }
-            if (LockedCharactersBlack.Value)
+            if (SIL_LockedCharactersBlack.Value)
             {
                 var hasUnlocked = LocalUserManager.GetFirstLocalUser().userProfile.HasUnlockable(survivorDef.unlockableDef);
                 if (!hasUnlocked)

@@ -163,7 +163,7 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-            LoadSceneAndLayout(SelectedScene.Value, SelectedLayout.Value);
+            LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
         }
 
         public void LoadSceneAndLayout(string sceneName, string layoutName = null)
@@ -185,10 +185,10 @@ namespace LobbyAppearanceImprovements
             {
                 MeshPropsRef.SetActive(true);
             }
-            if (SurvivorsInLobby.Value)
-                if (layoutName != (string)SelectedLayout.DefaultValue)
+            if (SIL_Enabled.Value)
+                if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
                 {
-                    Methods.SelectLayout(SelectedLayout.Value);
+                    Methods.SelectLayout(SIL_SelectedLayout.Value);
                 }
                 else
                 {
@@ -220,9 +220,9 @@ namespace LobbyAppearanceImprovements
                 var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
                 chosenScene = sceneObject;
             }
-            if (SelectedLayout.Value.ToLower() != "default" && layoutsDict[SelectedLayout.Value] != null)
+            if (SIL_SelectedLayout.Value.ToLower() != "default" && layoutsDict[SIL_SelectedLayout.Value] != null)
             {
-                var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SelectedLayout.Value]);
+                var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SIL_SelectedLayout.Value]);
                 chosenLayout = layoutObject;
             }
         }

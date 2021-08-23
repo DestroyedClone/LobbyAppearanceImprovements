@@ -40,11 +40,11 @@ namespace LobbyAppearanceImprovements
 
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
-        public static ConfigEntry<bool> SurvivorsInLobby { get; set; }
-        public static ConfigEntry<bool> LockedCharactersBlack { get; set; }
-        public static ConfigEntry<string> SelectedLayout { get; set; }
+        public static ConfigEntry<bool> SIL_Enabled { get; set; }
+        public static ConfigEntry<bool> SIL_LockedCharactersBlack { get; set; }
+        public static ConfigEntry<string> SIL_SelectedLayout { get; set; }
         public static ConfigEntry<int> SelectViewMode { get; set; }
-        public static ConfigEntry<bool> ClickOnCharacterToSwap { get; set; }
+        public static ConfigEntry<bool> SIL_ClickOnCharacterToSwap { get; set; }
         public static ConfigEntry<bool> ReplayAnim { get; set; }
         public static ConfigEntry<bool> LivePreview { get; set; }
 
@@ -87,16 +87,16 @@ namespace LobbyAppearanceImprovements
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
-            SurvivorsInLobby = config.Bind("Background", "Survivors In Lobby", true, "Shows survivors in the lobby." +
+            SIL_Enabled = config.Bind("Background", "Survivors In Lobby", true, "Shows survivors in the lobby." +
                 "\nThese background survivors don't reflect the loadouts in the lobby.");
-            LockedCharactersBlack = config.Bind("Background", "Lobby Survivors", true, "If survivors are in the lobby, then blacks out the ones you don't have unlocked..");
-            SelectedLayout = config.Bind("Background", "Survivors In Lobby Layout", "default", "Layout of the survivors in the scene.");
+            SIL_LockedCharactersBlack = config.Bind("Background", "Lobby Survivors", true, "If survivors are in the lobby, then blacks out the ones you don't have unlocked..");
+            SIL_SelectedLayout = config.Bind("Background", "Survivors In Lobby Layout", "default", "Layout of the survivors in the scene.");
             SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
                 "\n2 = Zoom on selection"); //def 1f
             ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");
             LivePreview = config.Bind("Background", "X Live Preview", true, "Updates the appearance for the selected character.");
-            ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select", true, "Updates the appearance for the selected character.");
+            SIL_ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them.");
         }
     }
 }
