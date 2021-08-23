@@ -341,7 +341,7 @@ namespace LobbyAppearanceImprovements
 
             private Vector3 desiredPosition;
             private Vector3 velocity;
-            public float screenLimitDistance = 5f;
+            public float screenLimitDistance = 2f;
 
             bool screenIsFocused = true;
 

@@ -48,7 +48,8 @@ namespace LobbyAppearanceImprovements
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
         public static GameObject layoutInstance;
 
-        public static GameObject PickupEliteOnlyPrefab = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupEliteOnly");
+        public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
+        public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
 
         public static GameObject MeshPropsRef;
 
@@ -89,10 +90,17 @@ namespace LobbyAppearanceImprovements
                 }
                 if (UI_BlurOpacity.Value != 255) // default value doesnt cast well
                 {
-                    var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>().color;
-                    leftBlurColor.a = Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255f);
-                    var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>().color;
-                    rightBlurColor.a = Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255f);
+                    var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
+                    leftBlurColor.color = new Color(leftBlurColor.color.r,
+                        leftBlurColor.color.g,
+                        leftBlurColor.color.b,
+                        Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255));
+                    var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
+                    rightBlurColor.color = new Color(leftBlurColor.color.r,
+                        rightBlurColor.color.g,
+                        rightBlurColor.color.b,
+                        Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255));
+
                 }
                 if (UI_Scale.Value != 1f)
                 {

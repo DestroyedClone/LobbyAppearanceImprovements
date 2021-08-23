@@ -1,6 +1,8 @@
-﻿using RoR2;
+﻿using LeTai.Asset.TranslucentImage;
+using RoR2;
 using System;
 using UnityEngine;
+using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.LAIPlugin;
 using static LobbyAppearanceImprovements.Methods;
 
@@ -66,6 +68,7 @@ namespace LobbyAppearanceImprovements
                 Methods.ChangeLobbyLightColor(new Color32((byte)args.GetArgInt(0), (byte)args.GetArgInt(1), (byte)args.GetArgInt(2), (byte)args.GetArgInt(3)));
             }
         }
+
         [ConCommand(commandName = "LAI_getpos", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_getpos | Returns bodyname, pos, rotation, in format for scenelayout file")]
         public static void CMD_GetPos(ConCommandArgs args)
         {
@@ -74,8 +77,33 @@ namespace LobbyAppearanceImprovements
             bodyName = bodyName.Remove(bodyName.Length - 7);
             var pos = args.senderBody.footPosition;
             var rot = args.senderBody.transform.rotation;
-            var text = "{ \""+bodyName+"\", new [] {new Vector3("+ pos.x+ "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
+            var text = "{ \"" + bodyName + "\", new [] {new Vector3(" + pos.x + "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
             Debug.Log(text);
+        }
+
+        [ConCommand(commandName = "LAI_FadeOpacity", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_FadeOpacity {0-255} | For previewing, does not save.")]
+        public static void CMD_adjustfade(ConCommandArgs args)
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
+            {
+                var ui_origin = GameObject.Find("CharacterSelectUI").transform;
+                var SafeArea = ui_origin.Find("SafeArea").transform;
+                var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+                var ui_right = SafeArea.Find("RightHandPanel");
+
+                var shit = args.GetArgInt(0);
+
+                var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
+                leftBlurColor.color = new Color(leftBlurColor.color.r,
+                    leftBlurColor.color.g,
+                    leftBlurColor.color.b,
+                    Mathf.Clamp(shit, 0f, 255f));
+                var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
+                rightBlurColor.color = new Color(leftBlurColor.color.r,
+                    rightBlurColor.color.g,
+                    rightBlurColor.color.b,
+                    Mathf.Clamp(shit, 0f, 255f));
+            }
         }
     }
 }
