@@ -57,8 +57,8 @@ namespace LobbyAppearanceImprovements
             // CONFIG //
             // Ordered by Layer //
             // UI //
-            UI_HideFade = config.Bind("UI", "Hide Fade", true, "There's a dark fade on the top and bottom, this disables it.");
-            UI_BlurOpacity = config.Bind("UI", "Adjust Blur (Not Implemented)", 255, "Adjusts the blur behind the UI elements on the left and right." +
+            UI_HideFade = config.Bind("UI", "Hide Fade", true, "Disables the dark fade bars at the top and bottom of the lobby.");
+            UI_BlurOpacity = config.Bind("UI", "Blur Opacity", 255, "Adjusts the blur opacity behind the UI elements on the left and right." +
                 "\n0:fully transparent - 255:default");
             UI_Scale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
 

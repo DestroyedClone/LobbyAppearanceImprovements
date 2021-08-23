@@ -155,10 +155,10 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-            RestartSceneAndLayout(SelectedScene.Value, SelectedLayout.Value);
+            LoadSceneAndLayout(SelectedScene.Value, SelectedLayout.Value);
         }
 
-        public void RestartSceneAndLayout(string sceneName, string layoutName = null)
+        public void LoadSceneAndLayout(string sceneName, string layoutName = null)
         {
             var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
             var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "lobby";
@@ -167,7 +167,7 @@ namespace LobbyAppearanceImprovements
             {
                 if (!scenesDict.ContainsKey(sceneName))
                 {
-                    Debug.Log("Selected Scene Not Found : " + sceneName);
+                    Debug.Log("Aborting: Selected Scene Not Found '" + sceneName + "'");
                     return;
                 }
                 MeshPropsRef.SetActive(false);
@@ -190,8 +190,6 @@ namespace LobbyAppearanceImprovements
                         Methods.SelectLayout(defaultLayoutName);
                     }
                 }
-
-
         }
 
         public void AssemblySetup() //credit to bubbet for base code
