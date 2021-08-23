@@ -320,7 +320,7 @@ namespace LobbyAppearanceImprovements
                     return;
                 }
             }
-            void OnApplicationFocus(bool hasFocus)
+            public void OnApplicationFocus(bool hasFocus)
             {
                 screenIsFocused = hasFocus;
             }
@@ -341,7 +341,7 @@ namespace LobbyAppearanceImprovements
 
             private Vector3 desiredPosition;
             private Vector3 velocity;
-            public float screenLimitDistance = 2f;
+            public float screenLimitDistance = 0.25f;
 
             bool screenIsFocused = true;
 
