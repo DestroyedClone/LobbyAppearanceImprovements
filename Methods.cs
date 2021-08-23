@@ -329,7 +329,7 @@ namespace LobbyAppearanceImprovements
                 if (highlight) highlight.isOn = false;
             }
         }
-        public class ClickToSetFirstEntryAsChar : MonoBehaviour
+        public class CameraParallax : MonoBehaviour
         {
             public RoR2.UI.CharacterSelectController characterSelectController;
             public LocalUser localUser;
@@ -355,33 +355,9 @@ namespace LobbyAppearanceImprovements
 
             public void Update()
             {
-                var w = Input.GetKey(KeyCode.W) ? +1 : 0;
-                var a = Input.GetKey(KeyCode.A) ? -1 : 0;
-                var s = Input.GetKey(KeyCode.S) ? -1 : 0;
-                var d = Input.GetKey(KeyCode.D) ? 1 : 0;
-                var q = Input.GetKey(KeyCode.Q) ? -1 : 0;
-                var e = Input.GetKey(KeyCode.E) ? 1 : 0;
-                var space = Input.GetKey(KeyCode.Space);
-                var mult = movementModifier;
-
-                desiredPosition += new Vector3(
-                    mult * (a + d),
-                    mult * (q + e),
-                    mult * (w + s)
-                    );
-
-                var horzClamp = Mathf.Clamp(desiredPosition.x, -screenLimit.x, screenLimit.x);
-                var vertClamp = Mathf.Clamp(desiredPosition.y, -screenLimit.y, screenLimit.y);
-                var forwClamp = Mathf.Clamp(desiredPosition.z, -screenLimit.z, screenLimit.z);
 
 
-                desiredPosition = new Vector3(
-                    horzClamp,
-                    vertClamp,
-                    forwClamp
-                    );
-                
-                if (space) desiredPosition = startingPosition;
+
 
                 desiredPosition = dicks();
 
