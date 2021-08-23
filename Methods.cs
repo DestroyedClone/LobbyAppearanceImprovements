@@ -62,7 +62,7 @@ namespace LobbyAppearanceImprovements
             }
             if (true) //ClickOnCharacterToSwap
             {
-                var com = gameObject.AddComponent<MouseOverAddToList>();
+                var com = gameObject.AddComponent<ClickToSelectCharacter>();
                 com.survivorDef = survivorDef;
             }
             switch (bodyPrefabName)
@@ -156,7 +156,7 @@ namespace LobbyAppearanceImprovements
             return null;
         }
 
-        public class MouseOverAddToList : MonoBehaviour
+        public class ClickToSelectCharacter : MonoBehaviour
         {
             //CapsuleCollider capsuleCollider;
             BoxCollider boxCollider;
@@ -165,6 +165,7 @@ namespace LobbyAppearanceImprovements
             public bool survivorUnlocked = false;
             public LocalUser localUser;
             CharacterSelectController characterSelectController;
+            bool screenIsFocused = true;
 
             public void Start()
             {
@@ -309,7 +310,7 @@ namespace LobbyAppearanceImprovements
 
             public void OnMouseOver()
             {
-                if (Input.GetKey(KeyCode.Mouse0))
+                if (screenIsFocused && Input.GetKey(KeyCode.Mouse0))
                 {
                     if (!survivorUnlocked)
                         return;
@@ -318,6 +319,10 @@ namespace LobbyAppearanceImprovements
                     localUser.currentNetworkUser?.CallCmdSetBodyPreference(BodyCatalog.FindBodyIndex(survivorDef.bodyPrefab));
                     return;
                 }
+            }
+            void OnApplicationFocus(bool hasFocus)
+            {
+                screenIsFocused = hasFocus;
             }
 
             public void OnMouseEnter()
@@ -338,7 +343,7 @@ namespace LobbyAppearanceImprovements
             private Vector3 velocity;
             public float screenLimitDistance = 5f;
 
-            bool hasFocus = true;
+            bool screenIsFocused = true;
 
             public void Awake()
             {
@@ -349,9 +354,14 @@ namespace LobbyAppearanceImprovements
 
             public void Update()
             {
-                desiredPosition = dicks();
+                if (screenIsFocused)
+                    desiredPosition = dicks();
 
                 DampPosition();
+            }
+            void OnApplicationFocus(bool hasFocus)
+            {
+                screenIsFocused = hasFocus;
             }
 
             public void DampPosition()
