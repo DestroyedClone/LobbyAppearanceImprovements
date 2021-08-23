@@ -334,37 +334,113 @@ namespace LobbyAppearanceImprovements
             public RoR2.UI.CharacterSelectController characterSelectController;
             public LocalUser localUser;
             public GameObject sceneCamera;
-            public float movementModifier = 1f;
+            public float movementModifier = 0.4f;
             public Vector3 startingPosition;
+
+            private Vector3 desiredPosition;
+            private Vector3 velocity;
+            public float screenLimitDistance = 5f;
+            private Vector3 screenLimit;
 
             public void Awake()
             {
+                var screenLimitHalved = screenLimitDistance / 2;
+                screenLimit = startingPosition + new Vector3(screenLimitHalved, screenLimitHalved, screenLimitHalved);
+
                 localUser = ((MPEventSystem)EventSystem.current).localUser;
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
                 startingPosition = sceneCamera.transform.position;
+                desiredPosition = startingPosition;
             }
 
             public void Update()
             {
-
-                var w = Input.GetKey(KeyCode.W);
-                var a = Input.GetKey(KeyCode.A);
-                var s = Input.GetKey(KeyCode.S);
-                var d = Input.GetKey(KeyCode.D);
-                var q = Input.GetKey(KeyCode.Q);
-                var e = Input.GetKey(KeyCode.E);
+                var w = Input.GetKey(KeyCode.W) ? +1 : 0;
+                var a = Input.GetKey(KeyCode.A) ? -1 : 0;
+                var s = Input.GetKey(KeyCode.S) ? -1 : 0;
+                var d = Input.GetKey(KeyCode.D) ? 1 : 0;
+                var q = Input.GetKey(KeyCode.Q) ? -1 : 0;
+                var e = Input.GetKey(KeyCode.E) ? 1 : 0;
                 var space = Input.GetKey(KeyCode.Space);
-                //var limit = 10f;
-                //var t = sceneCamera.transform.position; ;
                 var mult = movementModifier;
 
-                if (w) sceneCamera.transform.Translate(0, 0, mult);
-                if (s) sceneCamera.transform.Translate(0, 0, -mult);
-                if (a) sceneCamera.transform.Translate(-mult, 0, 0);
-                if (d) sceneCamera.transform.Translate(mult, 0, 0);
-                if (q) sceneCamera.transform.Translate(0, mult, 0);
-                if (e) sceneCamera.transform.Translate(0, -mult, 0);
-                if (space) sceneCamera.transform.position = startingPosition;
+                desiredPosition += new Vector3(
+                    mult * (a + d),
+                    mult * (q + e),
+                    mult * (w + s)
+                    );
+
+                var horzClamp = Mathf.Clamp(desiredPosition.x, -screenLimit.x, screenLimit.x);
+                var vertClamp = Mathf.Clamp(desiredPosition.y, -screenLimit.y, screenLimit.y);
+                var forwClamp = Mathf.Clamp(desiredPosition.z, -screenLimit.z, screenLimit.z);
+
+
+                desiredPosition = new Vector3(
+                    horzClamp,
+                    vertClamp,
+                    forwClamp
+                    );
+                
+                if (space) desiredPosition = startingPosition;
+
+                desiredPosition = dicks();
+
+                DampPosition();
+            }
+
+            public void DampPosition()
+            {
+                sceneCamera.transform.position = Vector3.SmoothDamp(sceneCamera.transform.position, desiredPosition, ref velocity, 0.4f, float.PositiveInfinity, Time.deltaTime);
+            }
+
+            public Vector3 MouseVersusCenterScreen()
+            {
+                Vector3 mousePos = Input.mousePosition;
+                var center = new Vector3(Screen.width / 2, Screen.height / 2);
+                var value = new Vector3();
+
+                if (mousePos.x < center.x) value.x = -1;
+                else if (mousePos.x == center.x) value.x = 0;
+                else value.x = 1;
+
+                if (mousePos.y < center.y) value.y = -1;
+                else if (mousePos.y == center.y) value.y = 0;
+                else value.y = 1;
+
+                var fractionX = (Screen.width - mousePos.x) / Screen.width;
+                var fractionY = (Screen.height - mousePos.y) / Screen.height;
+                return Vector3.zero;
+            }
+
+            public Vector3 cocks()
+            {
+                Vector3 mousePos = Input.mousePosition;
+                var center = new Vector3(Screen.width / 2, Screen.height / 2);
+                var value = new Vector3();
+
+
+                //x
+                // left
+                if (mousePos.x < center.x) value.x = -(center.x - mousePos.x) / center.x;
+                // center
+                else if (Mathf.Abs(mousePos.x - center.x) < 0.001) value.x = 0;
+                //right
+                else value.x = (Screen.width - mousePos.x) / Screen.width;
+                return Vector3.zero;
+            }
+
+            public Vector3 dicks()
+            {
+                Vector3 mousePos = Input.mousePosition;
+                var center = new Vector3(Screen.width / 2, Screen.height / 2);
+                var value = new Vector3();
+
+                float fractionX = (Screen.width - mousePos.x) / Screen.width;
+                float fractionY = (Screen.height - mousePos.y) / Screen.height;
+
+                value.x = Mathf.Lerp(startingPosition.x + screenLimitDistance, startingPosition.x - screenLimitDistance, fractionX);
+                value.y = Mathf.Lerp(startingPosition.y + screenLimitDistance, startingPosition.y - screenLimitDistance, fractionY);
+                return value;
             }
         }
     }
