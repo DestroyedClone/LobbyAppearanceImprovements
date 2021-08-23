@@ -70,7 +70,7 @@ namespace LobbyAppearanceImprovements
             orig(self);
             MeshPropsRef = GameObject.Find("MeshProps");
 
-            self.gameObject.AddComponent<Methods.ClickToSetFirstEntryAsChar>().characterSelectController = self;
+            self.gameObject.AddComponent<Methods.CameraParallax>();
 
             var directionalLight = GameObject.Find("Directional Light");
             var ui_origin = GameObject.Find("CharacterSelectUI").transform;

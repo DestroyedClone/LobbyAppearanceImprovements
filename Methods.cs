@@ -331,23 +331,15 @@ namespace LobbyAppearanceImprovements
         }
         public class CameraParallax : MonoBehaviour
         {
-            public RoR2.UI.CharacterSelectController characterSelectController;
-            public LocalUser localUser;
             public GameObject sceneCamera;
-            public float movementModifier = 0.4f;
             public Vector3 startingPosition;
 
             private Vector3 desiredPosition;
             private Vector3 velocity;
             public float screenLimitDistance = 5f;
-            private Vector3 screenLimit;
 
             public void Awake()
             {
-                var screenLimitHalved = screenLimitDistance / 2;
-                screenLimit = startingPosition + new Vector3(screenLimitHalved, screenLimitHalved, screenLimitHalved);
-
-                localUser = ((MPEventSystem)EventSystem.current).localUser;
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
                 startingPosition = sceneCamera.transform.position;
                 desiredPosition = startingPosition;
@@ -355,10 +347,6 @@ namespace LobbyAppearanceImprovements
 
             public void Update()
             {
-
-
-
-
                 desiredPosition = dicks();
 
                 DampPosition();
