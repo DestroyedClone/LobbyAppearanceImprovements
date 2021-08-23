@@ -32,7 +32,17 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             {
                 CreateDisplay(characterLayout.Key, characterLayout.Value[0], characterLayout.Value[1], layoutHolder.transform);
             }
+            foreach (var obj in CreateAdditionalObjects())
+            {
+                obj.transform.parent = layoutHolder.transform;
+            }
+
             return layoutHolder;
+        }
+
+        public virtual List<GameObject> CreateAdditionalObjects()
+        {
+            return null;
         }
     }
 }
