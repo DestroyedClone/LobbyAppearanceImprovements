@@ -82,22 +82,22 @@ namespace LobbyAppearanceImprovements
             // UI //
             if (ui_origin)
             {
-                if (HideFade.Value)
+                if (UI_HideFade.Value)
                 {
                     ui_origin.Find("BottomSideFade").gameObject.SetActive(false);
                     ui_origin.Find("TopSideFade").gameObject.SetActive(false);
                 }
-                if (BlurValue.Value != 255) // default value doesnt cast well
+                if (UI_BlurOpacity.Value != 255) // default value doesnt cast well
                 {
                     var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>().color;
-                    leftBlurColor.a = Mathf.Clamp(BlurValue.Value, 0f, 255f);
+                    leftBlurColor.a = Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255f);
                     var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>().color;
-                    rightBlurColor.a = Mathf.Clamp(BlurValue.Value, 0f, 255f);
+                    rightBlurColor.a = Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255f);
                 }
-                if (UIScale.Value != 1f)
+                if (UI_Scale.Value != 1f)
                 {
-                    ui_left.localScale *= UIScale.Value;
-                    ui_right.localScale *= UIScale.Value;
+                    ui_left.localScale *= UI_Scale.Value;
+                    ui_right.localScale *= UI_Scale.Value;
                 }
             }
 

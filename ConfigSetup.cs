@@ -9,9 +9,9 @@ namespace LobbyAppearanceImprovements
         // CONFIG //
         // Ordered by Layer //
         // UI //
-        public static ConfigEntry<bool> HideFade { get; set; }
-        public static ConfigEntry<int> BlurValue { get; set; }
-        public static ConfigEntry<float> UIScale { get; set; }
+        public static ConfigEntry<bool> UI_HideFade { get; set; }
+        public static ConfigEntry<int> UI_BlurOpacity { get; set; }
+        public static ConfigEntry<float> UI_Scale { get; set; }
 
         // Overlay //
         // Anything that affects the scene as a whole //
@@ -57,10 +57,10 @@ namespace LobbyAppearanceImprovements
             // CONFIG //
             // Ordered by Layer //
             // UI //
-            HideFade = config.Bind("UI", "Hide Fade", true, "There's a dark fade on the top and bottom, this disables it.");
-            BlurValue = config.Bind("UI", "Adjust Blur (Not Implemented)", 255, "Adjusts the blur behind the UI elements on the left and right." +
+            UI_HideFade = config.Bind("UI", "Hide Fade", true, "There's a dark fade on the top and bottom, this disables it.");
+            UI_BlurOpacity = config.Bind("UI", "Adjust Blur (Not Implemented)", 255, "Adjusts the blur behind the UI elements on the left and right." +
                 "\n0:fully transparent - 255:default");
-            UIScale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
+            UI_Scale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
 
             // Overlay //
             // Anything that affects the scene as a whole //
