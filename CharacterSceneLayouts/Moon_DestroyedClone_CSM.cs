@@ -6,10 +6,10 @@ using RoR2;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
-    public class Moon2_DestroyedClone_CSM : CharSceneLayout
+    public class Moon_DestroyedClone_CSM : CharSceneLayout
     {
-        public override string SceneLayout => "Moon2_DestroyedClone_CSM";
-        public override string SceneName => "Moon2";
+        public override string SceneLayout => "Moon_DestroyedClone_CSM";
+        public override string SceneName => "Moon";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Paladin's Entrance";
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
