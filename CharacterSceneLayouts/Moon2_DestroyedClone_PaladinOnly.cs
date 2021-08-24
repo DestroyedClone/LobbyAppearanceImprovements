@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using RoR2;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
@@ -13,13 +14,46 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string LayoutName => "Paladin's Entrance";
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
-            { "Commando", new [] {new Vector3(2.65f, 0.01f, 6.00f), new Vector3(0f, 240f, 0f) } },
-            { "Huntress", new [] {new Vector3(2.33f, 0.01f, 7.4f), new Vector3(0f, 240f, 0f) } },
-            { "Bandit2", new [] {new Vector3(3.79f, 0.01f, 11.5f), new Vector3(0f, 240f, 0f) } },
-            { "Engi", new [] {new Vector3(0.2f, 0f, 20.4f), new Vector3(0f, 240f, 0f) } },
-            { "Merc", new [] {new Vector3(4.16f, 1.3f, 17f), new Vector3(0f, 240f, 0f) } },
-            { "Loader", new [] {new Vector3(-4f, 0f, 20.22f), new Vector3(0f, 140f, 0f) } },
-            { "Croco", new [] {new Vector3(-4f, 0f, 13f), new Vector3(0f, 120f, 0f) } },
+            //{ "RobPaladin", new [] {new Vector3(0f, 0.5f, 5f), new Vector3(0f, 180f, 0f) } },
         };
+
+        //https://stackoverflow.com/a/59359043
+        public Vector3[][] statuePositionsAndRotations = new Vector3[][]
+        {
+            new Vector3[]{ new Vector3(1.5f, 0.5f, 8f), new Vector3(0f, 270f, 0f) },
+            new Vector3[]{ new Vector3(-1.5f, 0.5f, 8f), new Vector3(0f, 90f, 0f) },
+        };
+
+        public override List<GameObject> CreateAdditionalObjects()
+        {
+            if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0) return null;
+
+            List<GameObject> list = new List<GameObject>();
+
+            var moonTexture = GameObject.Find("MoonDioramaDissplay(Clone)/MoonBridgeCornerWithTerrain/Terrain").GetComponent<MeshRenderer>().sharedMaterial;
+            var model = Methods.CreateDisplay("RobPaladin", new Vector3(0, 0.5f, 5f), new Vector3(0,180,0));
+            model.GetComponent<CharacterModel>().enabled = false;
+            model.transform.Find("meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
+            model.transform.Find("Armature").gameObject.SetActive(false);
+            model.name = "PaladinStatue";
+            //PlayAnimationOnAnimator(anim, "Body", "SpawnClay", "Spawn.playbackRate", 3f);
+            //EntityStates.EntityState.PlayAnimationOnAnimator(anim, "Body", "SpawnClay", "Spawn.playbackRate", 3f);
+
+            foreach (var statuePos in statuePositionsAndRotations)
+            {
+                var newModel = GameObject.Instantiate<GameObject>(model);
+                list.Add(newModel);
+                newModel.transform.position = statuePos[0];
+                newModel.transform.rotation = Quaternion.Euler(statuePos[1]);
+            }
+            GameObject.Destroy(model);
+            var displayModel = Methods.CreateDisplay("RobPaladin", new Vector3(0, 0.5f, 5f), new Vector3(0, 180, 0), null, true);
+            var animator = displayModel.GetComponent<Animator>();
+            animator.runtimeAnimatorController = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.FindSurvivorIndex("RobPaladin")).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
+            EntityStates.EntityState.PlayAnimationOnAnimator(animator, "Body", "Spawn", "Spawn.playbackRate", 3f);
+            animator.speed = 0;
+            list.Add(displayModel);
+            return list;
+        }
     }
 }
