@@ -11,10 +11,9 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneLayout => "Moon_DestroyedClone_CSM";
         public override string SceneName => "Moon";
         public override string Author => "DestroyedClone";
-        public override string LayoutName => "Paladin's Entrance";
+        public override string LayoutName => "Welcome to Hell";
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
-            //{ "RobPaladin", new [] {new Vector3(0f, 0.5f, 5f), new Vector3(0f, 180f, 0f) } },
         };
 
         //https://stackoverflow.com/a/59359043
@@ -37,7 +36,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             List<GameObject> list = new List<GameObject>();
 
             var moonTexture = GameObject.Find("MoonDioramaDissplay(Clone)/MoonBridgeCornerWithTerrain/Terrain").GetComponent<MeshRenderer>().sharedMaterial;
-            var model = Methods.CreateDisplay("RobPaladin", new Vector3(0, 0.5f, 5f), new Vector3(0,180,0));
+            var model = Methods.CreateDisplay("Commando", new Vector3(0, 0.5f, 5f), new Vector3(0,180,0));
             model.GetComponent<CharacterModel>().enabled = false;
             model.GetComponent<Animator>().speed = 99;
             model.transform.Find("meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
