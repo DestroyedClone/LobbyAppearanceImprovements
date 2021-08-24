@@ -27,7 +27,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public GameObject CreateLayout()
         {
             var layoutHolder = new GameObject();
-            layoutHolder.name = "HOLDER: LAYOUT";
+            layoutHolder.name = "HOLDER: LAYOUT ("+ SceneLayout+")";
             foreach (var characterLayout in CharacterLayouts)
             {
                 CreateDisplay(characterLayout.Key, characterLayout.Value[0], characterLayout.Value[1], layoutHolder.transform);
