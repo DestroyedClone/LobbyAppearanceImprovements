@@ -24,6 +24,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public abstract Dictionary<string, Vector3[]> CharacterLayouts { get; }
 
+        public bool HasSetup = false;
+
         public GameObject CreateLayout()
         {
             var layoutHolder = new GameObject();
@@ -48,7 +50,12 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // For creating objects at runtime
         public virtual void Init()
         {
-
+            if (HasSetup)
+            {
+                Debug.Log("Layout already ran Init()!");
+                return;
+            }
+            HasSetup = true;
         }
     }
 }

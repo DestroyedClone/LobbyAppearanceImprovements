@@ -208,13 +208,20 @@ namespace LobbyAppearanceImprovements
             {
                 if (sceneType.IsAssignableFrom(type))
                 {
-                    scenesDict[type.Name] = type;
+                    if (!type.IsAbstract)
+                        scenesDict[type.Name] = type;
                 }
                 else if (layoutType.IsAssignableFrom(type))
                 {
                     layoutsDict[type.Name] = type;
-                    var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(scenesDict[type.Name]);
-                    sceneObjectInitializer.Init();
+                    if (!type.IsAbstract)
+                    {
+                        var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
+                        Debug.Log("Creating type " + layout.Name);
+                        var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(layout);
+                        Debug.Log("plrease work");
+                        sceneObjectInitializer.Init();
+                    }
                 }
             }
             if (SelectedScene.Value.ToLower() != "default" && scenesDict[SelectedScene.Value] != null)
