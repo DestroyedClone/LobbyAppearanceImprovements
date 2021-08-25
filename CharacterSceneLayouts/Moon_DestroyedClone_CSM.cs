@@ -29,7 +29,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             new Vector3[]{ new Vector3(-1.5f, 0.5f, 24f), new Vector3(0f, 90f, 0f) },
         };
 
-        public override List<GameObject> CreateAdditionalObjects()
+        public override List<GameObject> CreateAdditionalObjectsOnLoad()
         {
             if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0) return null;
 

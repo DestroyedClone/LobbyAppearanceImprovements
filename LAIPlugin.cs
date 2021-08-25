@@ -17,6 +17,7 @@ using static UnityEngine.ColorUtility;
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
+//[assembly: HG.Reflection.SearchableAttribute.OptIn]
 
 namespace LobbyAppearanceImprovements
 {
@@ -216,10 +217,8 @@ namespace LobbyAppearanceImprovements
                     layoutsDict[type.Name] = type;
                     if (!type.IsAbstract)
                     {
-                        var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
-                        Debug.Log("Creating type " + layout.Name);
-                        var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(layout);
-                        Debug.Log("plrease work");
+                        //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
+                        var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
                         sceneObjectInitializer.Init();
                     }
                 }

@@ -34,7 +34,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             {
                 CreateDisplay(characterLayout.Key, characterLayout.Value[0], characterLayout.Value[1], layoutHolder.transform);
             }
-            foreach (var obj in CreateAdditionalObjects())
+            foreach (var obj in CreateAdditionalObjectsOnLoad())
             {
                 obj.transform.parent = layoutHolder.transform;
             }
@@ -42,7 +42,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             return layoutHolder;
         }
 
-        public virtual List<GameObject> CreateAdditionalObjects()
+        public virtual List<GameObject> CreateAdditionalObjectsOnLoad()
         {
             return null;
         }
@@ -50,6 +50,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // For creating objects at runtime
         public virtual void Init()
         {
+            Debug.Log("Setting up layout for "+ SceneLayout);
             if (HasSetup)
             {
                 Debug.Log("Layout already ran Init()!");
