@@ -203,7 +203,7 @@ namespace LobbyAppearanceImprovements
         public void AssemblySetup() //credit to bubbet for base code
         {
             var sceneType = typeof(LAIScene);
-            var layoutType = typeof(CharacterSceneLayouts.CharSceneLayout);
+            var layoutType = typeof(CharSceneLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (sceneType.IsAssignableFrom(type))
@@ -213,6 +213,8 @@ namespace LobbyAppearanceImprovements
                 else if (layoutType.IsAssignableFrom(type))
                 {
                     layoutsDict[type.Name] = type;
+                    var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(scenesDict[type.Name]);
+                    sceneObjectInitializer.Init();
                 }
             }
             if (SelectedScene.Value.ToLower() != "default" && scenesDict[SelectedScene.Value] != null)

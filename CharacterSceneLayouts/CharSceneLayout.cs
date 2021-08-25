@@ -44,5 +44,11 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         {
             return null;
         }
+
+        // For creating objects at runtime
+        public virtual void Init()
+        {
+
+        }
     }
 }
