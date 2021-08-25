@@ -43,10 +43,12 @@ namespace LobbyAppearanceImprovements
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
             var gameObject = UnityEngine.Object.Instantiate<GameObject>(displayPrefab, position, Quaternion.Euler(rotation), parent);
-            if (addCollider)
+            if (addCollider && ConfigSetup.SIL_ClickOnCharacterToSwap.Value)
             {
                 var comp = gameObject.AddComponent<CapsuleCollider>();
                 comp.radius = 1f;
+                var com = gameObject.AddComponent<ClickToSelectCharacter>();
+                com.survivorDef = survivorDef;
             }
             if (SIL_LockedCharactersBlack.Value)
             {
@@ -59,11 +61,6 @@ namespace LobbyAppearanceImprovements
                         cm[0].isDoppelganger = true;
                     }
                 }
-            }
-            if (true) //ClickOnCharacterToSwap
-            {
-                var com = gameObject.AddComponent<ClickToSelectCharacter>();
-                com.survivorDef = survivorDef;
             }
             switch (bodyPrefabName)
             {
@@ -80,7 +77,7 @@ namespace LobbyAppearanceImprovements
                     gameObject.transform.Find("Base/mdlToolbot").gameObject.GetComponent<CharacterModel>().enabled = false;
                     break;
                 case "HANDOverclocked":
-                    GameObject.Find("HANDTeaser").SetActive(false);
+                    GameObject.Find("HANDTeaser")?.SetActive(false);
                     break;
             }
             return gameObject;

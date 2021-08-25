@@ -56,9 +56,9 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             var displayModel = Methods.CreateDisplay("RobPaladin", new Vector3(0, 0.5f, 5f), new Vector3(0, 180, 0), null, true);
             var animator = displayModel.GetComponent<Animator>();
             animator.runtimeAnimatorController = gamingAnimatorController;
-            animator.speed = 0;
             // warning does not survive the layout being turned off and on, only works on first layout
             EntityStates.EntityState.PlayAnimationOnAnimator(animator, "Body", "Spawn", "Spawn.playbackRate", 3f);
+            animator.speed = 0;
             //list.Add(displayModel);
             return list;
         }
