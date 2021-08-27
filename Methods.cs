@@ -287,7 +287,7 @@ namespace LobbyAppearanceImprovements
                     case "Miner":
                         path = "MinerDisplay/MinerBody";
                         break;
-                    case "Paladin":
+                    case "RobPaladin":
                         path = "meshPaladin";
                         break;
                     case "CHEF":
@@ -400,6 +400,24 @@ namespace LobbyAppearanceImprovements
                 var val = startingPosition.z + Input.mouseScrollDelta.y * forwardMult;
                 value.z = Mathf.Clamp(val, startingPosition.z - forwardLimit, startingPosition.z + forwardLimit);
                 return value;
+            }
+        }
+
+        public class DelaySetupMeshCollider : MonoBehaviour
+        {
+            public float delayInSeconds;
+            public MeshCollider meshCollider;
+            public Mesh meshToBind;
+            float stopwatch = 0f;
+
+            public void Update()
+            {
+                stopwatch += Time.deltaTime;
+                if (stopwatch >= delayInSeconds)
+                {
+                    meshCollider.sharedMesh = meshToBind;
+                    enabled = false;
+                }
             }
         }
     }

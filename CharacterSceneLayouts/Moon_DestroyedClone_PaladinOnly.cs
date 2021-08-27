@@ -16,8 +16,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         {
         };
 
+        // these fucks show up in the scene anyway but they get deleted after so who cares
         public static GameObject StatueHolders { get; set; }
-        public static GameObject PaladinStatue { get; set; }
         public static RuntimeAnimatorController gamingAnimatorController;
 
         //https://stackoverflow.com/a/59359043
@@ -31,6 +31,9 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
             new Vector3[]{ new Vector3(1.5f, 0.5f, 24f), new Vector3(0f, 270f, 0f) },
             new Vector3[]{ new Vector3(-1.5f, 0.5f, 24f), new Vector3(0f, 90f, 0f) },
+
+            new Vector3[]{ new Vector3(1.5f, 0.5f, 32f), new Vector3(0f, 270f, 0f) },
+            new Vector3[]{ new Vector3(-1.5f, 0.5f, 32f), new Vector3(0f, 90f, 0f) },
         };
 
         public override List<GameObject> CreateAdditionalObjectsOnLoad()
@@ -77,17 +80,14 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
             Debug.Log("Creating Statue");
             var model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);
-            Debug.LogWarning("cpcls");
             model.GetComponent<CharacterModel>().enabled = false;
-            Debug.LogWarning("sssss");
             model.transform.Find("meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
             model.transform.Find("meshSword").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
             model.transform.Find("Armature").gameObject.SetActive(false);
             model.name = "PaladinStatue";
-            model.GetComponent<Animator>().playbackTime = 5;
-            model.GetComponent<Animator>().speed = 0;
+            //model.GetComponent<Animator>().playbackTime = 5;
             model.transform.position = new Vector3(0, -50f, 0);
-            PaladinStatue = model;
+            //model.GetComponent<Animator>();
 
             var localStatueHolders = new GameObject();
             localStatueHolders.name = "HOLDER: Statues";
@@ -101,7 +101,6 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             }
             StatueHolders = localStatueHolders;
             gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.FindSurvivorIndex("RobPaladin")).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
-
         }
     }
 }
