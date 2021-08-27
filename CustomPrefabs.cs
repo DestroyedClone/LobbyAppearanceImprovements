@@ -8,6 +8,11 @@ namespace LobbyAppearanceImprovements
 {
     public static class CustomPrefabs
     {
-        public static Dictionary<string, GameObject[]> keyValuePairs = new Dictionary<string, GameObject[]>();
+        public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+
+        public static GameObject GetCustomPrefab(string name)
+        {
+            return prefabs.TryGetValue(name, out GameObject value) ? value : null;
+        }
     }
 }
