@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using RoR2;
-using static LobbyAppearanceImprovements.CustomPrefabs;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
@@ -17,9 +16,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         {
         };
 
-        //public static GameObject StatueHolders;
-        //public static GameObject PaladinStatue;
-        //public static Material moonTexture;
+        public static GameObject StatueHolders { get; set; }
+        public static GameObject PaladinStatue { get; set; }
         public static RuntimeAnimatorController gamingAnimatorController;
 
         //https://stackoverflow.com/a/59359043
@@ -37,14 +35,16 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public override List<GameObject> CreateAdditionalObjectsOnLoad()
         {
+            if (!StatueHolders)
+            {
+                Init();
+            }
             if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0)
             {
                 Debug.Log("Unable to load scene due to missing survivor Paladin");
                 return null;
             }
             List<GameObject> list = new List<GameObject>();
-            var localStatueHolders = GameObject.Instantiate(GetCustomPrefab("PaladinStatueSet"));
-            list.Add(localStatueHolders);
 
             var displayModel = Methods.CreateDisplay("RobPaladin", new Vector3(0, 0.5f, 5f), new Vector3(0, 180, 0), null, true);
             var animator = displayModel.GetComponent<Animator>();
@@ -52,7 +52,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             // warning does not survive the layout being turned off and on, only works on first layout
             EntityStates.EntityState.PlayAnimationOnAnimator(animator, "Body", "Spawn", "Spawn.playbackRate", 3f);
             animator.speed = 0;
-            //list.Add(displayModel);
+            list.Add(StatueHolders);
             list.Add(displayModel);
             return list;
         }
@@ -60,27 +60,34 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override void Init()
         {
             base.Init();
-            if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0) return;
+            //if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0) return;
             SetupStatue();
         }
 
-        //[RoR2.SystemInitializer(dependencies: typeof(RoR2.EntityStateCatalog))]
+        [RoR2.SystemInitializer(dependencies: typeof(RoR2.SurvivorCatalog))]
         public void SetupStatue()
         {
+            if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0)
+            {
+                Debug.Log("Unable to init scene");
+                return;
+            }
             Debug.Log("Selecting Material");
             var moonTexture = Resources.Load<GameObject>("prefabs/stagedisplay/MoonDioramaDissplay").transform.Find("MoonBridgeCornerWithTerrain/Terrain").GetComponent<MeshRenderer>().sharedMaterial;
 
-            Debug.Log("Creating Stature");
-            GameObject model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);
+            Debug.Log("Creating Statue");
+            var model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);
+            Debug.LogWarning("cpcls");
             model.GetComponent<CharacterModel>().enabled = false;
+            Debug.LogWarning("sssss");
             model.transform.Find("meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
             model.transform.Find("meshSword").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
             model.transform.Find("Armature").gameObject.SetActive(false);
             model.name = "PaladinStatue";
             model.GetComponent<Animator>().playbackTime = 5;
             model.GetComponent<Animator>().speed = 0;
-            CustomPrefabs.prefabs.Add("PaladinStatue", model);
-            //PaladinStatue = model;
+            model.transform.position = new Vector3(0, -50f, 0);
+            PaladinStatue = model;
 
             var localStatueHolders = new GameObject();
             localStatueHolders.name = "HOLDER: Statues";
@@ -92,9 +99,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
                 newModel.transform.position = statuePos[0];
                 newModel.transform.rotation = Quaternion.Euler(statuePos[1]);
             }
-            CustomPrefabs.prefabs.Add("PaladinStatueSet", localStatueHolders);
-
-            Debug.Log("Getting anim controller");
+            StatueHolders = localStatueHolders;
             gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.FindSurvivorIndex("RobPaladin")).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
 
         }

@@ -219,6 +219,7 @@ namespace LobbyAppearanceImprovements
                     if (!type.IsAbstract)
                     {
                         //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
+                        Debug.Log("Initializing "+ type);
                         var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
                         sceneObjectInitializer.Init();
                     }

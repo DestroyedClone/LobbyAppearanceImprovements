@@ -349,9 +349,11 @@ namespace LobbyAppearanceImprovements
             public GameObject sceneCamera;
             public Vector3 startingPosition;
 
-            private Vector3 desiredPosition;
+            public Vector3 desiredPosition;
             private Vector3 velocity;
             public float screenLimitDistance = 0.25f;
+            public float forwardLimit = 5f;
+            public float forwardMult = 0.25f;
 
             bool screenIsFocused = true;
 
@@ -365,7 +367,9 @@ namespace LobbyAppearanceImprovements
             public void Update()
             {
                 if (screenIsFocused)
+                {
                     desiredPosition = dicks();
+                }
 
                 DampPosition();
             }
@@ -382,7 +386,6 @@ namespace LobbyAppearanceImprovements
             public Vector3 dicks()
             {
                 Vector3 mousePos = Input.mousePosition;
-                var center = new Vector3(Screen.width / 2, Screen.height / 2);
                 var value = new Vector3();
 
                 float fractionX = (Screen.width - mousePos.x) / Screen.width;
@@ -390,6 +393,12 @@ namespace LobbyAppearanceImprovements
 
                 value.x = Mathf.Lerp(startingPosition.x + screenLimitDistance, startingPosition.x - screenLimitDistance, fractionX);
                 value.y = Mathf.Lerp(startingPosition.y + screenLimitDistance, startingPosition.y - screenLimitDistance, fractionY);
+
+                //if (Input.GetMouseButtonDown(2))
+                    //value.z = startingPosition.z;
+
+                var val = startingPosition.z + Input.mouseScrollDelta.y * forwardMult;
+                value.z = Mathf.Clamp(val, startingPosition.z - forwardLimit, startingPosition.z + forwardLimit);
                 return value;
             }
         }
