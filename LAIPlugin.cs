@@ -24,6 +24,7 @@ namespace LobbyAppearanceImprovements
     [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin(ModGuid, ModName, ModVer)]
+    [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
     public class LAIPlugin : BaseUnityPlugin
     {
         public const string ModVer = "1.1.0";

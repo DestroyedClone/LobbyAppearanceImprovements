@@ -79,9 +79,22 @@ namespace LobbyAppearanceImprovements
                 case "HANDOverclocked":
                     GameObject.Find("HANDTeaser")?.SetActive(false);
                     break;
+                case "RobPaladin":
+                    if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Paladin"))
+                    {
+                        SetupPaladinDisplay(gameObject);
+                    }
+                    break;
             }
             return gameObject;
         }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void SetupPaladinDisplay(GameObject gameObject)
+        {
+            UnityEngine.Object.Destroy(gameObject.GetComponent<PaladinMod.Misc.MenuSound>());
+        }
+
 
         public static GameObject GetBodyPrefab(string bodyPrefabName)
         {

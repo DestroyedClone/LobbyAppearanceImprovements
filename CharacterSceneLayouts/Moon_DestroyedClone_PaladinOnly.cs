@@ -97,6 +97,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
                 newModel.transform.rotation = Quaternion.Euler(statuePos[1]);
             }
             StatueHolders = localStatueHolders;
+            UnityEngine.Object.Destroy(localStatueHolders);
 
             Debug.Log("Getting anim controller");
             gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.FindSurvivorIndex("RobPaladin")).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;

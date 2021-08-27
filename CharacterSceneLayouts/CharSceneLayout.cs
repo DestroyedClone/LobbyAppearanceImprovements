@@ -44,7 +44,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public virtual List<GameObject> CreateAdditionalObjectsOnLoad()
         {
-            return null;
+            return new List<GameObject>();
         }
 
         // For creating objects at runtime
