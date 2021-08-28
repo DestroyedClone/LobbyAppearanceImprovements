@@ -183,7 +183,6 @@ namespace LobbyAppearanceImprovements
                     }
                     else if (layoutType.IsAssignableFrom(type))
                     {
-                        var printpala = false;
                         var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
                         bool canLoadScene = true;
                         var guids = sceneObjectInitializer.RequiredModGUID;
@@ -199,7 +198,6 @@ namespace LobbyAppearanceImprovements
                                 }
                             }
                         }
-                        if (printpala) Debug.Log("canloadscene = "+canLoadScene);
                         if (canLoadScene)
                         {
                             layoutsDict[type.Name] = type;
