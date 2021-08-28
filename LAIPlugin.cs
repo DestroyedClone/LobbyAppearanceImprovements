@@ -183,12 +183,15 @@ namespace LobbyAppearanceImprovements
                     }
                     else if (layoutType.IsAssignableFrom(type))
                     {
+                        var printpala = false;
                         var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
                         bool canLoadScene = true;
-                        if (sceneObjectInitializer.RequiredModGUID.Length > 0)
+                        var guids = sceneObjectInitializer.RequiredModGUID;
+                        if (guids != null && guids.Length > 0)
                         {
-                            foreach (var GUID in sceneObjectInitializer.RequiredModGUID) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
                             {
+                                //if (printpala) Debug.Log("current GUID: "+GUID);
                                 if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                                 {
                                     canLoadScene = false;
@@ -196,6 +199,7 @@ namespace LobbyAppearanceImprovements
                                 }
                             }
                         }
+                        if (printpala) Debug.Log("canloadscene = "+canLoadScene);
                         if (canLoadScene)
                         {
                             layoutsDict[type.Name] = type;
@@ -205,16 +209,6 @@ namespace LobbyAppearanceImprovements
                         }
                     }
                 }
-            }
-            if (SelectedScene.Value.ToLower() != "default" && scenesDict[SelectedScene.Value] != null)
-            {
-                var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
-                chosenScene = sceneObject;
-            }
-            if (SIL_SelectedLayout.Value.ToLower() != "default" && layoutsDict[SIL_SelectedLayout.Value] != null)
-            {
-                var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SIL_SelectedLayout.Value]);
-                chosenLayout = layoutObject;
             }
         }
 
