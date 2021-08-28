@@ -175,14 +175,13 @@ namespace LobbyAppearanceImprovements
             var layoutType = typeof(CharSceneLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (sceneType.IsAssignableFrom(type))
+                if (!type.IsAbstract)
                 {
-                    if (!type.IsAbstract)
+                    if (sceneType.IsAssignableFrom(type))
+                    {
                         scenesDict[type.Name] = type;
-                }
-                else if (layoutType.IsAssignableFrom(type))
-                {
-                    if (!type.IsAbstract)
+                    }
+                    else if (layoutType.IsAssignableFrom(type))
                     {
                         var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
                         bool canLoadScene = true;
