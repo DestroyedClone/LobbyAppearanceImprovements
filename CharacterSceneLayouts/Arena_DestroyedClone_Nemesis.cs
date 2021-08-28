@@ -20,7 +20,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             { "Enforcer", new [] {new Vector3(2f, 0f, 12f), new Vector3(0f, 220f, 0f) } },
             { "NemesisEnforcer", new [] {new Vector3(4f, 0f, 12f), new Vector3(0f, 170f, 0f) } },
 
-            { "RobHenry", new [] {new Vector3(-2f, 0f, 4f), new Vector3(0f, 180f, 0f) } },
+            { "Henry", new [] {new Vector3(-2f, 0f, 4f), new Vector3(0f, 180f, 0f) } },
             { "Nemry", new [] {new Vector3(-2f, 0f, 8f), new Vector3(0f, 128f, 0f) } },
 
         };
