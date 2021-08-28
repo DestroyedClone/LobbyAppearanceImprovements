@@ -53,10 +53,12 @@ namespace LobbyAppearanceImprovements
                     if (instance.SceneName == sceneName)
                         Debug.Log(keyValuePair.Key);
                 }
-            }
-            foreach (var keyValuePair in layoutsDict)
+            } else
             {
-                Debug.Log(keyValuePair.Key);
+                foreach (var keyValuePair in layoutsDict)
+                {
+                    Debug.Log(keyValuePair.Key);
+                }
             }
         }
 

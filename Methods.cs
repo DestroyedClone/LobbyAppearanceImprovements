@@ -178,7 +178,7 @@ namespace LobbyAppearanceImprovements
                     return;
                 }
                 MeshPropsRef.SetActive(false);
-                Methods.SelectScene(chosenScene);
+                Methods.SelectScene(sceneName);
             }
             else
             {
@@ -187,7 +187,7 @@ namespace LobbyAppearanceImprovements
             if (SIL_Enabled.Value)
                 if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
                 {
-                    Methods.SelectLayout(SIL_SelectedLayout.Value);
+                    Methods.SelectLayout(layoutName);
                 }
                 else
                 {
