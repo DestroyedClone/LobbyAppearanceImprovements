@@ -22,6 +22,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // Name of the layout : "Original Crew"
         public abstract string LayoutName { get; }
 
+        public virtual string[] RequiredModGUID { get; }
+
         public abstract Dictionary<string, Vector3[]> CharacterLayouts { get; }
 
         public bool HasSetup = false;

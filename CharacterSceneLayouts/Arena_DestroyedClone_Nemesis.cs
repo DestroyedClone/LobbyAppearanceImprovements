@@ -15,16 +15,5 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
         };
-
-        // these fucks show up in the scene anyway but they get deleted after so who cares
-        public static GameObject StatueHolders { get; set; }
-        public static RuntimeAnimatorController gamingAnimatorController;
-
-
-
-        public override void Init()
-        {
-            base.Init();
-        }
     }
 }

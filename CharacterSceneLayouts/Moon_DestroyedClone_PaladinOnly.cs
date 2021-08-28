@@ -12,6 +12,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneName => "Moon";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Paladin's Entrance";
+        public override string[] RequiredModGUID => new string[] { "com.rob.Paladin" };
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
         };

@@ -215,13 +215,28 @@ namespace LobbyAppearanceImprovements
                 }
                 else if (layoutType.IsAssignableFrom(type))
                 {
-                    layoutsDict[type.Name] = type;
                     if (!type.IsAbstract)
                     {
-                        //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
-                        Debug.Log("Initializing "+ type);
                         var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
-                        sceneObjectInitializer.Init();
+                        bool canLoadScene = true;
+                        if (sceneObjectInitializer.RequiredModGUID.Length > 0)
+                        {
+                            foreach (var GUID in sceneObjectInitializer.RequiredModGUID) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            {
+                                if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                                {
+                                    canLoadScene = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (canLoadScene)
+                        {
+                            layoutsDict[type.Name] = type;
+                            //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
+                            Debug.Log("Initializing " + type);
+                            sceneObjectInitializer.Init();
+                        }
                     }
                 }
             }
