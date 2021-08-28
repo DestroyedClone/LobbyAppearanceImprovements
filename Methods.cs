@@ -165,6 +165,39 @@ namespace LobbyAppearanceImprovements
             }
             return null;
         }
+        public static void LoadSceneAndLayout(string sceneName, string layoutName = null)
+        {
+            var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
+            var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "lobby";
+
+            if (currentSceneIsNotLobby)
+            {
+                if (!scenesDict.ContainsKey(sceneName))
+                {
+                    Debug.Log("Aborting: Selected Scene Not Found '" + sceneName + "'");
+                    return;
+                }
+                MeshPropsRef.SetActive(false);
+                Methods.SelectScene(chosenScene);
+            }
+            else
+            {
+                MeshPropsRef.SetActive(true);
+            }
+            if (SIL_Enabled.Value)
+                if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
+                {
+                    Methods.SelectLayout(SIL_SelectedLayout.Value);
+                }
+                else
+                {
+                    var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(sceneNameForLayout);
+                    if (defaultLayoutName != null)
+                    {
+                        Methods.SelectLayout(defaultLayoutName);
+                    }
+                }
+        }
 
         public class ClickToSelectCharacter : MonoBehaviour
         {

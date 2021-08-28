@@ -24,14 +24,20 @@ namespace LobbyAppearanceImprovements
         {
             foreach (var keyValuePair in scenesDict)
             {
-                Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                Debug.Log(keyValuePair.Key);
             }
         }
 
         [ConCommand(commandName = "LAI_SetScene", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets the current scene to the specified name. | For previewing, does not save.")]
         public static void CMD_SetScene(ConCommandArgs args)
         {
-            SelectScene(args.GetArgString(0));
+            if (args.Count == 1)
+            {
+                SelectScene(args.GetArgString(0));
+            } else
+            {
+                Methods.LoadSceneAndLayout(args.GetArgString(0), args.GetArgString(1));
+            }
         }
 
         [ConCommand(commandName = "LAI_ListLayouts", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_listlayouts - shows all layouts." +
@@ -45,12 +51,12 @@ namespace LobbyAppearanceImprovements
                 {
                     var instance = (CharacterSceneLayouts.CharSceneLayout)Activator.CreateInstance(keyValuePair.Value);
                     if (instance.SceneName == sceneName)
-                        Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                        Debug.Log(keyValuePair.Key);
                 }
             }
             foreach (var keyValuePair in layoutsDict)
             {
-                Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                Debug.Log(keyValuePair.Key);
             }
         }
 
