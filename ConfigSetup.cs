@@ -1,4 +1,11 @@
 ﻿using BepInEx.Configuration;
+using InLobbyConfig;
+using InLobbyConfig.Fields;
+using System.Collections;
+using System;
+using System.Linq;
+using UnityEngine;
+using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements
 {
@@ -9,7 +16,7 @@ namespace LobbyAppearanceImprovements
         // CONFIG //
         // Ordered by Layer //
         // UI //
-        public static ConfigEntry<bool> UI_HideFade { get; set; }
+        public static ConfigEntry<bool> UI_ShowFade { get; set; }
         public static ConfigEntry<int> UI_BlurOpacity { get; set; }
         public static ConfigEntry<float> UI_Scale { get; set; }
 
@@ -48,6 +55,10 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> ReplayAnim { get; set; }
         public static ConfigEntry<bool> LivePreview { get; set; }
 
+        // InLobbyConfig //
+
+        private static ModConfigEntry inLobbyConfigEntry;
+
         #endregion Config
 
 
@@ -57,7 +68,7 @@ namespace LobbyAppearanceImprovements
             // CONFIG //
             // Ordered by Layer //
             // UI //
-            UI_HideFade = config.Bind("UI", "Hide Fade", true, "Disables the dark fade bars at the top and bottom of the lobby.");
+            UI_ShowFade = config.Bind("UI", "Show Fade", true, "Toggles the dark fade bars at the top and bottom of the lobby.");
             UI_BlurOpacity = config.Bind("UI", "Blur Opacity", 255, "Adjusts the blur opacity behind the UI elements on the left and right." +
                 "\n0:fully transparent - 255:default");
             UI_Scale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
@@ -97,6 +108,21 @@ namespace LobbyAppearanceImprovements
             ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");
             LivePreview = config.Bind("Background", "X Live Preview", true, "Updates the appearance for the selected character.");
             SIL_ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them.");
+        }
+
+        public static void InLobbyBind()
+        {
+            inLobbyConfigEntry = new ModConfigEntry
+            {
+                DisplayName = "Lobby Appearance Improvements",
+            };
+            inLobbyConfigEntry.SectionFields["UI"] = new List<IConfigField>
+            {
+                new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, LAIPlugin.Hook_ShowFade),
+                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, LAIPlugin.Hook_BlurOpacity, null, 0, 255),
+                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, LAIPlugin.Hook_UIScale, 0.1f)
+            };
+            ModConfigCatalog.Add(inLobbyConfigEntry);
         }
     }
 }

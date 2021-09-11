@@ -25,6 +25,7 @@ namespace LobbyAppearanceImprovements
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin(ModGuid, ModName, ModVer)]
     [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.KingEnderBrine.InLobbyConfig")]
     public class LAIPlugin : BaseUnityPlugin
     {
         public const string ModVer = "1.1.0";
@@ -54,10 +55,12 @@ namespace LobbyAppearanceImprovements
         public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
 
         public static GameObject MeshPropsRef;
+        public static Transform UI_OriginRef;
 
         public void Awake()
         {
             ConfigSetup.Bind(Config);
+            ConfigSetup.InLobbyBind();
             CommandHelper.AddToConsoleWhenReady();
             AssemblySetup();
 
@@ -66,6 +69,40 @@ namespace LobbyAppearanceImprovements
 
             if (DisableShaking.Value)
                 On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
+
+        }
+        public static void Hook_ShowFade(bool value)
+        {
+            UI_OriginRef.Find("BottomSideFade").gameObject.SetActive(value);
+            UI_OriginRef.Find("TopSideFade").gameObject.SetActive(value);
+        }
+
+        public static void Hook_BlurOpacity(int value)
+        {
+            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
+            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+            var ui_right = SafeArea.Find("RightHandPanel");
+
+            var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
+            leftBlurColor.color = new Color(leftBlurColor.color.r,
+                leftBlurColor.color.g,
+                leftBlurColor.color.b,
+                Mathf.Clamp(value, 0f, 255));
+            var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
+            rightBlurColor.color = new Color(leftBlurColor.color.r,
+                rightBlurColor.color.g,
+                rightBlurColor.color.b,
+                Mathf.Clamp(value, 0f, 255));
+        }
+
+        public static void Hook_UIScale(float value)
+        {
+            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
+            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+            var ui_right = SafeArea.Find("RightHandPanel");
+
+            ui_left.localScale = Vector3.one * value;
+            ui_right.localScale = Vector3.one * value;
         }
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
@@ -76,39 +113,18 @@ namespace LobbyAppearanceImprovements
             self.gameObject.AddComponent<Methods.CameraParallax>();
 
             var directionalLight = GameObject.Find("Directional Light");
-            var ui_origin = GameObject.Find("CharacterSelectUI").transform;
-            var SafeArea = ui_origin.Find("SafeArea").transform;
+            UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
+            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
             var characterPadAlignments = GameObject.Find("CharacterPadAlignments");
 
             // UI //
-            if (ui_origin)
+            if (UI_OriginRef)
             {
-                if (UI_HideFade.Value)
-                {
-                    ui_origin.Find("BottomSideFade").gameObject.SetActive(false);
-                    ui_origin.Find("TopSideFade").gameObject.SetActive(false);
-                }
-                if (UI_BlurOpacity.Value != 255) // default value doesnt cast well
-                {
-                    var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
-                    leftBlurColor.color = new Color(leftBlurColor.color.r,
-                        leftBlurColor.color.g,
-                        leftBlurColor.color.b,
-                        Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255));
-                    var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
-                    rightBlurColor.color = new Color(leftBlurColor.color.r,
-                        rightBlurColor.color.g,
-                        rightBlurColor.color.b,
-                        Mathf.Clamp(UI_BlurOpacity.Value, 0f, 255));
-
-                }
-                if (UI_Scale.Value != 1f)
-                {
-                    ui_left.localScale *= UI_Scale.Value;
-                    ui_right.localScale *= UI_Scale.Value;
-                }
+                Hook_ShowFade(UI_ShowFade.Value);
+                Hook_BlurOpacity(UI_BlurOpacity.Value);
+                Hook_UIScale(UI_Scale.Value);
             }
 
             // Overlay //
