@@ -10,7 +10,7 @@ namespace LobbyAppearanceImprovements
 {
     public static class Commands
     {
-        [ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.ExecuteOnServer, helpText = "path x y z")]
+        [ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
         public static void CMD_SpawnPrefab(ConCommandArgs args)
         {
             var path = args.GetArgString(0);
@@ -19,7 +19,7 @@ namespace LobbyAppearanceImprovements
             diorama.transform.position = new Vector3(args.GetArgFloat(1), args.GetArgFloat(2), args.GetArgFloat(3));
         }
 
-        [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.ExecuteOnServer, helpText = "Lists the available scenes.")]
+        [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.None, helpText = "Lists the available scenes.")]
         public static void CMD_ListScene(ConCommandArgs args)
         {
             foreach (var keyValuePair in scenesDict)
@@ -28,7 +28,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        [ConCommand(commandName = "LAI_SetScene", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets the current scene to the specified name. | For previewing, does not save.")]
+        [ConCommand(commandName = "LAI_SetScene", flags = ConVarFlags.None, helpText = "Sets the current scene to the specified name. | For previewing, does not save.")]
         public static void CMD_SetScene(ConCommandArgs args)
         {
             if (args.Count == 1)

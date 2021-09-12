@@ -148,7 +148,7 @@ namespace LobbyAppearanceImprovements
             };
             inLobbyConfigEntry.SectionFields["Scenes"] = new List<IConfigField>
             {
-                //new SelectListField(SelectedScene.Definition.Key, SelectedScene.Description.Description, () => SelectedScene.Value, null, null, null)
+                new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);
         }

@@ -201,6 +201,7 @@ namespace LobbyAppearanceImprovements
                 }
         }
 
+
         public class ClickToSelectCharacter : MonoBehaviour
         {
             //CapsuleCollider capsuleCollider;
@@ -460,6 +461,20 @@ namespace LobbyAppearanceImprovements
                 }
             }
         }
+    }
+
+    public static class SceneMethods
+    {
+        public static List<string> GetScenes()
+        {
+            Debug.Log(sceneNameList.Count);
+            return sceneNameList;
+        }
+    }
+
+    public static class Actions
+    {
+        public static Action SceneAssetAPIAction;
     }
 
     public static class HookMethods

@@ -46,10 +46,12 @@ namespace LobbyAppearanceImprovements
 
         public static LAIScene chosenScene = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
+        public static List<string> sceneNameList = new List<string>();
         public static GameObject sceneInstance;
 
         public static CharSceneLayout chosenLayout = null;
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
+        public static List<string> layoutNameList = new List<string>();
         public static GameObject layoutInstance;
 
         public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
@@ -116,6 +118,7 @@ namespace LobbyAppearanceImprovements
                     if (sceneType.IsAssignableFrom(type))
                     {
                         scenesDict[type.Name] = type;
+                        sceneNameList.Add(type.Name);
                     }
                     else if (layoutType.IsAssignableFrom(type))
                     {
@@ -137,6 +140,7 @@ namespace LobbyAppearanceImprovements
                         if (canLoadScene)
                         {
                             layoutsDict[type.Name] = type;
+                            layoutNameList.Add(type.Name);
                             //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
                             Debug.Log("Initializing " + type);
                             sceneObjectInitializer.Init();
