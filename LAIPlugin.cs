@@ -12,6 +12,7 @@ using System.Security.Permissions;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static UnityEngine.ColorUtility;
+using static LobbyAppearanceImprovements.HookMethods;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -67,119 +68,38 @@ namespace LobbyAppearanceImprovements
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
 
-            if (DisableShaking.Value)
-                On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
-
         }
-        public static void Hook_ShowFade(bool value)
-        {
-            UI_OriginRef.Find("BottomSideFade").gameObject.SetActive(value);
-            UI_OriginRef.Find("TopSideFade").gameObject.SetActive(value);
-        }
-
-        public static void Hook_BlurOpacity(int value)
-        {
-            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
-            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
-            var ui_right = SafeArea.Find("RightHandPanel");
-
-            var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
-            leftBlurColor.color = new Color(leftBlurColor.color.r,
-                leftBlurColor.color.g,
-                leftBlurColor.color.b,
-                Mathf.Clamp(value, 0f, 255));
-            var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
-            rightBlurColor.color = new Color(leftBlurColor.color.r,
-                rightBlurColor.color.g,
-                rightBlurColor.color.b,
-                Mathf.Clamp(value, 0f, 255));
-        }
-
-        public static void Hook_UIScale(float value)
-        {
-            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
-            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
-            var ui_right = SafeArea.Find("RightHandPanel");
-
-            ui_left.localScale = Vector3.one * value;
-            ui_right.localScale = Vector3.one * value;
-        }
+        
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
             MeshPropsRef = GameObject.Find("MeshProps");
-
-            self.gameObject.AddComponent<Methods.CameraParallax>();
-
-            var directionalLight = GameObject.Find("Directional Light");
             UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
-            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
-            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
-            var ui_right = SafeArea.Find("RightHandPanel");
-            var characterPadAlignments = GameObject.Find("CharacterPadAlignments");
+
 
             // UI //
-            if (UI_OriginRef)
-            {
-                Hook_ShowFade(UI_ShowFade.Value);
-                Hook_BlurOpacity(UI_BlurOpacity.Value);
-                Hook_UIScale(UI_Scale.Value);
-            }
+            Hook_ShowFade(UI_ShowFade.Value);
+            Hook_BlurOpacity(UI_BlurOpacity.Value);
+            Hook_UIScale(UI_Scale.Value);
 
             // Overlay //
             // Post Processing //
-            if (PostProcessing.Value)
-            {
-                GameObject.Find("PP")?.SetActive(false);
-            }
+            Hook_ShowPostProcessing(PostProcessing.Value);
+            Hook_Parallax(Parallax.Value);
 
             // Lights //
-            if (directionalLight)
-            {
-                if (Light_Color.Value != "default" && TryParseHtmlString(Light_Color.Value, out Color color))
-                    Methods.ChangeLobbyLightColor(color);
-                directionalLight.gameObject.GetComponent<Light>().intensity = Light_Intensity.Value;
-                directionalLight.gameObject.GetComponent<FlickerLight>().enabled = !Light_Flicker_Disable.Value;
-            }
+            Hook_LightUpdate_Color(Light_Color.Value);
+            Hook_LightUpdate_Flicker(Light_Flicker.Value);
+            Hook_LightUpdate_Intensity(Light_Intensity.Value);
 
             // Character Pad Displays //
-            if (characterPadAlignments)
-            {
-                if (CharacterPadScale.Value != 1f)
-                {
-                    //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
-                    characterPadAlignments.transform.localScale *= CharacterPadScale.Value;
-                }
-            }
+            Hook_RescalePads(CharacterPadScale.Value);
 
             // Background Elements //
-            if (MeshProps.Value)
-            {
-                foreach (var propName in MeshPropNames)
-                {
-                    GameObject.Find(propName)?.SetActive(false);
-                }
-            }
-            if (PhysicsProps.Value)
-            {
-                var meshPropHolder = MeshPropsRef.transform;
-                if (meshPropHolder)
-                {
-                    if (MeshProps.Value)
-                    {
-                        // MeshProps holds both static and physics, so we save processing time(?) if we just disable the whole thing.
-                        meshPropHolder.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        foreach (var propName in PhysicsPropNames)
-                        {
-                            meshPropHolder.Find(propName)?.gameObject.SetActive(false);
-                        }
-                    }
-                }
-            }
+            Hook_HideProps(MeshProps.Value);
+            Hook_HidePhysicsProps(PhysicsProps.Value);
+            Hook_DisableShaking(Shaking.Value);
 
             Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
         }
@@ -224,12 +144,6 @@ namespace LobbyAppearanceImprovements
                     }
                 }
             }
-        }
-
-        private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
-        {
-            orig(self);
-            self.gameObject.SetActive(false);
         }
     }
 }

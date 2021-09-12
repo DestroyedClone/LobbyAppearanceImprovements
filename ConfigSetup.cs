@@ -6,6 +6,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using static LobbyAppearanceImprovements.HookMethods;
 
 namespace LobbyAppearanceImprovements
 {
@@ -24,12 +25,13 @@ namespace LobbyAppearanceImprovements
         // Anything that affects the scene as a whole //
         // Post Processing //
         public static ConfigEntry<bool> PostProcessing { get; set; }
+        public static ConfigEntry<bool> Parallax { get; set; }
 
         // Lights //
         // The primary light over the scene //
         public static ConfigEntry<string> Light_Color { get; set; }
 
-        public static ConfigEntry<bool> Light_Flicker_Disable { get; set; }
+        public static ConfigEntry<bool> Light_Flicker { get; set; }
         public static ConfigEntry<float> Light_Intensity { get; set; }
 
         // Character Pad Displays //
@@ -40,7 +42,7 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> MeshProps { get; set; }
 
         public static ConfigEntry<bool> PhysicsProps { get; set; }
-        public static ConfigEntry<bool> DisableShaking { get; set; }
+        public static ConfigEntry<bool> Shaking { get; set; }
 
         // Custom Background //
         public static ConfigEntry<string> SelectedScene { get; set; }
@@ -76,12 +78,13 @@ namespace LobbyAppearanceImprovements
             // Overlay //
             // Anything that affects the scene as a whole //
             // Post Processing //
-            PostProcessing = config.Bind("UI", "Disable Post Processing", true, "Disables the blurry post processing.");
+            PostProcessing = config.Bind("Overlay", "Post Processing", true, "Toggles the blurry post processing.");
+            Parallax = config.Bind("Overlay", "Parallax", true, "Enable to toggle on a slight parallax effect controlled by the position of the cursor.");
 
             // Lights //
             // The primary light over the scene //
             Light_Color = config.Bind("Lights", "Hex Color", "default", "Change the default color of the light, include the # for hex values"); //#fa5a5a
-            Light_Flicker_Disable = config.Bind("Lights", "Disable FlickerLight", true, "Makes the light not flicker anymore.");
+            Light_Flicker = config.Bind("Lights", "Flickerlight", true, "Makes the light not flicker anymore.");
             Light_Intensity = config.Bind("Lights", "Intensity", 1f, "Change the intensity of the light.");
 
             // Character Pad Displays //
@@ -89,9 +92,9 @@ namespace LobbyAppearanceImprovements
 
             // Background Elements //
             // Anything in the background unrelated to the characters //
-            MeshProps = config.Bind("Background", "Hide Static MeshProps", false, "Hides all the stationary meshprops.");
-            PhysicsProps = config.Bind("Background", "Hide Physics Props", false, "Hides all the physics props like the Chair.");
-            DisableShaking = config.Bind("Background", "Disable Shaking", false, "Disables the random shaking that rattles the ship.");
+            MeshProps = config.Bind("Background", "Show Static MeshProps", false, "Toggles all the stationary meshprops.");
+            PhysicsProps = config.Bind("Background", "Show Physics Props", false, "Toggles all the physics props like the Chair.");
+            Shaking = config.Bind("Background", "Shaking", false, "Toggles the random shaking that rattles the ship.");
 
             // Custom Background //
             SelectedScene = config.Bind("Background", "Select Scene", "default", "Sets the current scene of the lobby.");
@@ -118,9 +121,34 @@ namespace LobbyAppearanceImprovements
             };
             inLobbyConfigEntry.SectionFields["UI"] = new List<IConfigField>
             {
-                new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, LAIPlugin.Hook_ShowFade),
-                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, LAIPlugin.Hook_BlurOpacity, null, 0, 255),
-                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, LAIPlugin.Hook_UIScale, 0.1f)
+                new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_ShowFade),
+                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 255),
+                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, 0.1f)
+            };
+            inLobbyConfigEntry.SectionFields["Overlay"] = new List<IConfigField>
+            {
+                new BooleanConfigField(PostProcessing.Definition.Key, PostProcessing.Description.Description, () => PostProcessing.Value, Hook_ShowPostProcessing),
+                new BooleanConfigField(Parallax.Definition.Key, Parallax.Description.Description, () => Parallax.Value, Hook_Parallax),
+            };
+            inLobbyConfigEntry.SectionFields["Lights"] = new List<IConfigField>
+            {
+                new StringConfigField(Light_Color.Definition.Key, Light_Color.Description.Description, () => Light_Color.Value, Hook_LightUpdate_Color),
+                new BooleanConfigField(Light_Flicker.Definition.Key, Light_Flicker.Description.Description, () => Light_Flicker.Value, Hook_LightUpdate_Flicker),
+                new FloatConfigField(Light_Intensity.Definition.Key, Light_Intensity.Description.Description, () => Light_Intensity.Value, Hook_LightUpdate_Intensity)
+            };
+            inLobbyConfigEntry.SectionFields["Character Pads"] = new List<IConfigField>
+            {
+                new FloatConfigField(CharacterPadScale.Definition.Key, CharacterPadScale.Description.Description, () => CharacterPadScale.Value, Hook_RescalePads)
+            };
+            inLobbyConfigEntry.SectionFields["Background Elements"] = new List<IConfigField>
+            {
+                new BooleanConfigField(MeshProps.Definition.Key, MeshProps.Description.Description, () => MeshProps.Value, Hook_HideProps),
+                new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_HidePhysicsProps),
+                new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
+            };
+            inLobbyConfigEntry.SectionFields["Scenes"] = new List<IConfigField>
+            {
+                //new SelectListField(SelectedScene.Definition.Key, SelectedScene.Description.Description, () => SelectedScene.Value, null, null, null)
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);
         }

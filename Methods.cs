@@ -13,6 +13,8 @@ using RoR2.UI.SkinControllers;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine.UI;
+using static UnityEngine.ColorUtility;
+using LeTai.Asset.TranslucentImage;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -434,6 +436,11 @@ namespace LobbyAppearanceImprovements
                 value.z = Mathf.Clamp(val, startingPosition.z - forwardLimit, startingPosition.z + forwardLimit);
                 return value;
             }
+
+            public void OnDisable()
+            {
+                desiredPosition = startingPosition;
+            }
         }
 
         public class DelaySetupMeshCollider : MonoBehaviour
@@ -451,6 +458,144 @@ namespace LobbyAppearanceImprovements
                     meshCollider.sharedMesh = meshToBind;
                     enabled = false;
                 }
+            }
+        }
+    }
+
+    public static class HookMethods
+    {
+        public static void Hook_ShowFade(bool value)
+        {
+            UI_ShowFade.Value = value;
+            UI_OriginRef.Find("BottomSideFade").gameObject.SetActive(value);
+            UI_OriginRef.Find("TopSideFade").gameObject.SetActive(value);
+        }
+
+        public static void Hook_DisableShaking(bool value)
+        {
+            Shaking.Value = value;
+            var shaker = UnityEngine.Object.FindObjectOfType<PreGameShakeController>();
+            if (shaker)
+                shaker.enabled = value;
+        }
+
+        public static void Hook_BlurOpacity(int value)
+        {
+            ConfigSetup.UI_BlurOpacity.Value = (int)Mathf.Clamp(value, 0f, 255);
+
+            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
+            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+            var ui_right = SafeArea.Find("RightHandPanel");
+
+            var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
+            leftBlurColor.color = new Color(leftBlurColor.color.r,
+                leftBlurColor.color.g,
+                leftBlurColor.color.b,
+                UI_BlurOpacity.Value);
+            var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
+            rightBlurColor.color = new Color(leftBlurColor.color.r,
+                rightBlurColor.color.g,
+                rightBlurColor.color.b,
+                UI_BlurOpacity.Value);
+        }
+
+        public static void Hook_UIScale(float value)
+        {
+            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
+            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+            var ui_right = SafeArea.Find("RightHandPanel");
+
+            ui_left.localScale = Vector3.one * value;
+            ui_right.localScale = Vector3.one * value;
+        }
+        public static void Hook_ShowPostProcessing(bool value)
+        {
+            PostProcessing.Value = value;
+            GameObject.Find("PP")?.SetActive(value);
+        }
+
+        public static void Hook_LightUpdate_Color(string color)
+        {
+            Light_Color.Value = color;
+            var directionalLight = GameObject.Find("Directional Light");
+
+            if (directionalLight)
+            {
+                if ((Light_Color.Value != "default" || Light_Color.Value != null) && TryParseHtmlString(Light_Color.Value, out Color newColor))
+                    Methods.ChangeLobbyLightColor(newColor);
+            }
+        }
+
+        public static void Hook_LightUpdate_Flicker(bool flicker)
+        {
+            Light_Flicker.Value = flicker;
+            var directionalLight = GameObject.Find("Directional Light");
+            if (directionalLight)
+            {
+                directionalLight.gameObject.GetComponent<FlickerLight>().enabled = Light_Flicker.Value;
+            }
+        }
+        public static void Hook_LightUpdate_Intensity(float intensity)
+        {
+            Light_Intensity.Value = intensity;
+            var directionalLight = GameObject.Find("Directional Light");
+            if (directionalLight)
+            {
+                directionalLight.gameObject.GetComponent<Light>().intensity = Light_Intensity.Value;
+            }
+        }
+
+        public static void Hook_RescalePads(float size)
+        {
+            CharacterPadScale.Value = size;
+            var characterPadAlignments = GameObject.Find("CharacterPadAlignments");
+
+            if (characterPadAlignments)
+            {
+                //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
+                characterPadAlignments.transform.localScale *= CharacterPadScale.Value;
+
+            }
+        }
+
+        public static void Hook_HideProps(bool value)
+        {
+            MeshProps.Value = value;
+
+            foreach (var propName in MeshPropNames)
+            {
+                GameObject.Find(propName)?.SetActive(MeshProps.Value);
+            }
+            Hook_HidePhysicsProps(PhysicsProps.Value);
+        }
+
+        public static void Hook_HidePhysicsProps(bool value)
+        {
+            PhysicsProps.Value = value;
+
+            var meshPropHolder = MeshPropsRef.transform;
+            if (meshPropHolder)
+            {
+                foreach (var propName in PhysicsPropNames)
+                {
+                    meshPropHolder.Find(propName)?.gameObject.SetActive(value);
+                }
+            }
+        }
+
+        public static void Hook_Parallax(bool value)
+        {
+            Parallax.Value = value;
+
+            var csc = UnityEngine.Object.FindObjectOfType<RoR2.UI.CharacterSelectController>();
+            if (csc)
+            {
+                var para = csc.GetComponent<Methods.CameraParallax>();
+                if (!para)
+                {
+                    para = csc.gameObject.AddComponent<Methods.CameraParallax>();
+                }
+                para.enabled = value;
             }
         }
     }
