@@ -157,6 +157,8 @@ namespace LobbyAppearanceImprovements
             {
                 if (kvp.Key.ToLower().Contains(sceneName.ToLower()) && kvp.Key.ToLower().Contains("default"))
                     return kvp.Key;
+                else
+                    return nameof(Any_Empty);
             }
             return null;
         }

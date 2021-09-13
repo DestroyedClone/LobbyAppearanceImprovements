@@ -13,7 +13,8 @@ namespace LobbyAppearanceImprovements.Scenes
         public abstract Vector3 Position { get; }
         public abstract Quaternion Rotation { get; }
         public abstract Vector3 Scale { get; }
-        public virtual GameObject titleInstance { get; set; }
+        public virtual GameObject TitleInstance { get; set; }
+        public virtual string PreferredLayout { get; }
 
         public GameObject CreateScene()
         {
@@ -29,15 +30,17 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             var textInstance = new GameObject();
 
-            titleInstance = textInstance;
+            TitleInstance = textInstance;
         }
 
         public void OnDestroy()
         {
-            if (titleInstance)
+            if (TitleInstance)
             {
-                Object.Destroy(titleInstance);
+                Object.Destroy(TitleInstance);
             }
         }
+
+
     }
 }
