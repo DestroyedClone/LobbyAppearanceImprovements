@@ -114,16 +114,6 @@ namespace LobbyAppearanceImprovements
             return bodyPrefab;
         }
 
-        public static void SelectScene(LAIScene scene)
-        {
-            if (sceneInstance)
-                UnityEngine.Object.Destroy(sceneInstance);
-
-            var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
-            chosenScene = sceneObject;
-            sceneInstance = sceneObject.CreateScene();
-        }
-
         public static void SelectScene(string sceneName)
         {
             var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
