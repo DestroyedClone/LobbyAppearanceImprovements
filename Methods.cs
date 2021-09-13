@@ -134,7 +134,10 @@ namespace LobbyAppearanceImprovements
             }
 
             if (sceneInstance)
+            {
+                chosenScene.OnDestroy();
                 UnityEngine.Object.Destroy(sceneInstance);
+            }
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
@@ -470,11 +473,6 @@ namespace LobbyAppearanceImprovements
             Debug.Log(sceneNameList.Count);
             return sceneNameList;
         }
-    }
-
-    public static class Actions
-    {
-        public static Action SceneAssetAPIAction;
     }
 
     public static class HookMethods
