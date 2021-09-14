@@ -189,14 +189,6 @@ namespace LobbyAppearanceImprovements
                 {
                     Methods.SelectLayout(layoutName);
                 }
-                else
-                {
-                    var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(sceneNameForLayout);
-                    if (defaultLayoutName != null)
-                    {
-                        Methods.SelectLayout(defaultLayoutName);
-                    }
-                }
         }
 
 
