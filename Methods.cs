@@ -129,6 +129,8 @@ namespace LobbyAppearanceImprovements
                 UnityEngine.Object.Destroy(sceneInstance);
             }
 
+            MeshPropsRef.SetActive(sceneName == "Lobby");
+
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateScene();
@@ -167,7 +169,7 @@ namespace LobbyAppearanceImprovements
         public static void LoadSceneAndLayout(string sceneName, string layoutName = null)
         {
             var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
-            var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "lobby";
+            var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "Lobby";
 
             if (currentSceneIsNotLobby)
             {
@@ -176,12 +178,11 @@ namespace LobbyAppearanceImprovements
                     Debug.Log("Aborting: Selected Scene Not Found '" + sceneName + "'");
                     return;
                 }
-                MeshPropsRef.SetActive(false);
                 Methods.SelectScene(sceneName);
             }
-            else
+            if (layoutName == null)
             {
-                MeshPropsRef.SetActive(true);
+                layoutName = LAIPlugin.chosenScene.PreferredLayout != null ? LAIPlugin.chosenScene.PreferredLayout : nameof(Any_Empty);
             }
             if (SIL_Enabled.Value)
                 if (layoutName != (string)SIL_SelectedLayout.DefaultValue)

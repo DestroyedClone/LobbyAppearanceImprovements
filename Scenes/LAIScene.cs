@@ -14,15 +14,19 @@ namespace LobbyAppearanceImprovements.Scenes
         public abstract Quaternion Rotation { get; }
         public abstract Vector3 Scale { get; }
         public virtual GameObject TitleInstance { get; set; }
-        public virtual string PreferredLayout { get; }
+        public virtual string PreferredLayout { get; } 
 
         public GameObject CreateScene()
         {
             CreateTitleText();
-            var sceneInstance = UnityEngine.Object.Instantiate<GameObject>(BackgroundPrefab);
-            sceneInstance.transform.position = Position;
-            sceneInstance.transform.rotation = Rotation;
-            sceneInstance.transform.localScale = Scale;
+            GameObject sceneInstance = null;
+            if (BackgroundPrefab)
+            {
+                sceneInstance = UnityEngine.Object.Instantiate<GameObject>(BackgroundPrefab);
+                sceneInstance.transform.position = Position;
+                sceneInstance.transform.rotation = Rotation;
+                sceneInstance.transform.localScale = Scale;
+            }
             return sceneInstance;
         }
 
