@@ -179,8 +179,28 @@ namespace LobbyAppearanceImprovements
                 {
                     if (sceneType.IsAssignableFrom(type))
                     {
-                        scenesDict[type.Name] = type;
-                        sceneNameList.Add(type.Name);
+                        var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
+                        bool canLoadScene = true;
+                        var guids = sceneObjectInitializer.RequiredModGUID;
+
+
+                        if (guids != null && guids.Length > 0)
+                        {
+                            foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            {
+                                //if (printpala) Debug.Log("current GUID: "+GUID);
+                                if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                                {
+                                    canLoadScene = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (canLoadScene)
+                        {
+                            scenesDict[type.Name] = type;
+                            sceneNameList.Add(type.Name);
+                        }
                     }
                     else if (layoutType.IsAssignableFrom(type))
                     {

@@ -14,7 +14,8 @@ namespace LobbyAppearanceImprovements.Scenes
         public abstract Quaternion Rotation { get; }
         public abstract Vector3 Scale { get; }
         public virtual GameObject TitleInstance { get; set; }
-        public virtual string PreferredLayout { get; } 
+        public virtual string PreferredLayout { get; }
+        public virtual string[] RequiredModGUID { get; }
 
         public GameObject CreateScene()
         {
