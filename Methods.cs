@@ -132,6 +132,7 @@ namespace LobbyAppearanceImprovements
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateScene();
+            ConfigSetup.SelectedScene.Value = sceneName;
         }
 
         public static void SelectLayout(string layoutName)
@@ -149,6 +150,7 @@ namespace LobbyAppearanceImprovements
             var layoutObject = (CharSceneLayout)Activator.CreateInstance(layout);
             chosenLayout = layoutObject;
             layoutInstance = layoutObject.CreateLayout();
+            ConfigSetup.SIL_SelectedLayout.Value = layoutName;
         }
 
         public static string GetDefaultLayoutNameForScene(string sceneName)
@@ -506,6 +508,7 @@ namespace LobbyAppearanceImprovements
 
         public static void Hook_UIScale(float value)
         {
+            UI_Scale.Value = value;
             var SafeArea = UI_OriginRef.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
@@ -558,7 +561,7 @@ namespace LobbyAppearanceImprovements
             if (characterPadAlignments)
             {
                 //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
-                characterPadAlignments.transform.localScale *= CharacterPadScale.Value;
+                characterPadAlignments.transform.localScale = Vector3.one * size;
 
             }
         }
