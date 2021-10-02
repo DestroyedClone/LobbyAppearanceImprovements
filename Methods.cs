@@ -34,7 +34,8 @@ namespace LobbyAppearanceImprovements
 
             public void ToggleShadow(bool value)
             {
-                characterModel.isDoppelganger = value && !hasUnlocked;
+                if (characterModel)
+                    characterModel.isDoppelganger = value && !hasUnlocked;
             }
         }
 
@@ -44,14 +45,14 @@ namespace LobbyAppearanceImprovements
             var bodyPrefab = GetBodyPrefab(bodyPrefabName);
             if (!bodyPrefab)
             {
-                _logger.LogMessage("CreateDisplay :: Aborted, no body prefab."+bodyPrefabName);
+                _logger.LogMessage("CreateDisplay :: Aborted, no body prefab found for "+bodyPrefabName);
                 return null;
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             if (!survivorDef)
             {
-                _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef.");
+                _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for "+bodyPrefabName);
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -64,20 +65,16 @@ namespace LobbyAppearanceImprovements
                 var com = gameObject.AddComponent<ClickToSelectCharacter>();
                 com.survivorDef = survivorDef;
             }
-            if (SIL_LockedCharactersBlack.Value)
+
+            var hasUnlocked = LocalUserManager.GetFirstLocalUser().userProfile.HasUnlockable(survivorDef.unlockableDef);
+            trackerComponent.hasUnlocked = hasUnlocked;
+            var cm = gameObject.transform.GetComponentsInChildren<CharacterModel>();
+            if (cm.Length > 0)
             {
-                var hasUnlocked = LocalUserManager.GetFirstLocalUser().userProfile.HasUnlockable(survivorDef.unlockableDef);
-                trackerComponent.hasUnlocked = hasUnlocked;
-                if (!hasUnlocked)
-                {
-                    var cm = gameObject.transform.GetComponentsInChildren<CharacterModel>();
-                    if (cm.Length > 0)
-                    {
-                        trackerComponent.characterModel = cm[0];
-                        cm[0].isDoppelganger = true;
-                    }
-                }
+                trackerComponent.characterModel = cm[0];
+                cm[0].isDoppelganger = SIL_LockedCharactersBlack.Value;
             }
+
             switch (bodyPrefabName)
             {
                 case "Croco":
@@ -650,9 +647,11 @@ namespace LobbyAppearanceImprovements
             if (value)
             {
                 Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
+                _logger.LogMessage($"re-enabling+{SelectedScene.Value} + {SIL_SelectedLayout.Value}");
             } else
             {
                 Methods.LoadSceneAndLayout(nameof(Lobby), nameof(Any_Empty));
+                _logger.LogMessage($"disabling+{SelectedScene.Value} + {SIL_SelectedLayout.Value}");
             }
         }
 
