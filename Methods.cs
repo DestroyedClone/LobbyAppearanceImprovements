@@ -72,7 +72,8 @@ namespace LobbyAppearanceImprovements
             if (cm.Length > 0)
             {
                 trackerComponent.characterModel = cm[0];
-                cm[0].isDoppelganger = SIL_LockedCharactersBlack.Value;
+                trackerComponent.ToggleShadow(SIL_LockedCharactersBlack.Value);
+                //cm[0].isDoppelganger = SIL_LockedCharactersBlack.Value;
             }
 
             switch (bodyPrefabName)
