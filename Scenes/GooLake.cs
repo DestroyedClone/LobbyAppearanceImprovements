@@ -6,8 +6,8 @@ namespace LobbyAppearanceImprovements.Scenes
     {
         public override string SceneName => "Abandoned Aqueduct";
         public override GameObject BackgroundPrefab => Resources.Load<GameObject>("prefabs/stagedisplay/GoolakeDioramaDisplay");
-        public override Vector3 Position => new Vector3(0, -0.5f, 8);
+        public override Vector3 Position => new Vector3(0, -5f, 8);
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);
-        public override Vector3 Scale => new Vector3(0.25f, 0.1f, 0.25f);
+        public override Vector3 Scale => Vector3.one;
     }
 }

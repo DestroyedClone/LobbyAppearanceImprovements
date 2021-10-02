@@ -1,6 +1,8 @@
-﻿using RoR2;
+﻿using LeTai.Asset.TranslucentImage;
+using RoR2;
 using System;
 using UnityEngine;
+using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.LAIPlugin;
 using static LobbyAppearanceImprovements.Methods;
 
@@ -8,7 +10,7 @@ namespace LobbyAppearanceImprovements
 {
     public static class Commands
     {
-        [ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.ExecuteOnServer, helpText = "path x y z")]
+        [ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
         public static void CMD_SpawnPrefab(ConCommandArgs args)
         {
             var path = args.GetArgString(0);
@@ -17,19 +19,25 @@ namespace LobbyAppearanceImprovements
             diorama.transform.position = new Vector3(args.GetArgFloat(1), args.GetArgFloat(2), args.GetArgFloat(3));
         }
 
-        [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.ExecuteOnServer, helpText = "Lists the available scenes.")]
+        [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.None, helpText = "Lists the available scenes.")]
         public static void CMD_ListScene(ConCommandArgs args)
         {
             foreach (var keyValuePair in scenesDict)
             {
-                Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                Debug.Log(keyValuePair.Key);
             }
         }
 
-        [ConCommand(commandName = "LAI_SetScene", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets the current scene to the specified name. | For previewing, does not save.")]
+        [ConCommand(commandName = "LAI_SetScene", flags = ConVarFlags.None, helpText = "Sets the current scene to the specified name. | For previewing, does not save.")]
         public static void CMD_SetScene(ConCommandArgs args)
         {
-            SelectScene(args.GetArgString(0));
+            if (args.Count == 1)
+            {
+                SelectScene(args.GetArgString(0));
+            } else
+            {
+                Methods.LoadSceneAndLayout(args.GetArgString(0), args.GetArgString(1));
+            }
         }
 
         [ConCommand(commandName = "LAI_ListLayouts", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_listlayouts - shows all layouts." +
@@ -43,12 +51,14 @@ namespace LobbyAppearanceImprovements
                 {
                     var instance = (CharacterSceneLayouts.CharSceneLayout)Activator.CreateInstance(keyValuePair.Value);
                     if (instance.SceneName == sceneName)
-                        Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                        Debug.Log(keyValuePair.Key);
                 }
-            }
-            foreach (var keyValuePair in layoutsDict)
+            } else
             {
-                Debug.Log(keyValuePair.Key + " : " + keyValuePair.Value);
+                foreach (var keyValuePair in layoutsDict)
+                {
+                    Debug.Log(keyValuePair.Key);
+                }
             }
         }
 
@@ -66,6 +76,7 @@ namespace LobbyAppearanceImprovements
                 Methods.ChangeLobbyLightColor(new Color32((byte)args.GetArgInt(0), (byte)args.GetArgInt(1), (byte)args.GetArgInt(2), (byte)args.GetArgInt(3)));
             }
         }
+
         [ConCommand(commandName = "LAI_getpos", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_getpos | Returns bodyname, pos, rotation, in format for scenelayout file")]
         public static void CMD_GetPos(ConCommandArgs args)
         {
@@ -74,8 +85,33 @@ namespace LobbyAppearanceImprovements
             bodyName = bodyName.Remove(bodyName.Length - 7);
             var pos = args.senderBody.footPosition;
             var rot = args.senderBody.transform.rotation;
-            var text = "{ \""+bodyName+"\", new [] {new Vector3("+ pos.x+ "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
+            var text = "{ \"" + bodyName + "\", new [] {new Vector3(" + pos.x + "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
             Debug.Log(text);
+        }
+
+        [ConCommand(commandName = "LAI_FadeOpacity", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_FadeOpacity {0-255} | For previewing, does not save.")]
+        public static void CMD_adjustfade(ConCommandArgs args)
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
+            {
+                var ui_origin = GameObject.Find("CharacterSelectUI").transform;
+                var SafeArea = ui_origin.Find("SafeArea").transform;
+                var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
+                var ui_right = SafeArea.Find("RightHandPanel");
+
+                var shit = args.GetArgInt(0);
+
+                var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
+                leftBlurColor.color = new Color(leftBlurColor.color.r,
+                    leftBlurColor.color.g,
+                    leftBlurColor.color.b,
+                    Mathf.Clamp(shit, 0f, 255f));
+                var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
+                rightBlurColor.color = new Color(leftBlurColor.color.r,
+                    rightBlurColor.color.g,
+                    rightBlurColor.color.b,
+                    Mathf.Clamp(shit, 0f, 255f));
+            }
         }
     }
 }

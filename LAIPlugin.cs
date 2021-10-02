@@ -12,22 +12,34 @@ using System.Security.Permissions;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static UnityEngine.ColorUtility;
+using static LobbyAppearanceImprovements.HookMethods;
+using R2API;
+using TMPro;
+
+
+using RoR2.UI;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 #pragma warning restore CS0618 // Type or member is obsolete
+//[assembly: HG.Reflection.SearchableAttribute.OptIn]
 
 namespace LobbyAppearanceImprovements
 {
     [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin(ModGuid, ModName, ModVer)]
+    [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.KingEnderBrine.InLobbyConfig")]
+    [R2APISubmoduleDependency(nameof(R2API.SceneAssetAPI))]
     public class LAIPlugin : BaseUnityPlugin
     {
         public const string ModVer = "1.1.0";
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
+
+        internal static BepInEx.Logging.ManualLogSource _logger = null;
 
         public static string[] PhysicsPropNames = new string[]
         {
@@ -42,189 +54,186 @@ namespace LobbyAppearanceImprovements
 
         public static LAIScene chosenScene = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
+        public static List<string> sceneNameList = new List<string>();
         public static GameObject sceneInstance;
 
         public static CharSceneLayout chosenLayout = null;
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
+        public static List<string> layoutNameList = new List<string>();
         public static GameObject layoutInstance;
 
-        public static GameObject PickupEliteOnlyPrefab = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupEliteOnly");
+        public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
+        public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
 
         public static GameObject MeshPropsRef;
+        public static Transform UI_OriginRef;
+
+        public static GameObject DefaultTextObject;
+
+        // Captain Helm
+
+        public static GameObject CaptainHelmObject;
 
         public void Awake()
         {
+            _logger = Logger;
+
+            //DefaultTextObject = CreateDefaultTextObject();
             ConfigSetup.Bind(Config);
+            ConfigSetup.InLobbyBind();
             CommandHelper.AddToConsoleWhenReady();
             AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
 
-            if (DisableShaking.Value)
-                On.RoR2.PreGameShakeController.Awake += SetShakerInactive;
+            SceneAssetAPI_IntroAction += AcquireMemes;
+            SceneAssetAPI.AddAssetRequest("intro", SceneAssetAPI_IntroAction);
         }
+
+        public static Action<GameObject[]> SceneAssetAPI_IntroAction;
+
+        public static GameObject[] CreateDefaultText()
+        {
+            List<GameObject> gameObjects = new List<GameObject>();
+            var cocks = GameObject.Find("CharacterSelectUI/SafeArea/ReadyPanel/ReadyButton/ReadyText");
+            gameObjects.Add(cocks.gameObject);
+            return gameObjects.ToArray();
+        }
+
+        public static void AcquireMemes(GameObject[] gameObjects)
+        {
+            foreach (var gameObject in gameObjects)
+            {
+                if (gameObject.name == "Set 2 - Cabin")
+                {
+                    CaptainHelmObject = PrefabAPI.InstantiateClone(gameObject, "Cabin");
+                    return;
+                }
+            }
+        }
+
+        public static GameObject CreateDefaultTextObject()
+        {
+            var textPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/effects/DamageRejected"), "DeathMessageAboveCorpse_DefaultTextObjectChild");
+            textPrefab.name = "DeathMessageAboveCorpse_DefaultTextObject";
+            UnityEngine.Object.Destroy(textPrefab.GetComponent<EffectComponent>());
+            UnityEngine.Object.Destroy(textPrefab.GetComponent<ObjectScaleCurve>());
+            UnityEngine.Object.Destroy(textPrefab.GetComponent<VelocityRandomOnStart>());
+            UnityEngine.Object.Destroy(textPrefab.GetComponent<ConstantForce>());
+            UnityEngine.Object.Destroy(textPrefab.GetComponent<Rigidbody>());
+            UnityEngine.Object.Destroy(textPrefab.GetComponent<DestroyOnTimer>());
+            UnityEngine.Object.Destroy(textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<ScaleSpriteByCamDistance>());
+            UnityEngine.Object.Destroy(textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<Billboard>());
+
+            TextObjectComponent textObjectComponent = textPrefab.AddComponent<TextObjectComponent>();
+            textObjectComponent.textMeshPro = textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<TextMeshPro>();
+            textObjectComponent.languageTextMeshController = textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<LanguageTextMeshController>();
+            return textPrefab;
+        }
+
+        public class TextObjectComponent : MonoBehaviour
+        {
+            public TextMeshPro textMeshPro;
+            public LanguageTextMeshController languageTextMeshController;
+        }
+
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
             MeshPropsRef = GameObject.Find("MeshProps");
+            UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
 
-            self.gameObject.AddComponent<Methods.ClickToSetFirstEntryAsChar>().characterSelectController = self;
-
-            var directionalLight = GameObject.Find("Directional Light");
-            var ui_origin = GameObject.Find("CharacterSelectUI").transform;
-            var SafeArea = ui_origin.Find("SafeArea").transform;
-            var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
-            var ui_right = SafeArea.Find("RightHandPanel");
-            var characterPadAlignments = GameObject.Find("CharacterPadAlignments");
 
             // UI //
-            if (ui_origin)
-            {
-                if (HideFade.Value)
-                {
-                    ui_origin.Find("BottomSideFade").gameObject.SetActive(false);
-                    ui_origin.Find("TopSideFade").gameObject.SetActive(false);
-                }
-                if (BlurValue.Value != 255) // default value doesnt cast well
-                {
-                    var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>().color;
-                    leftBlurColor.a = Mathf.Clamp(BlurValue.Value, 0f, 255f);
-                    var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>().color;
-                    rightBlurColor.a = Mathf.Clamp(BlurValue.Value, 0f, 255f);
-                }
-                if (UIScale.Value != 1f)
-                {
-                    ui_left.localScale *= UIScale.Value;
-                    ui_right.localScale *= UIScale.Value;
-                }
-            }
+            Hook_ShowFade(UI_ShowFade.Value);
+            Hook_BlurOpacity(UI_BlurOpacity.Value);
+            Hook_UIScale(UI_Scale.Value);
 
             // Overlay //
             // Post Processing //
-            if (PostProcessing.Value)
-            {
-                GameObject.Find("PP")?.SetActive(false);
-            }
+            Hook_ShowPostProcessing(PostProcessing.Value);
+            Hook_Parallax(Parallax.Value);
 
             // Lights //
-            if (directionalLight)
-            {
-                if (Light_Color.Value != "default" && TryParseHtmlString(Light_Color.Value, out Color color))
-                    Methods.ChangeLobbyLightColor(color);
-                directionalLight.gameObject.GetComponent<Light>().intensity = Light_Intensity.Value;
-                directionalLight.gameObject.GetComponent<FlickerLight>().enabled = !Light_Flicker_Disable.Value;
-            }
+            Hook_LightUpdate_Color(Light_Color.Value);
+            Hook_LightUpdate_Flicker(Light_Flicker.Value);
+            Hook_LightUpdate_Intensity(Light_Intensity.Value);
 
             // Character Pad Displays //
-            if (characterPadAlignments)
-            {
-                if (CharacterPadScale.Value != 1f)
-                {
-                    //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
-                    characterPadAlignments.transform.localScale *= CharacterPadScale.Value;
-                }
-            }
+            Hook_RescalePads(CharacterPadScale.Value);
 
             // Background Elements //
-            if (MeshProps.Value)
-            {
-                foreach (var propName in MeshPropNames)
-                {
-                    GameObject.Find(propName)?.SetActive(false);
-                }
-            }
-            if (PhysicsProps.Value)
-            {
-                var meshPropHolder = MeshPropsRef.transform;
-                if (meshPropHolder)
-                {
-                    if (MeshProps.Value)
-                    {
-                        // MeshProps holds both static and physics, so we save processing time(?) if we just disable the whole thing.
-                        meshPropHolder.gameObject.SetActive(false);
-                    }
-                    else
-                    {
-                        foreach (var propName in PhysicsPropNames)
-                        {
-                            meshPropHolder.Find(propName)?.gameObject.SetActive(false);
-                        }
-                    }
-                }
-            }
+            Hook_HideProps(MeshProps.Value);
+            Hook_HidePhysicsProps(PhysicsProps.Value);
+            Hook_DisableShaking(Shaking.Value);
 
-            RestartSceneAndLayout(SelectedScene.Value, SelectedLayout.Value);
+            Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
         }
 
-        public void RestartSceneAndLayout(string sceneName, string layoutName = null)
-        {
-            var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
-            var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "lobby";
-
-            if (currentSceneIsNotLobby)
-            {
-                if (!scenesDict.ContainsKey(sceneName))
-                {
-                    Debug.Log("Selected Scene Not Found : " + sceneName);
-                    return;
-                }
-                MeshPropsRef.SetActive(false);
-                Methods.SelectScene(chosenScene);
-            }
-            else
-            {
-                MeshPropsRef.SetActive(true);
-            }
-            if (SurvivorsInLobby.Value)
-                if (layoutName != (string)SelectedLayout.DefaultValue)
-                {
-                    Methods.SelectLayout(SelectedLayout.Value);
-                }
-                else
-                {
-                    var defaultLayoutName = Methods.GetDefaultLayoutNameForScene(sceneNameForLayout);
-                    if (defaultLayoutName != null)
-                    {
-                        Methods.SelectLayout(defaultLayoutName);
-                    }
-                }
-
-
-        }
 
         public void AssemblySetup() //credit to bubbet for base code
         {
             var sceneType = typeof(LAIScene);
-            var layoutType = typeof(CharacterSceneLayouts.CharSceneLayout);
+            var layoutType = typeof(CharSceneLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (sceneType.IsAssignableFrom(type))
+                if (!type.IsAbstract)
                 {
-                    scenesDict[type.Name] = type;
-                }
-                else if (layoutType.IsAssignableFrom(type))
-                {
-                    layoutsDict[type.Name] = type;
-                }
-            }
-            if (SelectedScene.Value.ToLower() != "default" && scenesDict[SelectedScene.Value] != null)
-            {
-                var sceneObject = (LAIScene)Activator.CreateInstance(scenesDict[SelectedScene.Value]);
-                chosenScene = sceneObject;
-            }
-            if (SelectedLayout.Value.ToLower() != "default" && layoutsDict[SelectedLayout.Value] != null)
-            {
-                var layoutObject = (CharSceneLayout)Activator.CreateInstance(layoutsDict[SelectedLayout.Value]);
-                chosenLayout = layoutObject;
-            }
-        }
+                    if (sceneType.IsAssignableFrom(type))
+                    {
+                        var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
+                        bool canLoadScene = true;
+                        var guids = sceneObjectInitializer.RequiredModGUID;
 
-        private void SetShakerInactive(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
-        {
-            orig(self);
-            self.gameObject.SetActive(false);
+
+                        if (guids != null && guids.Length > 0)
+                        {
+                            foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            {
+                                //if (printpala) Debug.Log("current GUID: "+GUID);
+                                if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                                {
+                                    canLoadScene = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (canLoadScene)
+                        {
+                            scenesDict[type.Name] = type;
+                            sceneNameList.Add(type.Name);
+                        }
+                    }
+                    else if (layoutType.IsAssignableFrom(type))
+                    {
+                        var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
+                        bool canLoadScene = true;
+                        var guids = sceneObjectInitializer.RequiredModGUID;
+                        if (guids != null && guids.Length > 0)
+                        {
+                            foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            {
+                                //if (printpala) Debug.Log("current GUID: "+GUID);
+                                if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                                {
+                                    canLoadScene = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (canLoadScene)
+                        {
+                            layoutsDict[type.Name] = type;
+                            layoutNameList.Add(type.Name);
+                            //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
+                            _logger.LogMessage("Initializing Scene:" + type);
+                            sceneObjectInitializer.Init();
+                        }
+                    }
+                }
+            }
         }
     }
 }
