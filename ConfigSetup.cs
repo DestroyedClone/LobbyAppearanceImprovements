@@ -61,6 +61,9 @@ namespace LobbyAppearanceImprovements
 
         private static ModConfigEntry inLobbyConfigEntry;
 
+        // Debugging //
+        public static ConfigEntry<LoggingStyle> ShowLoggingText { get; set; }
+
         #endregion Config
 
         #region tempvalues
@@ -118,11 +121,20 @@ namespace LobbyAppearanceImprovements
             SIL_ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them." +
                 "\nExperimental: Clicking on the character might be unavailable, or offset.");
 
+            ShowLoggingText = config.Bind("zDebugging", "Print logging text to console", LoggingStyle.Minimal, "If true, then some logging messages are sent to the console.");
+
             tempSelectSceneAction += SetNewScene;
             tempSelectLayoutAction += SetNewLayout;
 
             tempSceneName = SelectedScene.Value;
             tempLayoutName = SIL_SelectedLayout.Value;
+        }
+
+        public enum LoggingStyle
+        {
+            None,
+            Minimal,
+            All
         }
 
         public static void InLobbyBind()

@@ -45,14 +45,16 @@ namespace LobbyAppearanceImprovements
             var bodyPrefab = GetBodyPrefab(bodyPrefabName);
             if (!bodyPrefab)
             {
-                _logger.LogMessage("CreateDisplay :: Aborted, no body prefab found for "+bodyPrefabName);
+                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
+                    _logger.LogMessage("CreateDisplay :: Aborted, no body prefab found for "+bodyPrefabName);
                 return null;
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             if (!survivorDef)
             {
-                _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for "+bodyPrefabName);
+                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
+                    _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for "+bodyPrefabName);
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -131,7 +133,8 @@ namespace LobbyAppearanceImprovements
             var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
             if (!selectedScene)
             {
-                _logger.LogWarning($"SelectScene :: {sceneName} not found!");
+                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
+                    _logger.LogWarning($"SelectScene :: {sceneName} not found!");
                 return;
             }
 
@@ -154,7 +157,8 @@ namespace LobbyAppearanceImprovements
             var selectedLayout = layoutsDict.TryGetValue(layoutName, out var layout);
             if (!selectedLayout)
             {
-                _logger.LogWarning($"SelectLayout :: {layoutName} not found!");
+                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
+                    _logger.LogWarning($"SelectLayout :: {layoutName} not found!");
                 return;
             }
 
@@ -202,7 +206,8 @@ namespace LobbyAppearanceImprovements
                 {
                     if (!scenesDict.ContainsKey(sceneName))
                     {
-                        _logger.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!");
+                        if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
+                            _logger.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!");
                     }
                     else
                     {
@@ -261,7 +266,11 @@ namespace LobbyAppearanceImprovements
                     highlight.targetRenderer = GetTargetRenderer(survivorDef.cachedName);
                 }
                 else
-                    _logger.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name);
+                {
+
+                    if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
+                        _logger.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name);
+                }
 
                 /*capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
                     capsuleCollider.contactOffset = 0.1f;

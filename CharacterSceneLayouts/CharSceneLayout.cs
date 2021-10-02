@@ -52,10 +52,12 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // For creating objects at runtime
         public virtual void Init()
         {
+            if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
             LAIPlugin._logger.LogMessage($"{SceneLayout}.Init :: Setting up layout.");
             if (HasSetup)
             {
-                LAIPlugin._logger.LogMessage($"{SceneLayout}.Init :: Ran Init(), but has already set up!");
+                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
+                    LAIPlugin._logger.LogMessage($"{SceneLayout}.Init :: Ran Init(), but has already set up!");
                 return;
             }
             HasSetup = true;

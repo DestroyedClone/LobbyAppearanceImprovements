@@ -10,7 +10,7 @@ namespace LobbyAppearanceImprovements
 {
     public static class Commands
     {
-        [ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
+        //[ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
         public static void CMD_SpawnPrefab(ConCommandArgs args)
         {
             var path = args.GetArgString(0);
@@ -68,7 +68,7 @@ namespace LobbyAppearanceImprovements
             SelectLayout(args.GetArgString(0));
         }
 
-        [ConCommand(commandName = "LAI_ChangeLobbyColor", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_ChangeLobbyColor {r} {g} {b} {a} | For previewing, does not save.")]
+        //[ConCommand(commandName = "LAI_ChangeLobbyColor", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_ChangeLobbyColor {r} {g} {b} {a} | For previewing, does not save.")]
         public static void ChangeLight(ConCommandArgs args)
         {
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
@@ -89,7 +89,7 @@ namespace LobbyAppearanceImprovements
             Debug.Log(text);
         }
 
-        [ConCommand(commandName = "LAI_FadeOpacity", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_FadeOpacity {0-255} | For previewing, does not save.")]
+        //[ConCommand(commandName = "LAI_FadeOpacity", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_FadeOpacity {0-255} | For previewing, does not save.")]
         public static void CMD_adjustfade(ConCommandArgs args)
         {
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
