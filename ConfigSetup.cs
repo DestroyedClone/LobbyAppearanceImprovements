@@ -120,6 +120,9 @@ namespace LobbyAppearanceImprovements
 
             tempSelectSceneAction += SetNewScene;
             tempSelectLayoutAction += SetNewLayout;
+
+            tempSceneName = SelectedScene.Value;
+            tempLayoutName = SIL_SelectedLayout.Value;
         }
 
         public static void InLobbyBind()

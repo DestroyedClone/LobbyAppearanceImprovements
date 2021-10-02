@@ -149,7 +149,7 @@ namespace LobbyAppearanceImprovements
             ConfigSetup.SelectedScene.Value = sceneName;
         }
 
-        public static void SelectLayout(string layoutName)
+        public static void SelectLayout(string layoutName, bool saveChanges = true)
         {
             var selectedLayout = layoutsDict.TryGetValue(layoutName, out var layout);
             if (!selectedLayout)
@@ -164,7 +164,8 @@ namespace LobbyAppearanceImprovements
             var layoutObject = (CharSceneLayout)Activator.CreateInstance(layout);
             chosenLayout = layoutObject;
             layoutInstance = layoutObject.CreateLayout();
-            ConfigSetup.SIL_SelectedLayout.Value = layoutName;
+            if (saveChanges)
+                ConfigSetup.SIL_SelectedLayout.Value = layoutName;
         }
 
         public static string GetDefaultLayoutNameForScene(string sceneName)
@@ -187,7 +188,7 @@ namespace LobbyAppearanceImprovements
             Loaded
         };
 
-        public static LoadSceneAndLayoutResult LoadSceneAndLayout(string sceneName, string layoutName = null)
+        public static LoadSceneAndLayoutResult LoadSceneAndLayout(string sceneName, string layoutName = null, bool saveChanges = true)
         {
             var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
             var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "Lobby";
@@ -217,7 +218,7 @@ namespace LobbyAppearanceImprovements
             if (SIL_Enabled.Value)
                 if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
                 {
-                    Methods.SelectLayout(layoutName);
+                    Methods.SelectLayout(layoutName, saveChanges);
                     resultLayout = true;
                 }
             return UnderstandConceptOfLove(resultScene, resultLayout);
@@ -647,12 +648,14 @@ namespace LobbyAppearanceImprovements
         {
             if (value)
             {
+                SIL_Enabled.Value = value; //order matters
+                // Needs to be set before so the fucking method can change it back
                 Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
-                _logger.LogMessage($"re-enabling+{SelectedScene.Value} + {SIL_SelectedLayout.Value}");
             } else
             {
-                Methods.LoadSceneAndLayout(nameof(Lobby), nameof(Any_Empty));
-                _logger.LogMessage($"disabling+{SelectedScene.Value} + {SIL_SelectedLayout.Value}");
+                Methods.LoadSceneAndLayout(null, nameof(Any_Empty), false);
+                SIL_Enabled.Value = value;
+                // needs to be set after so the method can change
             }
         }
 
