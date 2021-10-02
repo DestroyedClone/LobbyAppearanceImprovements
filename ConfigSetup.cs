@@ -52,10 +52,10 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> SIL_Enabled { get; set; }
         public static ConfigEntry<bool> SIL_LockedCharactersBlack { get; set; }
         public static ConfigEntry<string> SIL_SelectedLayout { get; set; }
-        public static ConfigEntry<int> SelectViewMode { get; set; }
+        //public static ConfigEntry<int> SelectViewMode { get; set; }
         public static ConfigEntry<bool> SIL_ClickOnCharacterToSwap { get; set; }
-        public static ConfigEntry<bool> ReplayAnim { get; set; }
-        public static ConfigEntry<bool> LivePreview { get; set; }
+        //public static ConfigEntry<bool> ReplayAnim { get; set; }
+        //public static ConfigEntry<bool> LivePreview { get; set; }
 
         // InLobbyConfig //
 
@@ -63,6 +63,11 @@ namespace LobbyAppearanceImprovements
 
         #endregion Config
 
+        #region tempvalues
+        public static string tempSceneName;
+        public static string tempLayoutName;
+        public static bool tempConfirmChoice;
+        #endregion
 
 
         public static void Bind(ConfigFile config)
@@ -101,16 +106,20 @@ namespace LobbyAppearanceImprovements
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
-            SIL_Enabled = config.Bind("Background", "Survivors In Lobby", true, "Shows survivors in the lobby." +
+            SIL_Enabled = config.Bind("Background", "Enable Character Layouts", true, "Shows background elements in certain orientations." +
                 "\nThese background survivors don't reflect the loadouts in the lobby.");
-            SIL_LockedCharactersBlack = config.Bind("Background", "Lobby Survivors", true, "If survivors are in the lobby, then blacks out the ones you don't have unlocked..");
-            SIL_SelectedLayout = config.Bind("Background", "Survivors In Lobby Layout", "default", "Layout of the survivors in the scene.");
-            SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
+            SIL_LockedCharactersBlack = config.Bind("Background", "Enable Unavailable Shadow Survivors", true, "If true, any survivors in a character layout that you don't have unlocked become shadowy.");
+            SIL_SelectedLayout = config.Bind("Background", "Character Layout Name", "default", "Name of the layout to set to.");
+            /*SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
-                "\n2 = Zoom on selection"); //def 1f
-            ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");
-            LivePreview = config.Bind("Background", "X Live Preview", true, "Updates the appearance for the selected character.");
-            SIL_ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them.");
+                "\n2 = Zoom on selection"); //def 1f*/
+            //ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");
+            //LivePreview = config.Bind("Background", "X Live Preview", true, "Updates the appearance for the selected character.");
+            SIL_ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them." +
+                "\nExperimental: Clicking on the character might be unavailable, or offset.");
+
+            tempSelectSceneAction += SetNewScene;
+            tempSelectLayoutAction += SetNewLayout;
         }
 
         public static void InLobbyBind()
@@ -123,7 +132,7 @@ namespace LobbyAppearanceImprovements
             {
                 new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_ShowFade),
                 new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 255),
-                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, 0.1f)
+                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, 0.5f)
             };
             inLobbyConfigEntry.SectionFields["Overlay"] = new List<IConfigField>
             {
@@ -146,11 +155,51 @@ namespace LobbyAppearanceImprovements
                 new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_HidePhysicsProps),
                 new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
             };
-            inLobbyConfigEntry.SectionFields["Scenes"] = new List<IConfigField>
+            inLobbyConfigEntry.SectionFields["Scenes+Layouts"] = new List<IConfigField>
             {
-                new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
+                //new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
+                new StringConfigField(SelectedScene.Definition.Key, SelectedScene.Description.Description, () => SelectedScene.Value, null, tempSelectSceneAction),
+                new StringConfigField(SIL_SelectedLayout.Definition.Key, SIL_SelectedLayout.Description.Description, () => SIL_SelectedLayout.Value, null, tempSelectLayoutAction),
+                new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
+                new BooleanConfigField(SIL_Enabled.Definition.Key, SIL_Enabled.Description.Description, () => SIL_Enabled.Value, Hook_SurvivorsInLobby),
+                new BooleanConfigField(SIL_LockedCharactersBlack.Definition.Key, SIL_LockedCharactersBlack.Description.Description, () => SIL_LockedCharactersBlack.Value, null),
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);
+        }
+
+        public static Action<string> tempSelectSceneAction;
+        public static Action<string> tempSelectLayoutAction;
+        public static void SetNewScene(string value)
+        {
+            tempSceneName = value;
+        }
+        public static void SetNewLayout(string value)
+        {
+            tempLayoutName = value;
+        }
+        public static void SetSceneLayoutFromLobby(bool value)
+        {
+            if (value)
+            {
+                var result = Methods.LoadSceneAndLayout(tempSceneName, tempLayoutName);
+                tempConfirmChoice = false;
+
+                switch (result)
+                {
+                    case Methods.LoadSceneAndLayoutResult.NoSceneNoLayout:
+                        break;
+                    case Methods.LoadSceneAndLayoutResult.NoScene:
+                        SIL_SelectedLayout.Value = tempLayoutName;
+                        break;
+                    case Methods.LoadSceneAndLayoutResult.NoLayout:
+                        SelectedScene.Value = tempSceneName;
+                        break;
+                    default:
+                        SelectedScene.Value = tempSceneName;
+                        SIL_SelectedLayout.Value = tempLayoutName;
+                        break;
+                }
+            }
         }
     }
 }

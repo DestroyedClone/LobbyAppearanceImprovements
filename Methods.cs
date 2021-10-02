@@ -166,19 +166,37 @@ namespace LobbyAppearanceImprovements
             }
             return null;
         }
-        public static void LoadSceneAndLayout(string sceneName, string layoutName = null)
+
+        public enum LoadSceneAndLayoutResult
+        {
+            NoSceneNoLayout,
+            NoScene,
+            NoLayout,
+            Loaded
+        };
+
+        public static LoadSceneAndLayoutResult LoadSceneAndLayout(string sceneName, string layoutName = null)
         {
             var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
             var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "Lobby";
 
+            bool resultScene = false;
+            bool resultLayout = false;
+
             if (currentSceneIsNotLobby)
             {
-                if (!scenesDict.ContainsKey(sceneName))
+                if (sceneName != null)
                 {
-                    Debug.Log("Aborting: Selected Scene Not Found '" + sceneName + "'");
-                    return;
+                    if (!scenesDict.ContainsKey(sceneName))
+                    {
+                        Debug.Log("Aborting: Selected Scene Not Found '" + sceneName + "'");
+                    }
+                    else
+                    {
+                        Methods.SelectScene(sceneName);
+                        resultScene = true;
+                    }
                 }
-                Methods.SelectScene(sceneName);
             }
             if (layoutName == null)
             {
@@ -188,7 +206,20 @@ namespace LobbyAppearanceImprovements
                 if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
                 {
                     Methods.SelectLayout(layoutName);
+                    resultLayout = true;
                 }
+            return UnderstandConceptOfLove(resultScene, resultLayout);
+        }
+
+        public static LoadSceneAndLayoutResult UnderstandConceptOfLove(bool resultScene, bool resultLayout)
+        {
+            if (resultScene && resultLayout)
+                return LoadSceneAndLayoutResult.Loaded;
+            if (resultScene && !resultLayout)
+                return LoadSceneAndLayoutResult.NoLayout;
+            if (!resultScene && resultLayout)
+                return LoadSceneAndLayoutResult.NoScene;
+            return LoadSceneAndLayoutResult.NoSceneNoLayout;
         }
 
 
@@ -597,6 +628,17 @@ namespace LobbyAppearanceImprovements
                     para = csc.gameObject.AddComponent<Methods.CameraParallax>();
                 }
                 para.enabled = value;
+            }
+        }
+
+        public static void Hook_SurvivorsInLobby(bool value) // i have no idea what im doing
+        {
+            if (value)
+            {
+                Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
+            } else
+            {
+                Methods.LoadSceneAndLayout(nameof(Lobby), nameof(Any_Empty));
             }
         }
     }

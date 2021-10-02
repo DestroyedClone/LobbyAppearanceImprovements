@@ -39,6 +39,8 @@ namespace LobbyAppearanceImprovements
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
+        internal static BepInEx.Logging.ManualLogSource _logger = null;
+
         public static string[] PhysicsPropNames = new string[]
         {
             "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
@@ -74,7 +76,9 @@ namespace LobbyAppearanceImprovements
 
         public void Awake()
         {
-            DefaultTextObject = CreateDefaultTextObject();
+            _logger = Logger;
+
+            //DefaultTextObject = CreateDefaultTextObject();
             ConfigSetup.Bind(Config);
             ConfigSetup.InLobbyBind();
             CommandHelper.AddToConsoleWhenReady();
@@ -224,7 +228,7 @@ namespace LobbyAppearanceImprovements
                             layoutsDict[type.Name] = type;
                             layoutNameList.Add(type.Name);
                             //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
-                            Debug.Log("Initializing " + type);
+                            _logger.LogMessage("Initializing Scene:" + type);
                             sceneObjectInitializer.Init();
                         }
                     }
