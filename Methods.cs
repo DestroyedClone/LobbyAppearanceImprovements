@@ -29,18 +29,18 @@ namespace LobbyAppearanceImprovements
 
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
         {
-            Debug.Log("Attempting to display "+bodyPrefabName);
+            //Debug.Log("Attempting to display "+bodyPrefabName);
             var bodyPrefab = GetBodyPrefab(bodyPrefabName);
             if (!bodyPrefab)
             {
-                Debug.LogWarning("Aborted attempting to load body prefab "+bodyPrefabName);
+                _logger.LogMessage("CreateDisplay :: Aborted, no body prefab."+bodyPrefabName);
                 return null;
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             if (!survivorDef)
             {
-                Debug.LogWarning("survivorDef missing");
+                _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef.");
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -119,7 +119,7 @@ namespace LobbyAppearanceImprovements
             var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
             if (!selectedScene)
             {
-                Debug.LogError("Requested Scene " + sceneName + " returned null!");
+                _logger.LogWarning($"SelectScene :: {sceneName} not found!");
                 return;
             }
 
@@ -142,7 +142,7 @@ namespace LobbyAppearanceImprovements
             var selectedLayout = layoutsDict.TryGetValue(layoutName, out var layout);
             if (!selectedLayout)
             {
-                Debug.LogError("Requested Layout " + layoutName + " returned null!");
+                _logger.LogWarning($"SelectLayout :: {layoutName} not found!");
                 return;
             }
 
@@ -189,7 +189,7 @@ namespace LobbyAppearanceImprovements
                 {
                     if (!scenesDict.ContainsKey(sceneName))
                     {
-                        Debug.Log("Aborting: Selected Scene Not Found '" + sceneName + "'");
+                        _logger.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!");
                     }
                     else
                     {
@@ -248,7 +248,7 @@ namespace LobbyAppearanceImprovements
                     highlight.targetRenderer = GetTargetRenderer(survivorDef.cachedName);
                 }
                 else
-                    Debug.LogWarning("No survivorDef found for " + gameObject.name);
+                    _logger.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name);
 
                 /*capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
                     capsuleCollider.contactOffset = 0.1f;
@@ -303,7 +303,7 @@ namespace LobbyAppearanceImprovements
 
             public SkinnedMeshRenderer GetTargetRenderer(string cachedName)
             {
-                Debug.Log("Checking cached name " + cachedName);
+                _logger.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.");
                 string path = "";
 
                 switch (cachedName)
@@ -367,7 +367,7 @@ namespace LobbyAppearanceImprovements
                     var shark = calf.name.ToLower();
                     if (shark.Contains(displayNameLower) && shark.Contains("mesh"))
                     {
-                        Debug.Log("4");
+                        //Debug.Log("4");
                         var comp = calf.gameObject.GetComponent<SkinnedMeshRenderer>();
                         if (comp) return comp;
                     }
@@ -488,7 +488,7 @@ namespace LobbyAppearanceImprovements
     {
         public static List<string> GetScenes()
         {
-            Debug.Log(sceneNameList.Count);
+            //Debug.Log(sceneNameList.Count);
             return sceneNameList;
         }
     }
