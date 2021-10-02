@@ -27,6 +27,17 @@ namespace LobbyAppearanceImprovements
             GameObject.Find("Directional Light").gameObject.GetComponent<Light>().color = color;
         }
 
+        public class LAI_CharDisplayTracker : MonoBehaviour
+        {
+            public CharacterModel characterModel;
+            public bool hasUnlocked = false;
+
+            public void ToggleShadow(bool value)
+            {
+                characterModel.isDoppelganger = value && !hasUnlocked;
+            }
+        }
+
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
         {
             //Debug.Log("Attempting to display "+bodyPrefabName);
@@ -45,6 +56,7 @@ namespace LobbyAppearanceImprovements
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
             var gameObject = UnityEngine.Object.Instantiate<GameObject>(displayPrefab, position, Quaternion.Euler(rotation), parent);
+            var trackerComponent = gameObject.AddComponent<LAI_CharDisplayTracker>();
             if (addCollider && ConfigSetup.SIL_ClickOnCharacterToSwap.Value)
             {
                 var comp = gameObject.AddComponent<CapsuleCollider>();
@@ -55,11 +67,13 @@ namespace LobbyAppearanceImprovements
             if (SIL_LockedCharactersBlack.Value)
             {
                 var hasUnlocked = LocalUserManager.GetFirstLocalUser().userProfile.HasUnlockable(survivorDef.unlockableDef);
+                trackerComponent.hasUnlocked = hasUnlocked;
                 if (!hasUnlocked)
                 {
                     var cm = gameObject.transform.GetComponentsInChildren<CharacterModel>();
                     if (cm.Length > 0)
                     {
+                        trackerComponent.characterModel = cm[0];
                         cm[0].isDoppelganger = true;
                     }
                 }
@@ -639,6 +653,19 @@ namespace LobbyAppearanceImprovements
             } else
             {
                 Methods.LoadSceneAndLayout(nameof(Lobby), nameof(Any_Empty));
+            }
+        }
+
+        public static void Hook_BlackenSurvivors(bool value)
+        {
+            SIL_LockedCharactersBlack.Value = value;
+            var comps = UnityEngine.Object.FindObjectsOfType<Methods.LAI_CharDisplayTracker>();
+            if (comps == null || comps.Length == 0) return;
+
+            foreach (var tracker in comps)
+            {
+                if (tracker)
+                    tracker.ToggleShadow(value);
             }
         }
     }
