@@ -26,7 +26,7 @@ namespace LobbyAppearanceImprovements
         // Post Processing //
         public static ConfigEntry<bool> PostProcessing { get; set; }
         public static ConfigEntry<bool> Parallax { get; set; }
-        public static ConfigEntry<bool> EnableCharacterRotation { get; set; }
+        //public static ConfigEntry<bool> EnableCharacterRotation { get; set; }
 
         // Lights //
         // The primary light over the scene //
@@ -37,6 +37,8 @@ namespace LobbyAppearanceImprovements
 
         // Character Pad Displays //
         public static ConfigEntry<float> CharacterPadScale { get; set; }
+        public static ConfigEntry<bool> TurnCharacter { get; set; }
+        public static ConfigEntry<float> TurnCharacterMult { get; set; }
 
         // Background Elements //
         // Anything in the background unrelated to the characters //
@@ -89,7 +91,7 @@ namespace LobbyAppearanceImprovements
             // Post Processing //
             PostProcessing = config.Bind("Overlay", "Post Processing", true, "Toggles the blurry post processing.");
             Parallax = config.Bind("Overlay", "Parallax", true, "Enable to toggle on a slight parallax effect controlled by the position of the cursor.");
-            EnableCharacterRotation = config.Bind("Overlay", "Character Rotation", true, "Clicking and dragging will rotate the frontmost character.");
+            //EnableCharacterRotation = config.Bind("Overlay", "Character Rotation", true, "Clicking and dragging will rotate the frontmost character.");
 
             // Lights //
             // The primary light over the scene //
@@ -98,7 +100,9 @@ namespace LobbyAppearanceImprovements
             Light_Intensity = config.Bind("Lights", "Intensity", 1f, "Change the intensity of the light.");
 
             // Character Pad Displays //
-            CharacterPadScale = config.Bind("Background", "Character Display Scale", 1f, "Resizes character displays. "); //def 1f
+            CharacterPadScale = config.Bind("Character Pad", "Character Display Scale", 1f, "Resizes character displays. "); //def 1f
+            TurnCharacter = config.Bind("Character Pad", "Character Rotate", true, "If true, then your character can be dragged to rotate.");
+            TurnCharacterMult = config.Bind("Character Pad", "Character Rotate Speed", 2f, "Sets the speed of character rotation.");
 
             // Background Elements //
             // Anything in the background unrelated to the characters //
@@ -165,7 +169,9 @@ namespace LobbyAppearanceImprovements
             };
             inLobbyConfigEntry.SectionFields["Character Pads"] = new List<IConfigField>
             {
-                new FloatConfigField(CharacterPadScale.Definition.Key, CharacterPadScale.Description.Description, () => CharacterPadScale.Value, Hook_RescalePads)
+                new FloatConfigField(CharacterPadScale.Definition.Key, CharacterPadScale.Description.Description, () => CharacterPadScale.Value, Hook_RescalePads),
+                new BooleanConfigField(TurnCharacter.Definition.Key, TurnCharacter.Description.Description, () => TurnCharacter.Value, Hook_Rotate_Toggle),
+                new FloatConfigField(TurnCharacterMult.Definition.Key, TurnCharacterMult.Description.Description, () => TurnCharacterMult.Value, Hook_Rotate_Speed),
             };
             inLobbyConfigEntry.SectionFields["Background Elements"] = new List<IConfigField>
             {

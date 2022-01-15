@@ -447,6 +447,8 @@ namespace LobbyAppearanceImprovements
         }
         public class LAICameraController : MonoBehaviour
         {
+            public static LAICameraController instance;
+
             public GameObject sceneCamera;
             // Defaults
             public string sepDefaults = "==Defaults==";
@@ -482,6 +484,14 @@ namespace LobbyAppearanceImprovements
 
             public void Awake()
             {
+                if (!instance)
+                {
+                    instance = this;
+                } else
+                {
+                    _logger.LogWarning("Two instances of LAICameraController were spawned?");
+                }
+
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
                 defaultPosition = sceneCamera.transform.position;
                 defaultRotation = sceneCamera.transform.rotation;
@@ -501,6 +511,11 @@ namespace LobbyAppearanceImprovements
                 CurrentCameraController = this;
             }
 
+            public void AdjustRotateSpeed(float speed)
+            {
+                rotate_multiplier = speed;
+            }
+
             public void OnDestroy()
             {
                 CurrentCameraController = null;
@@ -511,15 +526,24 @@ namespace LobbyAppearanceImprovements
                 if (screenIsFocused)
                 {
                     MousePosition = Input.mousePosition;
-                    desiredPosition = GetDesiredPositionFromScreenFraction();
-                    RotateCamera();
+                    if (Parallax.Value)
+                        desiredPosition = GetDesiredPositionFromScreenFraction();
+                    if (TurnCharacter.Value)
+                        RotateCamera();
                 }
 
                 DampPosition();
             }
 
-            public void RotateCamera()
+            public void RotateCamera(bool reset = false)
             {
+                if (reset)
+                {
+                    rotate_initialPosition = defaultPosition;
+                    rotate_currentPosition = defaultPosition;
+                    characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
+                }
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     rotate_initialPosition = MousePosition;
@@ -537,9 +561,10 @@ namespace LobbyAppearanceImprovements
 
                 if (characterPads != null)
                 {
-                    var rotationVector = Vector3.Distance(rotate_initialPosition, rotate_currentPosition);
-                    var modifier = rotate_currentPosition.x > rotate_initialPosition.x ? 1 : -1;
-                    var newRotation = rotationVector * rotate_multiplier * modifier;
+                    //var rotationVector = Vector3.Distance(rotate_initialPosition, rotate_currentPosition);
+                    var rotationVector = rotate_initialPosition.x - rotate_currentPosition.x;
+                    //var modifier = rotate_currentPosition.x < rotate_initialPosition.x ? 1 : -1;
+                    var newRotation = rotationVector * rotate_multiplier;
                     characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar + newRotation * Vector3.up;
                     
                 }
@@ -557,8 +582,12 @@ namespace LobbyAppearanceImprovements
                 sceneCamera.transform.position = Vector3.SmoothDamp(sceneCamera.transform.position, desiredPosition, ref velocity, 0.4f, float.PositiveInfinity, Time.deltaTime);
             }
 
-            public Vector3 GetDesiredPositionFromScreenFraction()
+            public Vector3 GetDesiredPositionFromScreenFraction(bool reset = false)
             {
+                if (reset)
+                {
+                    return Vector3.one * 0.5f;
+                }
                 var value = new Vector3();
 
                 float fractionX = (Screen.width - MousePosition.x) / Screen.width;
@@ -706,6 +735,25 @@ namespace LobbyAppearanceImprovements
             }
         }
 
+        public static void Hook_Rotate_Toggle(bool value)
+        {
+            TurnCharacter.Value = value;
+
+            if (CurrentCameraController)
+            {
+                CurrentCameraController.RotateCamera(true);
+            }
+        }
+
+        public static void Hook_Rotate_Speed(float speed)
+        {
+            TurnCharacterMult.Value = speed;
+            if (CurrentCameraController)
+            {
+                CurrentCameraController.AdjustRotateSpeed(speed);
+            }
+        }
+
         public static void Hook_HideProps(bool value)
         {
             MeshProps.Value = value;
@@ -735,16 +783,9 @@ namespace LobbyAppearanceImprovements
         {
             Parallax.Value = value;
 
-            var csc = UnityEngine.Object.FindObjectOfType<RoR2.UI.CharacterSelectController>();
-            if (csc)
+            if (CurrentCameraController)
             {
-                var para = csc.GetComponent<Methods.LAICameraController>();
-                if (!para)
-                {
-                    para = csc.gameObject.AddComponent<Methods.LAICameraController>();
-                    para.characterSelectController = csc;
-                }
-                para.enabled = value;
+                CurrentCameraController.GetDesiredPositionFromScreenFraction(true);
             }
         }
 

@@ -147,6 +147,8 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
+            if (!self.gameObject.GetComponent<Methods.LAICameraController>())
+                self.gameObject.AddComponent<Methods.LAICameraController>();
             MeshPropsRef = GameObject.Find("MeshProps");
             UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
 
@@ -168,6 +170,8 @@ namespace LobbyAppearanceImprovements
 
             // Character Pad Displays //
             Hook_RescalePads(CharacterPadScale.Value);
+            Hook_Rotate_Toggle(TurnCharacter.Value);
+            Hook_Rotate_Speed(TurnCharacterMult.Value);
 
             // Background Elements //
             Hook_HideProps(MeshProps.Value);
