@@ -28,6 +28,25 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public bool HasSetup = false;
 
+        public virtual Dictionary<string, CameraSetting> CharacterCameraSettings { get; }
+        public struct CameraSetting
+        {
+            public CameraSetting(float Fov = 60, float Pitch = 0, float Yaw = 0, Vector3 Position = new Vector3(), Vector3 Rotation = new Vector3())
+            {
+                fov = Fov;
+                pitch = Pitch;
+                yaw = Yaw;
+                rotation = Rotation;
+                position = Position;
+            }
+
+            public float fov { get; }
+            public float pitch { get; }
+            public float yaw { get; }
+            public Vector3 position { get; }
+            public Vector3 rotation { get; }
+        }
+
         public GameObject CreateLayout()
         {
             var layoutHolder = new GameObject();
