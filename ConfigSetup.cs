@@ -21,6 +21,9 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<int> UI_BlurOpacity { get; set; }
         public static ConfigEntry<float> UI_Scale { get; set; }
 
+        public static float UI_Scale_Min = 0.5f;
+        public static float UI_Scale_Max = 1.75f;
+
         // Overlay //
         // Anything that affects the scene as a whole //
         // Post Processing //
@@ -85,6 +88,7 @@ namespace LobbyAppearanceImprovements
             UI_BlurOpacity = config.Bind("UI", "Blur Opacity", 255, "Adjusts the blur opacity behind the UI elements on the left and right." +
                 "\n0:fully transparent - 255:default");
             UI_Scale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
+            UI_Scale.Value = Mathf.Clamp(UI_Scale.Value, UI_Scale_Min, UI_Scale_Max);
 
             // Overlay //
             // Anything that affects the scene as a whole //
@@ -154,7 +158,7 @@ namespace LobbyAppearanceImprovements
             {
                 new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_ShowFade),
                 new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 255),
-                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, 0.5f, 2f)
+                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, UI_Scale_Min, UI_Scale_Max)
             };
             inLobbyConfigEntry.SectionFields["Overlay"] = new List<IConfigField>
             {
