@@ -37,5 +37,32 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             { "Executioner", new [] {new Vector3(1.19f, 0.01f, 19.74f), new Vector3(0f, 192f, 0f) } },
             { "Nemmando", new [] {new Vector3(3.37f, 0.1f, 5.68f), new Vector3(0f, 214f, 0f) } },
         };
+
+        public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
+        {
+            {"Commando", new CameraSetting( 20, 2, 24 ) },
+            {"Huntress", new CameraSetting( 9, -3, 18 ) },
+            {"Toolbot", new CameraSetting( 10, -1, -1 ) },
+            {"Engi", new CameraSetting( 6, 1, -7.5f ) },
+            {"Mage", new CameraSetting( 8, -1, 13 ) },
+            {"Merc", new CameraSetting( 5, -8.5f, -3 ) },
+            {"Treebot", new CameraSetting( 6, 0.7f, -15.5f ) },
+            {"Loader", new CameraSetting( 11, -2, 20 ) },
+            {"Croco", new CameraSetting( 8, -8.5f, 13 ) },
+            {"Captain", new CameraSetting( 9, -1, 6 ) },
+            {"SniperClassic", new CameraSetting( 6, 0.5f, -12.5f ) },
+            {"Enforcer", new CameraSetting( 11, -1, 10 ) },
+            {"NemesisEnforcer", new CameraSetting( 10, -7.5f, 8 ) },
+            {"BanditReloaded", new CameraSetting( 20, 1, -30 ) },
+            {"HANDOverclocked", new CameraSetting( 8, -2, -4 ) },
+            {"Miner", new CameraSetting( 17, 1, -26 ) },
+            {"RobPaladin", new CameraSetting( 9, -1, -10 ) },
+            {"CHEF", new CameraSetting( 5, -8.5f, 3 ) },
+            {"RobHenry", new CameraSetting( 12, -7, -27 ) },
+            {"Wyatt", new CameraSetting( 12, -2, -22 ) },
+            {"Custodian", new CameraSetting( 12, -2, -22 ) },
+            {"Executioner", new CameraSetting( 8, -0.25f, 3.75f ) },
+            {"Nemmando", new CameraSetting( 20, 1, 30 ) },
+        };
     }
 }
