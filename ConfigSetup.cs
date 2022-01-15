@@ -154,7 +154,7 @@ namespace LobbyAppearanceImprovements
             {
                 new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_ShowFade),
                 new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 255),
-                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, 0.5f)
+                new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, 0.5f, 2f)
             };
             inLobbyConfigEntry.SectionFields["Overlay"] = new List<IConfigField>
             {
