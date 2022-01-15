@@ -62,6 +62,8 @@ namespace LobbyAppearanceImprovements
         public static List<string> layoutNameList = new List<string>();
         public static GameObject layoutInstance;
 
+        public static Dictionary<string, CharSceneLayout.CameraSetting> currentCameraSettings = new Dictionary<string, CharSceneLayout.CameraSetting>();
+
         public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
         public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
 
@@ -69,6 +71,9 @@ namespace LobbyAppearanceImprovements
         public static Transform UI_OriginRef;
 
         public static GameObject DefaultTextObject;
+
+        public static Methods.LAICameraController CurrentCameraController;
+
 
         // Captain Helm
 
