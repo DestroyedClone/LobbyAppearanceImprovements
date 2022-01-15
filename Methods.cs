@@ -39,6 +39,26 @@ namespace LobbyAppearanceImprovements
             }
         }
 
+        public static void SetCamera(CameraRigController cameraRig, CharSceneLayout.CameraSetting cameraSetting)
+        {
+            if (!cameraRig)
+            {
+                if (ConfigSetup.ShowLoggingText.Value > LoggingStyle.None)
+                    _logger.LogWarning("Methods.SetCamera given invalid or null camera!");
+                return;
+            }
+
+            SetCamera(cameraRig, cameraSetting.fov, cameraSetting.pitch, cameraSetting.yaw);
+            //add pos and rot
+        }
+        public static void SetCamera(CameraRigController cameraRig, float fov = 60f, float pitch = 0f, float yaw = 0f)
+        {
+            cameraRig.baseFov = fov;
+            cameraRig.currentFov += 30f;
+            cameraRig.pitch = pitch;
+            cameraRig.yaw = yaw;
+        }
+
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
         {
             //Debug.Log("Attempting to display "+bodyPrefabName);
@@ -229,6 +249,8 @@ namespace LobbyAppearanceImprovements
             return UnderstandConceptOfLove(resultScene, resultLayout);
         }
 
+        //note to self: stop naming methods stupid names
+        //the fuck is this for?
         public static LoadSceneAndLayoutResult UnderstandConceptOfLove(bool resultScene, bool resultLayout)
         {
             if (resultScene && resultLayout)
@@ -423,35 +445,108 @@ namespace LobbyAppearanceImprovements
                 if (highlight) highlight.isOn = false;
             }
         }
-        public class CameraParallax : MonoBehaviour
+        public class LAICameraController : MonoBehaviour
         {
             public GameObject sceneCamera;
-            public Vector3 startingPosition;
-
-            public Vector3 desiredPosition;
+            // Defaults
+            public string sepDefaults = "==Defaults==";
+            public Vector3 defaultPosition;
+            public Quaternion defaultRotation;
+            // Parallax
+            public string setpParallax = "==Parallax==";
+            public Vector3 desiredPosition; // Desired position for parallax
             private Vector3 velocity;
-            public float screenLimitDistance = 0.25f;
-            public float forwardLimit = 5f;
-            public float forwardMult = 0.25f;
+            private float screenLimitDistance = 0.25f; //Limit of the screen to move with parallax from the center of the screen.
+            private float forwardLimit = 5f;
+            private float forwardMult = 0.25f;
 
+            // Zoom On Character
+            public string sepZoom = "==Zoom==";
+            public Vector3 desiredPositionOverride; // Desired position for ZoomOnCharacter
+
+            // Rotating Character
+            public string sepRotate = "==Rotate==";
+            public Vector3 rotate_initialPosition;
+            public Vector3 rotate_currentPosition;
+            public float rotate_multiplier = 2f;
+            public Vector3 rotate_defaultRotationChar;
+
+            // Other
+            public string setpOther = "==Other==";
             bool screenIsFocused = true;
+            private Vector3 MousePosition;
+
+            private bool mouse0Click = false;
+            public CharacterSelectController characterSelectController;
+            public CharacterSelectController.CharacterPad[] characterPads = null;
 
             public void Awake()
             {
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
-                startingPosition = sceneCamera.transform.position;
-                desiredPosition = startingPosition;
+                defaultPosition = sceneCamera.transform.position;
+                defaultRotation = sceneCamera.transform.rotation;
+                if (!characterSelectController)
+                {
+                    characterSelectController = UnityEngine.Object.FindObjectOfType<CharacterSelectController>();
+                    characterPads = characterSelectController.characterDisplayPads;
+                    rotate_defaultRotationChar = characterPads[0].padTransform.eulerAngles;
+                }
+
+                desiredPosition = defaultPosition;
+
+                if (CurrentCameraController != null && CurrentCameraController != this)
+                {
+                    _logger.LogWarning("Somehow there are two camera parallaxes?");
+                }
+                CurrentCameraController = this;
+            }
+
+            public void OnDestroy()
+            {
+                CurrentCameraController = null;
             }
 
             public void Update()
             {
                 if (screenIsFocused)
                 {
-                    desiredPosition = dicks();
+                    MousePosition = Input.mousePosition;
+                    desiredPosition = GetDesiredPositionFromScreenFraction();
+                    RotateCamera();
                 }
 
                 DampPosition();
             }
+
+            public void RotateCamera()
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    rotate_initialPosition = MousePosition;
+                }
+                if (Input.GetMouseButton(0))
+                {
+                    rotate_currentPosition = MousePosition;
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    rotate_initialPosition = defaultPosition;
+                    rotate_currentPosition = defaultPosition;
+                    characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
+                }
+
+                if (characterPads != null)
+                {
+                    var rotationVector = Vector3.Distance(rotate_initialPosition, rotate_currentPosition);
+                    var modifier = rotate_currentPosition.x > rotate_initialPosition.x ? 1 : -1;
+                    var newRotation = rotationVector * rotate_multiplier * modifier;
+                    characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar + newRotation * Vector3.up;
+                    
+                }
+            }
+
+
+
             void OnApplicationFocus(bool hasFocus)
             {
                 screenIsFocused = hasFocus;
@@ -462,28 +557,27 @@ namespace LobbyAppearanceImprovements
                 sceneCamera.transform.position = Vector3.SmoothDamp(sceneCamera.transform.position, desiredPosition, ref velocity, 0.4f, float.PositiveInfinity, Time.deltaTime);
             }
 
-            public Vector3 dicks()
+            public Vector3 GetDesiredPositionFromScreenFraction()
             {
-                Vector3 mousePos = Input.mousePosition;
                 var value = new Vector3();
 
-                float fractionX = (Screen.width - mousePos.x) / Screen.width;
-                float fractionY = (Screen.height - mousePos.y) / Screen.height;
+                float fractionX = (Screen.width - MousePosition.x) / Screen.width;
+                float fractionY = (Screen.height - MousePosition.y) / Screen.height;
 
-                value.x = Mathf.Lerp(startingPosition.x + screenLimitDistance, startingPosition.x - screenLimitDistance, fractionX);
-                value.y = Mathf.Lerp(startingPosition.y + screenLimitDistance, startingPosition.y - screenLimitDistance, fractionY);
+                value.x = Mathf.Lerp(defaultPosition.x + screenLimitDistance, defaultPosition.x - screenLimitDistance, fractionX);
+                value.y = Mathf.Lerp(defaultPosition.y + screenLimitDistance, defaultPosition.y - screenLimitDistance, fractionY);
 
                 //if (Input.GetMouseButtonDown(2))
                     //value.z = startingPosition.z;
 
-                var val = startingPosition.z + Input.mouseScrollDelta.y * forwardMult;
-                value.z = Mathf.Clamp(val, startingPosition.z - forwardLimit, startingPosition.z + forwardLimit);
+                var val = defaultPosition.z + Input.mouseScrollDelta.y * forwardMult;
+                value.z = Mathf.Clamp(val, defaultPosition.z - forwardLimit, defaultPosition.z + forwardLimit);
                 return value;
             }
 
             public void OnDisable()
             {
-                desiredPosition = startingPosition;
+                desiredPosition = defaultPosition;
             }
         }
 
@@ -644,10 +738,11 @@ namespace LobbyAppearanceImprovements
             var csc = UnityEngine.Object.FindObjectOfType<RoR2.UI.CharacterSelectController>();
             if (csc)
             {
-                var para = csc.GetComponent<Methods.CameraParallax>();
+                var para = csc.GetComponent<Methods.LAICameraController>();
                 if (!para)
                 {
-                    para = csc.gameObject.AddComponent<Methods.CameraParallax>();
+                    para = csc.gameObject.AddComponent<Methods.LAICameraController>();
+                    para.characterSelectController = csc;
                 }
                 para.enabled = value;
             }
@@ -678,6 +773,33 @@ namespace LobbyAppearanceImprovements
             {
                 if (tracker)
                     tracker.ToggleShadow(value);
+            }
+        }
+
+        public static void Hook_ToggleZooming(bool value)
+        {
+            SIL_ZoomEnable.Value = value;
+            if (value)
+            {
+                On.RoR2.UI.CharacterSelectController.SelectSurvivor += ZoomOnSelected;
+            } else
+            {
+                On.RoR2.UI.CharacterSelectController.SelectSurvivor -= ZoomOnSelected;
+            }
+        }
+
+        private static void ZoomOnSelected(On.RoR2.UI.CharacterSelectController.orig_SelectSurvivor orig, CharacterSelectController self, SurvivorIndex survivor)
+        {
+            orig(self, survivor);
+            var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
+            var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(survivor));
+            if (LAIPlugin.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
+            {
+                Methods.SetCamera(cameraRig, cameraSetting);
+            }
+            else
+            {
+                Methods.SetCamera(cameraRig);
             }
         }
     }
