@@ -190,6 +190,10 @@ namespace LobbyAppearanceImprovements
             layoutInstance = layoutObject.CreateLayout();
             if (saveChanges)
                 ConfigSetup.SIL_SelectedLayout.Value = layoutName;
+
+            //Resets camera on layout change
+            var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
+            SetCamera(cameraRig);
         }
 
         public static string GetDefaultLayoutNameForScene(string sceneName)
@@ -823,9 +827,11 @@ namespace LobbyAppearanceImprovements
             if (value)
             {
                 On.RoR2.UI.CharacterSelectController.SelectSurvivor += ZoomOnSelected;
+                //_logger.LogMessage("Hook'd");
             } else
             {
                 On.RoR2.UI.CharacterSelectController.SelectSurvivor -= ZoomOnSelected;
+                //_logger.LogMessage("Unhooked");
             }
         }
 
@@ -834,13 +840,19 @@ namespace LobbyAppearanceImprovements
             orig(self, survivor);
             var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
             var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(survivor));
-            if (LAIPlugin.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
+
+            //_logger.LogMessage($"Body Name: {bodyName}");
+            // Error here on any_empty
+            if (chosenLayout != null && chosenLayout.CharacterCameraSettings != null)
             {
-                Methods.SetCamera(cameraRig, cameraSetting);
-            }
-            else
-            {
-                Methods.SetCamera(cameraRig);
+                if (LAIPlugin.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
+                {
+                    Methods.SetCamera(cameraRig, cameraSetting);
+                }
+                else
+                {
+                    Methods.SetCamera(cameraRig);
+                }
             }
         }
     }
