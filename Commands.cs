@@ -40,7 +40,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        [ConCommand(commandName = "LAI_ListLayouts", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_listlayouts - shows all layouts." +
+        [ConCommand(commandName = "LAI_ListLayouts", flags = ConVarFlags.None, helpText = "lai_listlayouts - shows all layouts." +
             "\n lai_listlayouts {sceneName} - shows all layouts for a particular scene")]
         public static void CMD_ListLayouts(ConCommandArgs args)
         {
@@ -62,7 +62,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        [ConCommand(commandName = "LAI_SetLayout", flags = ConVarFlags.ExecuteOnServer, helpText = "Sets the current layout to the specified name. | For previewing, does not save.")]
+        [ConCommand(commandName = "LAI_SetLayout", flags = ConVarFlags.None, helpText = "Sets the current layout to the specified name. | For previewing, does not save.")]
         public static void CMD_SetLayout(ConCommandArgs args)
         {
             SelectLayout(args.GetArgString(0));
@@ -77,7 +77,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        [ConCommand(commandName = "LAI_getpos", flags = ConVarFlags.ExecuteOnServer, helpText = "lai_getpos | Returns bodyname, pos, rotation, in format for scenelayout file")]
+        [ConCommand(commandName = "LAI_getpos", flags = ConVarFlags.None, helpText = "lai_getpos | Returns bodyname, pos, rotation, in format for scenelayout file")]
         public static void CMD_GetPos(ConCommandArgs args)
         {
             var bodyName = args.senderBody.name;
