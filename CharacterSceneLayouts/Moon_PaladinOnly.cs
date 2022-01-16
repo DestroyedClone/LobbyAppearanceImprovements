@@ -6,7 +6,7 @@ using RoR2;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
-    public class Moon_DestroyedClone_PaladinOnly : CharSceneLayout
+    public class Moon_PaladinOnly : CharSceneLayout
     {
         public override string SceneLayout => "Moon_PaladinOnly";
         public override string SceneName => "Moon";

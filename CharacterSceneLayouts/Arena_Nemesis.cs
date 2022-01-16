@@ -6,7 +6,7 @@ using RoR2;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
-    public class Arena_DestroyedClone_Nemesis : CharSceneLayout
+    public class Arena_Nemesis : CharSceneLayout
     {
         public override string SceneLayout => "Arena_Nemesis";
         public override string SceneName => "Arena";

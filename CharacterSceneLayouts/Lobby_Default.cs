@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
-    public class Lobby_DestroyedClone_Default : CharSceneLayout
+    public class Lobby_Default : CharSceneLayout
     {
         public override string SceneLayout => "Lobby_Default";
         public override string SceneName => "Lobby";

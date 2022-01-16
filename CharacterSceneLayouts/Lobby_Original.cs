@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
-    public class Lobby_DestroyedClone_Original : CharSceneLayout
+    public class Lobby_Original : CharSceneLayout
     {
         public override string SceneLayout => "Lobby_Original";
         public override string SceneName => "Lobby";
