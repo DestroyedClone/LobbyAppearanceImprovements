@@ -7,7 +7,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
     public class Lobby_DestroyedClone_Original : CharSceneLayout
     {
-        public override string SceneLayout => "Lobby_DestroyedClone_Original";
+        public override string SceneLayout => "Lobby_Original";
         public override string SceneName => "Lobby";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Default";

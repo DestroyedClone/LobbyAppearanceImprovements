@@ -8,7 +8,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
     public class Arena_DestroyedClone_Nemesis : CharSceneLayout
     {
-        public override string SceneLayout => "Arena_DestroyedClone_Nemesis";
+        public override string SceneLayout => "Arena_Nemesis";
         public override string SceneName => "Arena";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Shadow of the Nemesis";

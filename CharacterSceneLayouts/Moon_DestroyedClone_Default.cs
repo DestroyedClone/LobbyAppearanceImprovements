@@ -8,7 +8,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
     public class Moon_DestroyedClone_Default : CharSceneLayout
     {
-        public override string SceneLayout => "Moon_DestroyedClone_Default";
+        public override string SceneLayout => "Moon_Default";
         public override string SceneName => "Moon";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Default";
