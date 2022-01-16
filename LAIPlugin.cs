@@ -177,6 +177,7 @@ namespace LobbyAppearanceImprovements
             Hook_HideProps(MeshProps.Value);
             Hook_HidePhysicsProps(PhysicsProps.Value);
             Hook_DisableShaking(Shaking.Value);
+            Hook_ToggleZooming(SIL_ZoomEnable.Value);
 
             Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
         }
