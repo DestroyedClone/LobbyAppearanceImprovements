@@ -206,6 +206,10 @@ namespace LobbyAppearanceImprovements
                                 if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                                 {
                                     canLoadScene = false;
+                                    if (ShowLoggingText.Value > LoggingStyle.Minimal)
+                                    {
+                                        _logger.LogMessage($"Refused to load layout \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
+                                    }
                                     break;
                                 }
                             }
