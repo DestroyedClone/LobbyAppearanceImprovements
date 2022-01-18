@@ -101,6 +101,51 @@ namespace LobbyAppearanceImprovements
 
             SceneAssetAPI_IntroAction += AcquireMemes;
             SceneAssetAPI.AddAssetRequest("intro", SceneAssetAPI_IntroAction);
+
+            On.RoR2.CameraRigController.Start += CameraRigController_Start;
+        }
+
+        private void CameraRigController_Start(On.RoR2.CameraRigController.orig_Start orig, CameraRigController self)
+        {
+            orig(self);
+            var a = self.gameObject.AddComponent<CameraController>();
+            a.SetCam(self);
+            a.enabled = false;
+        }
+
+        public class CameraController : MonoBehaviour
+        {
+            public float fov = 60;
+            public float pitch = 0;
+            public float yaw = 0;
+            public bool restart = false;
+            public bool logit = false;
+            private CameraRigController cam;
+
+            public void SetCam(CameraRigController newCam)
+            {
+                cam = newCam;
+            }
+            public void FixedUpdate()
+            {
+                if (restart)
+                {
+                    fov = 60;
+                    pitch = 0;
+                    yaw = 0;
+                    restart = false;
+                    return;
+                }
+                cam.baseFov = fov;
+                cam.pitch = pitch;
+                cam.yaw = yaw;
+                if (logit)
+                {
+                    Debug.Log($"new CameraSetting( {fov}, {pitch}, {yaw} )");
+                    logit = false;
+                }
+            }
+
         }
 
         public static Action<GameObject[]> SceneAssetAPI_IntroAction;
