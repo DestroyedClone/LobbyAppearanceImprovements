@@ -38,8 +38,8 @@ namespace LobbyAppearanceImprovements
     [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
 
     //Sniper Layout
-    [BepInDependency("com.Moffein.SniperClassic", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("Rein.Sniper", BepInDependency.DependencyFlags.SoftDependency)]
+    //[BepInDependency("com.Moffein.SniperClassic", BepInDependency.DependencyFlags.SoftDependency)]
+    //[BepInDependency("Rein.Sniper", BepInDependency.DependencyFlags.SoftDependency)]
     [R2APISubmoduleDependency(nameof(R2API.SceneAssetAPI))]
     public class LAIPlugin : BaseUnityPlugin
     {
@@ -91,7 +91,7 @@ namespace LobbyAppearanceImprovements
             ConfigSetup.Bind(Config);
             ConfigSetup.InLobbyBind();
             CommandHelper.AddToConsoleWhenReady();
-            AssemblySetup();
+            //AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
@@ -99,9 +99,15 @@ namespace LobbyAppearanceImprovements
             SceneSetup.Init();
 
             On.RoR2.CameraRigController.Start += CameraRigController_Start;
+            On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredSceneLayoutSetup;
         }
 
-
+        private void DeferredSceneLayoutSetup(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
+        {
+            orig(self);
+            AssemblySetup();
+            On.RoR2.UI.MainMenu.MainMenuController.Start -= DeferredSceneLayoutSetup;
+        }
 
         private void CameraRigController_Start(On.RoR2.CameraRigController.orig_Start orig, CameraRigController self)
         {
