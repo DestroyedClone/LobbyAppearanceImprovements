@@ -184,6 +184,14 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
+            if (UnityEngine.SceneManagement.SceneManager.sceneCount == 1)
+            {
+                //_logger.LogMessage("good");
+            } else
+            {
+                //_logger.LogMessage("Preventing activating stuff");
+                return;
+            }
             if (!self.gameObject.GetComponent<Methods.LAICameraController>())
                 self.gameObject.AddComponent<Methods.LAICameraController>();
             MeshPropsRef = GameObject.Find("MeshProps");
@@ -219,7 +227,7 @@ namespace LobbyAppearanceImprovements
             Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
         }
 
-
+        //Defer?
         public void AssemblySetup() //credit to bubbet for base code
         {
             var sceneType = typeof(LAIScene);
