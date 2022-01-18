@@ -30,8 +30,15 @@ namespace LobbyAppearanceImprovements
     [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin(ModGuid, ModName, ModVer)]
-    [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.KingEnderBrine.InLobbyConfig")]
+
+    //Scene Depedencies
+    //PaladinOnly
+    [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
+
+    //Sniper Layout
+    [BepInDependency("com.Moffein.SniperClassic", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("Rein.Sniper", BepInDependency.DependencyFlags.SoftDependency)]
     [R2APISubmoduleDependency(nameof(R2API.SceneAssetAPI))]
     public class LAIPlugin : BaseUnityPlugin
     {
