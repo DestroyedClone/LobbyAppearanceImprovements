@@ -19,6 +19,13 @@ namespace LobbyAppearanceImprovements
             diorama.transform.position = new Vector3(args.GetArgFloat(1), args.GetArgFloat(2), args.GetArgFloat(3));
         }
 
+        //[ConCommand(commandName = "LAI_bar", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
+        public static void CMD_SpawnRestraintBar(ConCommandArgs args)
+        {
+            var cum = UnityEngine.Object.Instantiate(SceneSetup.ContactLight_RestraintBar, RoR2Content.Survivors.Commando.displayPrefab.transform);
+
+        }
+
         [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.None, helpText = "Lists the available scenes.")]
         public static void CMD_ListScene(ConCommandArgs args)
         {
