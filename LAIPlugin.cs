@@ -13,6 +13,7 @@ using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static UnityEngine.ColorUtility;
 using static LobbyAppearanceImprovements.HookMethods;
+using static LobbyAppearanceImprovements.SceneSetup;
 using R2API;
 using TMPro;
 
@@ -71,20 +72,16 @@ namespace LobbyAppearanceImprovements
 
         public static Dictionary<string, CharSceneLayout.CameraSetting> currentCameraSettings = new Dictionary<string, CharSceneLayout.CameraSetting>();
 
-        public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
-        public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
+        //public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
+        //public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
 
         public static GameObject MeshPropsRef;
         public static Transform UI_OriginRef;
 
-        public static GameObject DefaultTextObject;
+        //public static GameObject DefaultTextObject;
 
         public static Methods.LAICameraController CurrentCameraController;
 
-
-        // Captain Helm
-
-        public static GameObject CaptainHelmObject;
 
         public void Awake()
         {
@@ -99,11 +96,12 @@ namespace LobbyAppearanceImprovements
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             // Hook Start instead?
 
-            SceneAssetAPI_IntroAction += AcquireMemes;
-            SceneAssetAPI.AddAssetRequest("intro", SceneAssetAPI_IntroAction);
+            SceneSetup.Init();
 
             On.RoR2.CameraRigController.Start += CameraRigController_Start;
         }
+
+
 
         private void CameraRigController_Start(On.RoR2.CameraRigController.orig_Start orig, CameraRigController self)
         {
@@ -148,8 +146,6 @@ namespace LobbyAppearanceImprovements
 
         }
 
-        public static Action<GameObject[]> SceneAssetAPI_IntroAction;
-
         public static GameObject[] CreateDefaultText()
         {
             List<GameObject> gameObjects = new List<GameObject>();
@@ -158,17 +154,6 @@ namespace LobbyAppearanceImprovements
             return gameObjects.ToArray();
         }
 
-        public static void AcquireMemes(GameObject[] gameObjects)
-        {
-            foreach (var gameObject in gameObjects)
-            {
-                if (gameObject.name == "Set 2 - Cabin")
-                {
-                    CaptainHelmObject = PrefabAPI.InstantiateClone(gameObject, "Cabin");
-                    return;
-                }
-            }
-        }
 
         public static GameObject CreateDefaultTextObject()
         {
@@ -275,7 +260,7 @@ namespace LobbyAppearanceImprovements
                     else if (layoutType.IsAssignableFrom(type))
                     {
                         var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
-                        bool canLoadScene = true;
+                        bool canLoadLayout = true;
                         var guids = sceneObjectInitializer.RequiredModGUID;
                         if (guids != null && guids.Length > 0)
                         {
@@ -284,7 +269,7 @@ namespace LobbyAppearanceImprovements
                                 //if (printpala) Debug.Log("current GUID: "+GUID);
                                 if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                                 {
-                                    canLoadScene = false;
+                                    canLoadLayout = false;
                                     if (ShowLoggingText.Value > LoggingStyle.Minimal)
                                     {
                                         _logger.LogMessage($"Refused to load layout \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
@@ -293,7 +278,7 @@ namespace LobbyAppearanceImprovements
                                 }
                             }
                         }
-                        if (canLoadScene)
+                        if (canLoadLayout)
                         {
                             layoutsDict[type.Name] = type;
                             layoutNameList.Add(type.Name);
