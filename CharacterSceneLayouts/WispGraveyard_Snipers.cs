@@ -23,5 +23,10 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             { "!Sniper", new [] {new Vector3(-1.287264f, 6.053263f, 13.60413f), new Vector3(40, 170f, 0f) } },
             { "SniperClassic", new [] {new Vector3(-1.377686f, 0.06645632f, 5.194136f), new Vector3(350, 0f, 0f) } },
         };
+        public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
+        {
+            {"Sniper", new CameraSetting( 30, -20, -6 ) },
+            {"SniperClassicBody", new CameraSetting( 60, -5, -14 ) },
+        };
     }
 }
