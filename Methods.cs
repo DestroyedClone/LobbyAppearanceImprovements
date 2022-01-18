@@ -41,13 +41,6 @@ namespace LobbyAppearanceImprovements
 
         public static void SetCamera(CameraRigController cameraRig, CharSceneLayout.CameraSetting cameraSetting)
         {
-            if (!cameraRig)
-            {
-                if (ConfigSetup.ShowLoggingText.Value > LoggingStyle.None)
-                    _logger.LogWarning("Methods.SetCamera given invalid or null camera!");
-                return;
-            }
-
             SetCamera(cameraRig, cameraSetting.fov, cameraSetting.pitch, cameraSetting.yaw);
             //add pos and rot
         }
