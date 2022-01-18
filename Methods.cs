@@ -51,8 +51,22 @@ namespace LobbyAppearanceImprovements
             SetCamera(cameraRig, cameraSetting.fov, cameraSetting.pitch, cameraSetting.yaw);
             //add pos and rot
         }
-        public static void SetCamera(CameraRigController cameraRig, float fov = 60f, float pitch = 0f, float yaw = 0f)
+        public static void SetCamera(CameraRigController cameraRig = null, float fov = 60f, float pitch = 0f, float yaw = 0f)
         {
+            if (!cameraRig)
+            {
+                cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
+
+                if (!cameraRig)
+                {
+                    if (ConfigSetup.ShowLoggingText.Value > LoggingStyle.Minimal)
+                    {
+                        _logger.LogMessage("Couldn't find CameraRig!");
+                    }
+                    return;
+                }
+            }
+
             cameraRig.baseFov = fov;
             cameraRig.currentFov += 30f;
             cameraRig.pitch = pitch;
@@ -62,7 +76,13 @@ namespace LobbyAppearanceImprovements
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
         {
             //Debug.Log("Attempting to display "+bodyPrefabName);
-            var bodyPrefab = GetBodyPrefab(bodyPrefabName);
+            bool strictName = false;
+            if (bodyPrefabName.StartsWith("!"))
+            {
+                strictName = true;
+                bodyPrefabName = bodyPrefabName.Substring(1);
+            }
+            var bodyPrefab = GetBodyPrefab(bodyPrefabName, strictName);
             if (!bodyPrefab)
             {
                 if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
@@ -132,16 +152,11 @@ namespace LobbyAppearanceImprovements
         }
 
 
-        public static GameObject GetBodyPrefab(string bodyPrefabName)
+        public static GameObject GetBodyPrefab(string bodyPrefabName, bool strict = false)
         {
-            switch (bodyPrefabName)
+            if (!strict)
             {
-                case "CHEF":
-                    break;
-
-                default:
-                    bodyPrefabName += "Body";
-                    break;
+                bodyPrefabName += "Body";
             }
             var bodyPrefab = BodyCatalog.FindBodyPrefab(bodyPrefabName);
             if (!bodyPrefab) return null;
@@ -831,6 +846,7 @@ namespace LobbyAppearanceImprovements
             } else
             {
                 On.RoR2.UI.CharacterSelectController.SelectSurvivor -= ZoomOnSelected;
+                Methods.SetCamera();
                 //_logger.LogMessage("Unhooked");
             }
         }
