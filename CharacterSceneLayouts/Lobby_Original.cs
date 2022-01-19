@@ -44,7 +44,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             {"CrocoBody", new CameraSetting( 20, 0, -18 ) },
             {"MercBody", new CameraSetting( 10, -3, 13 ) },
             {"LoaderBody", new CameraSetting( 9, -1, -11 ) },
-            {"CHEFBody", new CameraSetting( 7, -9, 2 ) },
+            {"CHEF", new CameraSetting( 7, -9, 2 ) },
         };
     }
 }
