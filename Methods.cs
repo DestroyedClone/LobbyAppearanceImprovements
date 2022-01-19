@@ -60,8 +60,19 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-            cameraRig.baseFov = fov;
-            cameraRig.currentFov += 30f;
+            var modifier = 0f;
+            if (fov != 60f && pitch != 0f && yaw != 0f)
+            {
+                float threshold = 5f;
+                float min = fov - threshold;
+                float max = fov + threshold;
+                var modifierthreshold = 3f;
+                if (min <= cameraRig.baseFov && cameraRig.baseFov <= max)
+                {
+                    modifier = UnityEngine.Random.Range(-modifierthreshold, modifierthreshold);
+                }
+            }
+            cameraRig.baseFov = fov + modifier;
             cameraRig.pitch = pitch;
             cameraRig.yaw = yaw;
         }
