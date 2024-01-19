@@ -30,4 +30,13 @@
 		<PackageReference Include="R2API" Version="4.3.5" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Reference Include="InLobbyConfig">
+	    <HintPath>lib\addlib\InLobbyConfig.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PaladinMod">
+	    <HintPath>lib\addlib\PaladinMod.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
 </Project>
