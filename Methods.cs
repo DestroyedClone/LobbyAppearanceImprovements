@@ -448,7 +448,7 @@ namespace LobbyAppearanceImprovements
                 {
                     if (!survivorUnlocked)
                         return;
-                    characterSelectController.SelectSurvivor(survivorDef.survivorIndex);
+                    LocalUserManager.GetFirstLocalUser().userProfile.SetSurvivorPreference(survivorDef);
                     characterSelectController.SetSurvivorInfoPanelActive(true);
                     localUser.currentNetworkUser?.CallCmdSetBodyPreference(BodyCatalog.FindBodyIndex(survivorDef.bodyPrefab));
                     return;
