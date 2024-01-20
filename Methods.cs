@@ -845,21 +845,20 @@ namespace LobbyAppearanceImprovements
             SIL_ZoomEnable.Value = value;
             if (value)
             {
-                On.RoR2.UI.CharacterSelectController.SelectSurvivor += ZoomOnSelected;
+                UserProfile.onSurvivorPreferenceChangedGlobal += UserProfile_onSurvivorPreferenceChangedGlobal;
                 //_logger.LogMessage("Hook'd");
             } else
             {
-                On.RoR2.UI.CharacterSelectController.SelectSurvivor -= ZoomOnSelected;
+                UserProfile.onSurvivorPreferenceChangedGlobal -= UserProfile_onSurvivorPreferenceChangedGlobal;
                 Methods.SetCamera();
                 //_logger.LogMessage("Unhooked");
             }
         }
 
-        private static void ZoomOnSelected(On.RoR2.UI.CharacterSelectController.orig_SelectSurvivor orig, CharacterSelectController self, SurvivorIndex survivor)
+        private static void UserProfile_onSurvivorPreferenceChangedGlobal(UserProfile userProfile)
         {
-            orig(self, survivor);
             var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
-            var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(survivor));
+            var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(userProfile.GetSurvivorPreference().survivorIndex));
 
             //_logger.LogMessage($"Body Name: {bodyName}");
             // Error here on any_empty
