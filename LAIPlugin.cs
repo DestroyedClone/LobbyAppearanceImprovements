@@ -17,6 +17,8 @@ using TMPro;
 
 
 using RoR2.UI;
+using RoR2.CameraModes;
+using static Rewired.InputMapper;
 
 namespace LobbyAppearanceImprovements
 {
@@ -133,8 +135,18 @@ namespace LobbyAppearanceImprovements
                     return;
                 }
                 cam.baseFov = fov;
-                cam.pitch = pitch;
-                cam.yaw = yaw;
+                //camera rig controller gets cameramodecontext from itself
+                //
+                /*cam.GenerateCameraModeContext(out CameraModeBase.CameraModeContext cameraModeContext);
+                object rawInstanceData = cam.cameraMode.camToRawInstanceData[cameraModeContext.cameraInfo.cameraRigController];
+                ((CameraModePlayerBasic.InstanceData)rawInstanceData).pitchYaw = new PitchYawPair()
+                {
+                    pitch = pitch,
+                    yaw = yaw
+                };
+                cam.cameraModeContext = cameraModeContext;*/
+                //cam.pitch = pitch;
+                //cam.yaw = yaw;
                 if (logit)
                 {
                     Debug.Log($"new CameraSetting( {fov}, {pitch}, {yaw} )");

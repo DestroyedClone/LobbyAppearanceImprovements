@@ -19,7 +19,7 @@ namespace LobbyAppearanceImprovements
             SceneAssetAPI.AddAssetRequest("intro", SceneAssetAPI_IntroAction);
             //SceneAssetAPI_LobbyAction += SceneAssetAPI_GetLobbyObjects;
             //SceneAssetAPI.AddAssetRequest("lobby", SceneAssetAPI_LobbyAction);
-            SetupContactLight();
+            //SetupContactLight();
         }
         #endregion
 

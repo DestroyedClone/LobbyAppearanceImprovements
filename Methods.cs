@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.UI;
 using static UnityEngine.ColorUtility;
 using LeTai.Asset.TranslucentImage;
+using RoR2.SurvivorMannequins;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -46,6 +47,7 @@ namespace LobbyAppearanceImprovements
         }
         public static void SetCamera(CameraRigController cameraRig = null, float fov = 60f, float pitch = 0f, float yaw = 0f)
         {
+            return;
             if (!cameraRig)
             {
                 cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
@@ -73,8 +75,17 @@ namespace LobbyAppearanceImprovements
                 }
             }
             cameraRig.baseFov = fov + modifier;
-            cameraRig.pitch = pitch;
-            cameraRig.yaw = yaw;
+            /*cameraRig.GenerateCameraModeContext(out RoR2.CameraModes.CameraModeBase.CameraModeContext cameraModeContext);
+            //object rawInstanceData = cameraRig.cameraMode.camToRawInstanceData[cameraModeContext.cameraInfo.cameraRigController];
+            object rawInstanceData = cameraRig.cameraMode.camToRawInstanceData[cameraRig];
+            ((RoR2.CameraModes.CameraModePlayerBasic.InstanceData)rawInstanceData).pitchYaw = new PitchYawPair()
+            {
+                pitch = pitch,
+                yaw = yaw
+            };
+            cameraRig.cameraModeContext = cameraModeContext;*/
+            //cameraRig.pitch = pitch;
+            //cameraRig.yaw = yaw;
         }
 
         public static GameObject CreateDisplay(string bodyPrefabName, Vector3 position, Vector3 rotation, Transform parent = null, bool addCollider = false)
@@ -503,7 +514,10 @@ namespace LobbyAppearanceImprovements
 
             private bool mouse0Click = false;
             public CharacterSelectController characterSelectController;
-            public CharacterSelectController.CharacterPad[] characterPads = null;
+            //public CharacterSelectController.CharacterPad[] characterPads = null;
+
+            public RoR2.SurvivorMannequins.SurvivorMannequinSlotController[] survivorMannequinSlotControllers { get; set; }
+            public SurvivorMannequinDioramaController survivorMannequinDioramaController = null;
 
             public void Awake()
             {
@@ -521,8 +535,12 @@ namespace LobbyAppearanceImprovements
                 if (!characterSelectController)
                 {
                     characterSelectController = UnityEngine.Object.FindObjectOfType<CharacterSelectController>();
-                    characterPads = characterSelectController.characterDisplayPads;
-                    rotate_defaultRotationChar = characterPads[0].padTransform.eulerAngles;
+                    survivorMannequinDioramaController = UnityEngine.Object.FindObjectOfType<SurvivorMannequinDioramaController>();
+                    //characterPads = characterSelectController.characterDisplayPads;
+                    survivorMannequinSlotControllers = survivorMannequinDioramaController.mannequinSlots;
+                    //rotate_defaultRotationChar = characterPads[0].padTransform.eulerAngles;
+                    //rotate_defaultRotationChar = survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles;
+                    rotate_defaultRotationChar = new Vector3(0f, 219.0844f, 0f);
                 }
 
                 desiredPosition = defaultPosition;
@@ -564,7 +582,23 @@ namespace LobbyAppearanceImprovements
                 {
                     rotate_initialPosition = defaultPosition;
                     rotate_currentPosition = defaultPosition;
-                    characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
+                    //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
+                    if (survivorMannequinSlotControllers == null)
+                    {
+                        _logger.LogError($"survivorMannequinSlotControllers is missing!");
+                        return;
+                    }
+                    if (survivorMannequinSlotControllers[0] == null)
+                    {
+                        _logger.LogError($"survivorMannequinSlotControllers[0] is missing!");
+                        return;
+                    }
+                    if (survivorMannequinSlotControllers[0].mannequinInstanceTransform == null)
+                    {
+                        _logger.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!");
+                        return;
+                    }
+                    survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_initialPosition;
                 }
 
                 if (Input.GetMouseButtonDown(0))
@@ -579,17 +613,18 @@ namespace LobbyAppearanceImprovements
                 {
                     rotate_initialPosition = defaultPosition;
                     rotate_currentPosition = defaultPosition;
-                    characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
+                    //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
+                    survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_defaultRotationChar;
                 }
 
-                if (characterPads != null)
+                if (survivorMannequinSlotControllers != null && survivorMannequinSlotControllers[0] != null && survivorMannequinSlotControllers[0].mannequinInstanceTransform)//characterPads != null)
                 {
                     //var rotationVector = Vector3.Distance(rotate_initialPosition, rotate_currentPosition);
                     var rotationVector = rotate_initialPosition.x - rotate_currentPosition.x;
                     //var modifier = rotate_currentPosition.x < rotate_initialPosition.x ? 1 : -1;
                     var newRotation = rotationVector * rotate_multiplier;
-                    characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar + newRotation * Vector3.up;
-                    
+                    //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar + newRotation * Vector3.up;
+                    survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_defaultRotationChar + newRotation * Vector3.up;
                 }
             }
 
@@ -783,7 +818,8 @@ namespace LobbyAppearanceImprovements
 
             foreach (var propName in MeshPropNames)
             {
-                GameObject.Find(propName)?.SetActive(MeshProps.Value);
+                var obj = GameObject.Find(propName);
+                if (obj) obj.SetActive(MeshProps.Value);
             }
             Hook_HidePhysicsProps(PhysicsProps.Value);
         }
@@ -792,12 +828,18 @@ namespace LobbyAppearanceImprovements
         {
             PhysicsProps.Value = value;
 
+            if (!MeshPropsRef)
+            {
+                _logger.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef");
+                return;
+            }
             var meshPropHolder = MeshPropsRef.transform;
             if (meshPropHolder)
             {
                 foreach (var propName in PhysicsPropNames)
                 {
-                    meshPropHolder.Find(propName)?.gameObject.SetActive(value);
+                    var obj = meshPropHolder.Find(propName);
+                    if (obj) obj.gameObject.SetActive(value);
                 }
             }
         }
