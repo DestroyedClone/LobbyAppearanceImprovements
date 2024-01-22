@@ -194,6 +194,12 @@ namespace LobbyAppearanceImprovements
                 UnityEngine.Object.Destroy(sceneInstance);
             }
 
+            //RefreshLobbyBackground
+            if (PreGameController.instance && PreGameController.instance.lobbyBackground)
+            {
+                PreGameController.instance.lobbyBackground.SetActive(false);
+            }
+
             MeshPropsRef.SetActive(sceneName == "Lobby");
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
