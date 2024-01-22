@@ -85,8 +85,8 @@ namespace LobbyAppearanceImprovements
             // Ordered by Layer //
             // UI //
             UI_ShowFade = config.Bind("UI", "Show Fade", true, "Toggles the dark fade bars at the top and bottom of the lobby.");
-            UI_BlurOpacity = config.Bind("UI", "Blur Opacity", 255, "Adjusts the blur opacity behind the UI elements on the left and right." +
-                "\n0:fully transparent - 255:default");
+            UI_BlurOpacity = config.Bind("UI", "Blur Opacity", 100, "Adjusts the blur opacity behind the UI elements on the left and right." +
+                "\n0:fully transparent - 100:default");
             UI_Scale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
             UI_Scale.Value = Mathf.Clamp(UI_Scale.Value, UI_Scale_Min, UI_Scale_Max);
 
@@ -157,7 +157,7 @@ namespace LobbyAppearanceImprovements
             inLobbyConfigEntry.SectionFields["UI"] = new List<IConfigField>
             {
                 new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_ShowFade),
-                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 255),
+                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 100),
                 new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, UI_Scale_Min, UI_Scale_Max)
             };
             inLobbyConfigEntry.SectionFields["Overlay"] = new List<IConfigField>

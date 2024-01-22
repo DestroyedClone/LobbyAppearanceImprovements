@@ -715,22 +715,24 @@ namespace LobbyAppearanceImprovements
 
         public static void Hook_BlurOpacity(int value)
         {
-            ConfigSetup.UI_BlurOpacity.Value = (int)Mathf.Clamp(value, 0f, 255);
+            ConfigSetup.UI_BlurOpacity.Value = (int)Mathf.Clamp(value, 0f, 100);
 
             var SafeArea = UI_OriginRef.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
 
+            var transparencyValue = ConfigSetup.UI_BlurOpacity.Value / 100;
+
             var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
             leftBlurColor.color = new Color(leftBlurColor.color.r,
                 leftBlurColor.color.g,
                 leftBlurColor.color.b,
-                UI_BlurOpacity.Value);
+                transparencyValue);
             var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
-            rightBlurColor.color = new Color(leftBlurColor.color.r,
+            rightBlurColor.color = new Color(rightBlurColor.color.r,
                 rightBlurColor.color.g,
                 rightBlurColor.color.b,
-                UI_BlurOpacity.Value);
+                transparencyValue);
         }
 
         public static void Hook_UIScale(float value)
