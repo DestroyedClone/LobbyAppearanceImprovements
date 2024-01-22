@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -9,6 +10,7 @@ namespace LobbyAppearanceImprovements.Scenes
         }
 
         public abstract string SceneName { get; }
+        public abstract string SceneNameToken { get; }
         public abstract GameObject BackgroundPrefab { get; }
         public abstract Vector3 Position { get; }
         public abstract Quaternion Rotation { get; }
@@ -46,6 +48,18 @@ namespace LobbyAppearanceImprovements.Scenes
             }
         }
 
+        public static GameObject LoadAsset(string path)
+        {
+            return Addressables.LoadAssetAsync<GameObject>(path).WaitForCompletion();
+        }
 
+        public string GetTitleToken()
+        {
+            return SceneNameToken + "_TITLE";
+        }
+        public string GetSubtitleToken()
+        {
+            return SceneNameToken + "_SUBTITLE";
+        }
     }
 }

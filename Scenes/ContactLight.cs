@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class ContactLight : LAIScene
     {
         public override string SceneName => "UES Contact Light";
+        public override string SceneNameToken => "LAI_MAP_CONTACTLIGHT";
         public override GameObject BackgroundPrefab => SceneSetup.ContactLight_Bandit2;
         public override Vector3 Position => new Vector3(0f, 0f, 3);
         public override Quaternion Rotation => Quaternion.Euler(0f, 180f, 0);

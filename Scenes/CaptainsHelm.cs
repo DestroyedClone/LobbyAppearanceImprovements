@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class CaptainsHelm : LAIScene
     {
         public override string SceneName => "Helm of the Ship/Bridge";
+        public override string SceneNameToken => "LAI_MAP_CAPTAINSHELM";
         public override GameObject BackgroundPrefab => SceneSetup.CaptainHelmObject;
         public override Vector3 Position => new Vector3(-16.7f, -2f, 8);
         public override Quaternion Rotation => Quaternion.Euler(10f, 179f, 0);
