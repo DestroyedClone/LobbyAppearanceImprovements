@@ -785,12 +785,13 @@ namespace LobbyAppearanceImprovements
         public static void Hook_RescalePads(float size)
         {
             CharacterPadScale.Value = size;
-            var characterPadAlignments = GameObject.Find("CharacterPadAlignments");
+            var contr = UnityEngine.Object.FindObjectOfType<SurvivorMannequinDioramaController>();
+            var obj = contr.gameObject;
 
-            if (characterPadAlignments)
+            if (obj)
             {
                 //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
-                characterPadAlignments.transform.localScale = Vector3.one * size;
+                obj.transform.localScale = Vector3.one * size;
 
             }
         }
