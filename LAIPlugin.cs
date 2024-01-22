@@ -244,66 +244,66 @@ namespace LobbyAppearanceImprovements
             var layoutType = typeof(CharSceneLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
-                if (!type.IsAbstract)
+                if (type.IsAbstract)
                 {
-                    if (sceneType.IsAssignableFrom(type))
+                    continue;
+                }
+                if (sceneType.IsAssignableFrom(type))
+                {
+                    var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
+                    bool canLoadScene = true;
+                    var guids = sceneObjectInitializer.RequiredModGUID;
+
+                    if (guids != null && guids.Length > 0)
                     {
-                        var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
-                        bool canLoadScene = true;
-                        var guids = sceneObjectInitializer.RequiredModGUID;
-
-
-                        if (guids != null && guids.Length > 0)
+                        foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
                         {
-                            foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            //if (printpala) Debug.Log("current GUID: "+GUID);
+                            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                             {
-                                //if (printpala) Debug.Log("current GUID: "+GUID);
-                                if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                                canLoadScene = false;
+                                if (ShowLoggingText.Value > LoggingStyle.Minimal)
                                 {
-                                    canLoadScene = false;
-                                    if (ShowLoggingText.Value > LoggingStyle.Minimal)
-                                    {
-                                        _logger.LogMessage($"Refused to load scene \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
-                                    }
-                                    break;
+                                    _logger.LogMessage($"Refused to load scene \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
                                 }
+                                break;
                             }
-                        }
-                        if (canLoadScene)
-                        {
-                            scenesDict[type.Name] = type;
-                            sceneNameList.Add(type.Name);
                         }
                     }
-                    else if (layoutType.IsAssignableFrom(type))
+                    if (canLoadScene)
                     {
-                        var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
-                        bool canLoadLayout = true;
-                        var guids = sceneObjectInitializer.RequiredModGUID;
-                        if (guids != null && guids.Length > 0)
+                        scenesDict[type.Name] = type;
+                        sceneNameList.Add(type.Name);
+                    }
+                }
+                else if (layoutType.IsAssignableFrom(type))
+                {
+                    var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
+                    bool canLoadLayout = true;
+                    var guids = sceneObjectInitializer.RequiredModGUID;
+                    if (guids != null && guids.Length > 0)
+                    {
+                        foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
                         {
-                            foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                            //if (printpala) Debug.Log("current GUID: "+GUID);
+                            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                             {
-                                //if (printpala) Debug.Log("current GUID: "+GUID);
-                                if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                                canLoadLayout = false;
+                                if (ShowLoggingText.Value > LoggingStyle.Minimal)
                                 {
-                                    canLoadLayout = false;
-                                    if (ShowLoggingText.Value > LoggingStyle.Minimal)
-                                    {
-                                        _logger.LogMessage($"Refused to load layout \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
-                                    }
-                                    break;
+                                    _logger.LogMessage($"Refused to load layout \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
                                 }
+                                break;
                             }
                         }
-                        if (canLoadLayout)
-                        {
-                            layoutsDict[type.Name] = type;
-                            layoutNameList.Add(type.Name);
-                            //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
-                            _logger.LogMessage("Initializing Scene:" + type);
-                            sceneObjectInitializer.Init();
-                        }
+                    }
+                    if (canLoadLayout)
+                    {
+                        layoutsDict[type.Name] = type;
+                        layoutNameList.Add(type.Name);
+                        //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
+                        _logger.LogMessage("Initializing Scene:" + type);
+                        sceneObjectInitializer.Init();
                     }
                 }
             }
