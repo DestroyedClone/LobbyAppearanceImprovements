@@ -200,7 +200,8 @@ namespace LobbyAppearanceImprovements
                 PreGameController.instance.lobbyBackground.SetActive(false);
             }
 
-            MeshPropsRef.SetActive(sceneName == "Lobby");
+            //nullref, needs to be changed
+            //MeshPropsRef.SetActive(sceneName == "Lobby");
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
@@ -739,6 +740,12 @@ namespace LobbyAppearanceImprovements
                 rightBlurColor.color.g,
                 rightBlurColor.color.b,
                 transparencyValue);
+
+            if (ConfigSetup.ShowLoggingText.Value > LoggingStyle.Minimal)
+            {
+                _logger.LogMessage($"Transparency Value: {transparencyValue}");
+                _logger.LogMessage($"Color transparency: {leftBlurColor.color.a}");
+            }
         }
 
         public static void Hook_UIScale(float value)
@@ -754,7 +761,9 @@ namespace LobbyAppearanceImprovements
         public static void Hook_ShowPostProcessing(bool value)
         {
             PostProcessing.Value = value;
-            GameObject.Find("PP")?.SetActive(value);
+            if (!LAIPlugin.sceneInstance) return;
+            var obj = LAIPlugin.sceneInstance.transform.Find("PP");
+            if (obj) obj.gameObject.SetActive(value);
         }
 
         public static void Hook_LightUpdate_Color(string color)

@@ -94,6 +94,13 @@ namespace LobbyAppearanceImprovements
 
             On.RoR2.CameraRigController.Start += CameraRigController_Start;
             On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredSceneLayoutSetup;
+            On.RoR2.PreGameController.RefreshLobbyBackground += PreGameController_RefreshLobbyBackground;
+        }
+
+        private void PreGameController_RefreshLobbyBackground(On.RoR2.PreGameController.orig_RefreshLobbyBackground orig, PreGameController self)
+        {
+            orig(self);
+            if (self.lobbyBackground) self.lobbyBackground.SetActive(false);
         }
 
         private void DeferredSceneLayoutSetup(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
