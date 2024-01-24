@@ -9,6 +9,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="MannequinLayouts\**" />
+	  <EmbeddedResource Remove="MannequinLayouts\**" />
+	  <None Remove="MannequinLayouts\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Remove="CharacterSceneLayouts\WispGraveyard_Snipers.cs" />
 	</ItemGroup>
 
