@@ -71,6 +71,8 @@ namespace LobbyAppearanceImprovements
 
         public static GameObject MeshPropsRef;
         public static Transform UI_OriginRef;
+        public static Transform TitleRef;
+        public static CharacterSelectController characterSelectController = null;
 
         //public static GameObject DefaultTextObject;
 
@@ -201,6 +203,7 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
+            characterSelectController = self;
             if (UnityEngine.SceneManagement.SceneManager.sceneCount == 1)
             {
                 //_logger.LogMessage("good");
@@ -242,6 +245,8 @@ namespace LobbyAppearanceImprovements
             Hook_ToggleZooming(SIL_ZoomEnable.Value);
 
             Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
+
+            TitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
         }
 
         //Defer?

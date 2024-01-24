@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using RoR2.UI;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace LobbyAppearanceImprovements.Scenes
@@ -16,6 +17,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public abstract Quaternion Rotation { get; }
         public abstract Vector3 Scale { get; }
         public virtual GameObject TitleInstance { get; set; }
+        public virtual GameObject SubTitleInstance { get; set; }
         public virtual string PreferredLayout { get; }
         public virtual string[] RequiredModGUID { get; }
 
@@ -38,14 +40,22 @@ namespace LobbyAppearanceImprovements.Scenes
             var textInstance = new GameObject();
 
             TitleInstance = textInstance;
+            if (!LAIPlugin.TitleRef) return;
+            if (!LAIPlugin.characterSelectController) return;
+            TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+
+            TitleInstance.transform.localPosition = new Vector3(0f, 450f, 0f);
+            SubTitleInstance.transform.localPosition = new Vector3(0f, 500f, 300f);
+
+            TitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetString(GetTitleToken());
+            SubTitleInstance.GetComponent<HGTextMeshProUGUI>().text = $"<color=grey>{RoR2.Language.GetString(GetSubtitleToken())}</color>";
         }
 
         public void OnDestroy()
         {
-            if (TitleInstance)
-            {
-                Object.Destroy(TitleInstance);
-            }
+            if (TitleInstance) Object.Destroy(TitleInstance);
+            if (SubTitleInstance) Object.Destroy(SubTitleInstance);
         }
 
         public static GameObject LoadAsset(string path)
