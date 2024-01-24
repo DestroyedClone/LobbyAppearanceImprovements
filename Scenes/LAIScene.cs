@@ -37,19 +37,20 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public void CreateTitleText()
         {
-            var textInstance = new GameObject();
-
-            TitleInstance = textInstance;
-            if (!LAIPlugin.TitleRef) return;
             if (!LAIPlugin.characterSelectController) return;
+            if (!LAIPlugin.TitleRef) LAIPlugin.TitleRef = LAIPlugin.characterSelectController.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
+            if (!LAIPlugin.TitleRef) return;
             TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            TitleInstance.name = $"LobbyAppearanceImprovements_Scene_Title";
             SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            SubTitleInstance.name = $"LobbyAppearanceImprovements_Scene_Subtitle";
 
             TitleInstance.transform.localPosition = new Vector3(0f, 450f, 0f);
             SubTitleInstance.transform.localPosition = new Vector3(0f, 500f, 300f);
 
             TitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetString(GetTitleToken());
             SubTitleInstance.GetComponent<HGTextMeshProUGUI>().text = $"<color=grey>{RoR2.Language.GetString(GetSubtitleToken())}</color>";
+            HookMethods.Hook_ToggleSceneHeaderVisibility(ConfigSetup.Scene_Header.Value);
         }
 
         public void OnDestroy()

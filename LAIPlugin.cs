@@ -87,6 +87,7 @@ namespace LobbyAppearanceImprovements
             ConfigSetup.Bind(Config);
             ConfigSetup.InLobbyBind();
             CommandHelper.AddToConsoleWhenReady();
+            LAILanguage.Init();
             //AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
@@ -218,6 +219,10 @@ namespace LobbyAppearanceImprovements
             UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
 
 
+            Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
+
+            TitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
+
             // UI //
             Hook_ShowFade(UI_ShowFade.Value);
             Hook_BlurOpacity(UI_BlurOpacity.Value);
@@ -243,10 +248,6 @@ namespace LobbyAppearanceImprovements
             Hook_HidePhysicsProps(PhysicsProps.Value);
             Hook_DisableShaking(Shaking.Value);
             Hook_ToggleZooming(SIL_ZoomEnable.Value);
-
-            Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
-
-            TitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
         }
 
         //Defer?

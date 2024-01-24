@@ -206,7 +206,7 @@ namespace LobbyAppearanceImprovements
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateScene();
-            ConfigSetup.SelectedScene.Value = sceneName;
+            ConfigSetup.Scene_Selection.Value = sceneName;
         }
 
         public static void SelectLayout(string layoutName, bool saveChanges = true)
@@ -255,7 +255,7 @@ namespace LobbyAppearanceImprovements
 
         public static LoadSceneAndLayoutResult LoadSceneAndLayout(string sceneName, string layoutName = null, bool saveChanges = true)
         {
-            var currentSceneIsNotLobby = sceneName != (string)SelectedScene.DefaultValue;
+            var currentSceneIsNotLobby = sceneName != (string)Scene_Selection.DefaultValue;
             var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "Lobby";
 
             bool resultScene = false;
@@ -872,13 +872,22 @@ namespace LobbyAppearanceImprovements
             }
         }
 
+        public static void Hook_ToggleSceneHeaderVisibility(bool value)
+        {
+            Scene_Header.Value = value;
+
+            if (!LAIPlugin.sceneInstance || LAIPlugin.chosenScene == null) return;
+            LAIPlugin.chosenScene.TitleInstance.SetActive(value);
+            LAIPlugin.chosenScene.SubTitleInstance.SetActive(value);
+        }
+
         public static void Hook_SurvivorsInLobby(bool value) // i have no idea what im doing
         {
             if (value)
             {
                 SIL_Enabled.Value = value; //order matters
                 // Needs to be set before so the fucking method can change it back
-                Methods.LoadSceneAndLayout(SelectedScene.Value, SIL_SelectedLayout.Value);
+                Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
             } else
             {
                 Methods.LoadSceneAndLayout(null, nameof(Any_Empty), false);

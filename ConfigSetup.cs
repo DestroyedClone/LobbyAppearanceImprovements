@@ -51,7 +51,8 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> Shaking { get; set; }
 
         // Custom Background //
-        public static ConfigEntry<string> SelectedScene { get; set; }
+        public static ConfigEntry<string> Scene_Selection { get; set; }
+        public static ConfigEntry<bool> Scene_Header { get; set; }
 
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
@@ -115,7 +116,8 @@ namespace LobbyAppearanceImprovements
             Shaking = config.Bind("Background", "Shaking", false, "Toggles the random shaking that rattles the ship.");
 
             // Custom Background //
-            SelectedScene = config.Bind("Background", "Select Scene", "default", "Sets the current scene of the lobby.");
+            Scene_Selection = config.Bind("Background", "Select Scene", "default", "Sets the current scene of the lobby.");
+            Scene_Header = config.Bind("Background", "Scene Header", true, "Shows the scene's title and subtitle.");
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
@@ -137,7 +139,7 @@ namespace LobbyAppearanceImprovements
             tempSelectSceneAction += SetNewScene;
             tempSelectLayoutAction += SetNewLayout;
 
-            tempSceneName = SelectedScene.Value;
+            tempSceneName = Scene_Selection.Value;
             tempLayoutName = SIL_SelectedLayout.Value;
         }
 
@@ -186,7 +188,8 @@ namespace LobbyAppearanceImprovements
             inLobbyConfigEntry.SectionFields["Scenes+Layouts"] = new List<IConfigField>
             {
                 //new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
-                new StringConfigField(SelectedScene.Definition.Key, SelectedScene.Description.Description, () => SelectedScene.Value, null, tempSelectSceneAction),
+                new StringConfigField(Scene_Selection.Definition.Key, Scene_Selection.Description.Description, () => Scene_Selection.Value, null, tempSelectSceneAction),
+                new BooleanConfigField(Scene_Header.Definition.Key, Scene_Header.Description.Description, () => Scene_Header.Value, Hook_ToggleSceneHeaderVisibility),
                 new StringConfigField(SIL_SelectedLayout.Definition.Key, SIL_SelectedLayout.Description.Description, () => SIL_SelectedLayout.Value, null, tempSelectLayoutAction),
                 new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
                 new BooleanConfigField(SIL_Enabled.Definition.Key, SIL_Enabled.Description.Description, () => SIL_Enabled.Value, Hook_SurvivorsInLobby),
@@ -221,10 +224,10 @@ namespace LobbyAppearanceImprovements
                         SIL_SelectedLayout.Value = tempLayoutName;
                         break;
                     case Methods.LoadSceneAndLayoutResult.NoLayout:
-                        SelectedScene.Value = tempSceneName;
+                        Scene_Selection.Value = tempSceneName;
                         break;
                     default:
-                        SelectedScene.Value = tempSceneName;
+                        Scene_Selection.Value = tempSceneName;
                         SIL_SelectedLayout.Value = tempLayoutName;
                         break;
                 }
