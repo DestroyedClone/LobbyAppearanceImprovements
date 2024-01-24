@@ -180,11 +180,12 @@ namespace LobbyAppearanceImprovements
 
         public static void SelectScene(string sceneName)
         {
-            var selectedScene = scenesDict.TryGetValue(sceneName, out var scene);
+            var sceneNameLower = sceneName.ToLower();
+            var selectedScene = scenesDict.TryGetValue(sceneNameLower, out var scene);
             if (!selectedScene)
             {
                 if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-                    _logger.LogWarning($"SelectScene :: {sceneName} not found!");
+                    _logger.LogWarning($"SelectScene :: {sceneName} (parsed as \'{sceneNameLower})\' not found!");
                 return;
             }
 
@@ -206,16 +207,17 @@ namespace LobbyAppearanceImprovements
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateScene();
-            ConfigSetup.Scene_Selection.Value = sceneName;
+            ConfigSetup.Scene_Selection.Value = sceneNameLower;
         }
 
         public static void SelectLayout(string layoutName, bool saveChanges = true)
         {
-            var selectedLayout = layoutsDict.TryGetValue(layoutName, out var layout);
+            var layoutNameLower = layoutName.ToLower();
+            var selectedLayout = layoutsDict.TryGetValue(layoutNameLower, out var layout);
             if (!selectedLayout)
             {
                 if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-                    _logger.LogWarning($"SelectLayout :: {layoutName} not found!");
+                    _logger.LogWarning($"SelectLayout :: {layoutName} \'(parsed as {layoutNameLower})\' not found!");
                 return;
             }
 
@@ -226,7 +228,7 @@ namespace LobbyAppearanceImprovements
             chosenLayout = layoutObject;
             layoutInstance = layoutObject.CreateLayout();
             if (saveChanges)
-                ConfigSetup.SIL_SelectedLayout.Value = layoutName;
+                ConfigSetup.SIL_SelectedLayout.Value = layoutNameLower;
 
             //Resets camera on layout change
             var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();

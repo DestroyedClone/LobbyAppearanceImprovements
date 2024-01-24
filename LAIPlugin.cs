@@ -285,8 +285,9 @@ namespace LobbyAppearanceImprovements
                     }
                     if (canLoadScene)
                     {
-                        scenesDict[type.Name] = type;
-                        sceneNameList.Add(type.Name);
+                        var sceneName = type.Name.ToLower();
+                        scenesDict[sceneName] = type;
+                        sceneNameList.Add(sceneName);
                     }
                 }
                 else if (layoutType.IsAssignableFrom(type))
@@ -312,8 +313,9 @@ namespace LobbyAppearanceImprovements
                     }
                     if (canLoadLayout)
                     {
-                        layoutsDict[type.Name] = type;
-                        layoutNameList.Add(type.Name);
+                        var layoutNameLower = type.Name.ToLower();
+                        layoutsDict[layoutNameLower] = type;
+                        layoutNameList.Add(layoutNameLower);
                         //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
                         _logger.LogMessage("Initializing Scene:" + type);
                         sceneObjectInitializer.Init();
