@@ -836,7 +836,7 @@ namespace LobbyAppearanceImprovements
         {
             MeshProps.Value = value;
 
-            foreach (var propName in MeshPropNames)
+            foreach (var propName in Lobby.MeshPropNames)
             {
                 var obj = GameObject.Find(propName);
                 if (obj) obj.SetActive(MeshProps.Value);
@@ -856,7 +856,7 @@ namespace LobbyAppearanceImprovements
             var meshPropHolder = MeshPropsRef.transform;
             if (meshPropHolder)
             {
-                foreach (var propName in PhysicsPropNames)
+                foreach (var propName in Lobby.PhysicsPropNames)
                 {
                     var obj = meshPropHolder.Find(propName);
                     if (obj) obj.gameObject.SetActive(value);

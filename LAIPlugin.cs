@@ -43,17 +43,6 @@ namespace LobbyAppearanceImprovements
 
         internal static BepInEx.Logging.ManualLogSource _logger = null;
 
-        public static string[] PhysicsPropNames = new string[]
-        {
-            "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
-                    "ChairWeight","PropAnchor (1)","ExtinguisherMesh (1)","ExtinguisherMesh (2)", "FolderMesh (1)", "LaptopMesh (2)"
-        };
-
-        public static string[] MeshPropNames = new string[]
-        {
-            "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
-        };
-
         public static LAIScene chosenScene = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
         public static List<string> sceneNameList = new List<string>();

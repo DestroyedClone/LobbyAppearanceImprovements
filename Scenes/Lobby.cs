@@ -10,5 +10,16 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Position => Vector3.zero;
         public override Quaternion Rotation => Quaternion.identity;
         public override Vector3 Scale => Vector3.one;
+
+        public static string[] PhysicsPropNames = new string[]
+        {
+            "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
+                    "ChairWeight","PropAnchor (1)","ExtinguisherMesh (1)","ExtinguisherMesh (2)", "FolderMesh (1)", "LaptopMesh (2)"
+        };
+
+        public static string[] MeshPropNames = new string[]
+        {
+            "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
+        };
     }
 }
