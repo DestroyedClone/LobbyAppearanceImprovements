@@ -201,9 +201,6 @@ namespace LobbyAppearanceImprovements
                 PreGameController.instance.lobbyBackground.SetActive(false);
             }
 
-            //nullref, needs to be changed
-            //MeshPropsRef.SetActive(sceneName == "Lobby");
-
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             chosenScene = sceneObject;
             sceneInstance = sceneObject.CreateScene();
@@ -257,26 +254,20 @@ namespace LobbyAppearanceImprovements
 
         public static LoadSceneAndLayoutResult LoadSceneAndLayout(string sceneName, string layoutName = null, bool saveChanges = true)
         {
-            var currentSceneIsNotLobby = sceneName != (string)Scene_Selection.DefaultValue;
-            var sceneNameForLayout = currentSceneIsNotLobby ? sceneName : "Lobby";
-
             bool resultScene = false;
             bool resultLayout = false;
 
-            if (currentSceneIsNotLobby)
+            if (sceneName != null)
             {
-                if (sceneName != null)
+                if (!scenesDict.ContainsKey(sceneName))
                 {
-                    if (!scenesDict.ContainsKey(sceneName))
-                    {
-                        if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-                            _logger.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!");
-                    }
-                    else
-                    {
-                        Methods.SelectScene(sceneName);
-                        resultScene = true;
-                    }
+                    if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
+                        _logger.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!");
+                }
+                else
+                {
+                    Methods.SelectScene(sceneName);
+                    resultScene = true;
                 }
             }
             if (layoutName == null)
