@@ -1,24 +1,17 @@
 ﻿using BepInEx;
-using LeTai.Asset.TranslucentImage;
 using LobbyAppearanceImprovements.CharacterSceneLayouts;
 using LobbyAppearanceImprovements.Scenes;
+using R2API;
 using R2API.Utils;
 using RoR2;
+using RoR2.UI;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
-using static UnityEngine.ColorUtility;
 using static LobbyAppearanceImprovements.HookMethods;
-using static LobbyAppearanceImprovements.SceneSetup;
-using R2API;
-using TMPro;
-
-
-using RoR2.UI;
-using RoR2.CameraModes;
-using static Rewired.InputMapper;
 
 namespace LobbyAppearanceImprovements
 {
@@ -67,7 +60,6 @@ namespace LobbyAppearanceImprovements
 
         public static Methods.LAICameraController CurrentCameraController;
 
-
         public void Awake()
         {
             _logger = Logger;
@@ -94,7 +86,7 @@ namespace LobbyAppearanceImprovements
         public static void OnSceneLoaded(LAIScene laiScene)
         {
             if (LAIPlugin.sceneInstance)
-            MeshPropsRef = LAIPlugin.sceneInstance.transform.Find("MeshProps").gameObject;
+                MeshPropsRef = LAIPlugin.sceneInstance.transform.Find("MeshProps").gameObject;
         }
 
         private void PreGameController_RefreshLobbyBackground(On.RoR2.PreGameController.orig_RefreshLobbyBackground orig, PreGameController self)
@@ -160,7 +152,6 @@ namespace LobbyAppearanceImprovements
                     logit = false;
                 }
             }
-
         }
 
         public static GameObject[] CreateDefaultText()
@@ -170,7 +161,6 @@ namespace LobbyAppearanceImprovements
             gameObjects.Add(cocks.gameObject);
             return gameObjects.ToArray();
         }
-
 
         public static GameObject CreateDefaultTextObject()
         {
@@ -197,7 +187,6 @@ namespace LobbyAppearanceImprovements
             public LanguageTextMeshController languageTextMeshController;
         }
 
-
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
@@ -205,7 +194,8 @@ namespace LobbyAppearanceImprovements
             if (UnityEngine.SceneManagement.SceneManager.sceneCount == 1)
             {
                 //_logger.LogMessage("good");
-            } else
+            }
+            else
             {
                 //_logger.LogMessage("Preventing activating stuff");
                 return;
@@ -213,7 +203,6 @@ namespace LobbyAppearanceImprovements
             if (!self.gameObject.GetComponent<Methods.LAICameraController>())
                 self.gameObject.AddComponent<Methods.LAICameraController>();
             UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
-
 
             Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
 

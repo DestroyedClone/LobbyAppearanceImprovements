@@ -2,7 +2,6 @@
 using RoR2;
 using System;
 using UnityEngine;
-using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.LAIPlugin;
 using static LobbyAppearanceImprovements.Methods;
 
@@ -23,7 +22,6 @@ namespace LobbyAppearanceImprovements
         public static void CMD_SpawnRestraintBar(ConCommandArgs args)
         {
             var cum = UnityEngine.Object.Instantiate(SceneSetup.ContactLight_RestraintBar, RoR2Content.Survivors.Commando.displayPrefab.transform);
-
         }
 
         [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.None, helpText = "Lists the available scenes.")]
@@ -41,7 +39,8 @@ namespace LobbyAppearanceImprovements
             if (args.Count == 1)
             {
                 SelectScene(args.GetArgString(0));
-            } else
+            }
+            else
             {
                 Methods.LoadSceneAndLayout(args.GetArgString(0), args.GetArgString(1));
             }
@@ -60,7 +59,8 @@ namespace LobbyAppearanceImprovements
                     if (instance.SceneName == sceneName)
                         Debug.Log(keyValuePair.Key);
                 }
-            } else
+            }
+            else
             {
                 foreach (var keyValuePair in layoutsDict)
                 {

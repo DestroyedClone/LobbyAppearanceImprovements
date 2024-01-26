@@ -17,6 +17,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             { "Rengar", new [] {new Vector3(-1.116889f, -0.4532318f, 12.8763f), new Vector3(0, 140f, 0f) } },
             { "Pyke", new [] {new Vector3(0.9242006f, -0.4647151f, 8.61515f), new Vector3(0, 180f, 0f) } },
         };
+
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
         {
             {"TwitchBody", new CameraSetting( 30, 8, -16 ) },

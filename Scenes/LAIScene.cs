@@ -73,6 +73,7 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             return SceneNameToken + "_TITLE";
         }
+
         public string GetSubtitleToken()
         {
             return SceneNameToken + "_SUBTITLE";

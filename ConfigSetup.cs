@@ -1,11 +1,9 @@
 ﻿using BepInEx.Configuration;
 using InLobbyConfig;
 using InLobbyConfig.Fields;
-using System.Collections;
 using System;
-using System.Linq;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using static LobbyAppearanceImprovements.HookMethods;
 
 namespace LobbyAppearanceImprovements
@@ -18,6 +16,7 @@ namespace LobbyAppearanceImprovements
         // Ordered by Layer //
         // UI //
         public static ConfigEntry<bool> UI_ShowFade { get; set; }
+
         public static ConfigEntry<int> UI_BlurOpacity { get; set; }
         public static ConfigEntry<float> UI_Scale { get; set; }
 
@@ -28,6 +27,7 @@ namespace LobbyAppearanceImprovements
         // Anything that affects the scene as a whole //
         // Post Processing //
         public static ConfigEntry<bool> PostProcessing { get; set; }
+
         public static ConfigEntry<bool> Parallax { get; set; }
         //public static ConfigEntry<bool> EnableCharacterRotation { get; set; }
 
@@ -40,6 +40,7 @@ namespace LobbyAppearanceImprovements
 
         // Character Pad Displays //
         public static ConfigEntry<float> CharacterPadScale { get; set; }
+
         public static ConfigEntry<bool> TurnCharacter { get; set; }
         public static ConfigEntry<float> TurnCharacterMult { get; set; }
 
@@ -52,11 +53,13 @@ namespace LobbyAppearanceImprovements
 
         // Custom Background //
         public static ConfigEntry<string> Scene_Selection { get; set; }
+
         public static ConfigEntry<bool> Scene_Header { get; set; }
 
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
         public static ConfigEntry<bool> SIL_Enabled { get; set; }
+
         public static ConfigEntry<bool> SIL_LockedCharactersBlack { get; set; }
         public static ConfigEntry<string> SIL_SelectedLayout { get; set; }
         public static ConfigEntry<bool> SIL_ZoomEnable { get; set; }
@@ -74,11 +77,12 @@ namespace LobbyAppearanceImprovements
         #endregion Config
 
         #region tempvalues
+
         public static string tempSceneName;
         public static string tempLayoutName;
         public static bool tempConfirmChoice;
-        #endregion
 
+        #endregion tempvalues
 
         public static void Bind(ConfigFile config)
         {
@@ -201,14 +205,17 @@ namespace LobbyAppearanceImprovements
 
         public static Action<string> tempSelectSceneAction;
         public static Action<string> tempSelectLayoutAction;
+
         public static void SetNewScene(string value)
         {
             tempSceneName = value;
         }
+
         public static void SetNewLayout(string value)
         {
             tempLayoutName = value;
         }
+
         public static void SetSceneLayoutFromLobby(bool value)
         {
             if (value)
@@ -220,12 +227,15 @@ namespace LobbyAppearanceImprovements
                 {
                     case Methods.LoadSceneAndLayoutResult.NoSceneNoLayout:
                         break;
+
                     case Methods.LoadSceneAndLayoutResult.NoScene:
                         SIL_SelectedLayout.Value = tempLayoutName;
                         break;
+
                     case Methods.LoadSceneAndLayoutResult.NoLayout:
                         Scene_Selection.Value = tempSceneName;
                         break;
+
                     default:
                         Scene_Selection.Value = tempSceneName;
                         SIL_SelectedLayout.Value = tempLayoutName;

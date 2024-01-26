@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using R2API;
 using RoR2;
-using R2API;
+using System;
 using UnityEngine;
-
 
 namespace LobbyAppearanceImprovements
 {
     public static class SceneSetup
     {
         #region ActionSetup
+
         public static Action<GameObject[]> SceneAssetAPI_IntroAction;
         public static Action<GameObject[]> SceneAssetAPI_LobbyAction;
+
         public static void Init()
         {
             SceneAssetAPI_IntroAction += CaptainHelm_Setup;
@@ -21,12 +20,15 @@ namespace LobbyAppearanceImprovements
             //SceneAssetAPI.AddAssetRequest("lobby", SceneAssetAPI_LobbyAction);
             //SetupContactLight();
         }
-        #endregion
 
+        #endregion ActionSetup
 
         // Scene Prefabs
+
         #region Captain's Helm Setup
+
         public static GameObject CaptainHelmObject;
+
         public static void CaptainHelm_Setup(GameObject[] gameObjects)
         {
             foreach (var gameObject in gameObjects)
@@ -38,9 +40,11 @@ namespace LobbyAppearanceImprovements
                 }
             }
         }
-        #endregion
+
+        #endregion Captain's Helm Setup
 
         #region UES Contact Light Setup
+
         public static void SceneAssetAPI_GetLobbyObjects(GameObject[] gameObjects)
         {
             foreach (var gameObject in gameObjects)
@@ -53,6 +57,7 @@ namespace LobbyAppearanceImprovements
                 }
             }
         }
+
         public static GameObject ContactLightPrefab;
         public static GameObject ContactLight_RestraintBar;
         public static GameObject ContactLight_Commando;
@@ -68,6 +73,7 @@ namespace LobbyAppearanceImprovements
         public static GameObject ContactLight_Mercenary;
         public static GameObject ContactLight_Loader;
         public static GameObject ContactLight_CHEF;
+
         public static void SetupContactLight()
         {
             var restraintMesh = RoR2Content.Survivors.Croco.displayPrefab.transform.Find("mdlCroco/Spawn/SpawnFX/Chunks, Solid").GetComponent<ParticleSystemRenderer>().mesh;
@@ -98,7 +104,7 @@ namespace LobbyAppearanceImprovements
             restraintBar.transform.localPosition = new Vector3(0.02f, 1.4f, 0.2f);
             ContactLight_Commando.GetComponentInChildren<Animator>().enabled = false;
             var chest = ContactLight_Commando.transform.Find("mdlCommandoDualies/CommandoArmature/ROOT/base/stomach/chest");
-            chest.Find("upper_arm.l").localEulerAngles = new Vector3(0, 0, 145); 
+            chest.Find("upper_arm.l").localEulerAngles = new Vector3(0, 0, 145);
             chest.Find("upper_arm.l/lower_arm.l").localEulerAngles = new Vector3(340, 270, 240);
             chest.Find("upper_arm.l/lower_arm.l/hand.l").localEulerAngles = new Vector3(15, 35, -8.8389f);
             chest.Find("upper_arm.l/lower_arm.l/hand.l/gun.l").localScale = Vector3.zero;
@@ -119,9 +125,8 @@ namespace LobbyAppearanceImprovements
             restraintBar.transform.localEulerAngles = new Vector3(310, 0, 0);
             restraintBar.transform.localScale = new Vector3(0.25f, 0.6f, 0.4f);
             restraintBar.transform.localPosition = new Vector3(-0.06f, 1.6f, 2.75f);
-            
         }
-        #endregion
 
+        #endregion UES Contact Light Setup
     }
 }

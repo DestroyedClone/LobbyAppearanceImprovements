@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using RoR2;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
@@ -12,6 +9,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneName => "Arena";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Shadow of the Nemesis";
+
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
             { "Commando", new [] {new Vector3(0f, 0f, 7f), new Vector3(0f, 60f, 0f) } },
@@ -22,7 +20,6 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
             { "Henry", new [] {new Vector3(-2f, 0f, 4f), new Vector3(0f, 180f, 0f) } },
             { "Nemry", new [] {new Vector3(-2f, 0f, 8f), new Vector3(0f, 128f, 0f) } },
-
         };
     }
 }

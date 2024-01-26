@@ -1,8 +1,6 @@
-﻿using System;
+﻿using RoR2;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using RoR2;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
@@ -13,12 +11,14 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Paladin's Entrance";
         public override string[] RequiredModGUID => new string[] { "com.rob.Paladin" };
+
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
         };
 
         // these fucks show up in the scene anyway but they get deleted after so who cares
         public static GameObject StatueHolders { get; set; }
+
         public static RuntimeAnimatorController gamingAnimatorController;
 
         //https://stackoverflow.com/a/59359043

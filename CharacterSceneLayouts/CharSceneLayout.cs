@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using static LobbyAppearanceImprovements.Methods;
-using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 {
@@ -29,6 +29,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public bool HasSetup = false;
 
         public virtual Dictionary<string, CameraSetting> CharacterCameraSettings { get; }
+
         public struct CameraSetting
         {
             public CameraSetting(float Fov = 60, float Pitch = 0, float Yaw = 0, Vector3 Position = new Vector3(), Vector3 Rotation = new Vector3())
@@ -50,7 +51,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public GameObject CreateLayout()
         {
             var layoutHolder = new GameObject();
-            layoutHolder.name = "HOLDER: LAYOUT ("+ SceneLayout+")";
+            layoutHolder.name = "HOLDER: LAYOUT (" + SceneLayout + ")";
             foreach (var characterLayout in CharacterLayouts)
             {
                 CreateDisplay(characterLayout.Key, characterLayout.Value[0], characterLayout.Value[1], layoutHolder.transform);
@@ -72,7 +73,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public virtual void Init()
         {
             if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-            LAIPlugin._logger.LogMessage($"{SceneLayout}.Init :: Setting up layout.");
+                LAIPlugin._logger.LogMessage($"{SceneLayout}.Init :: Setting up layout.");
             if (HasSetup)
             {
                 if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)

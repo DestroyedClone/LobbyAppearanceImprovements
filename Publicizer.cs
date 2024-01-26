@@ -1,5 +1,5 @@
-﻿using System.Security.Permissions;
-using System.Security;
+﻿using System.Security;
+using System.Security.Permissions;
 
 [module: UnverifiableCode]
 #pragma warning disable CS0618 // Type or member is obsolete

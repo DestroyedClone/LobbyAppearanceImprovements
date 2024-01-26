@@ -1,22 +1,18 @@
-﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
+﻿using BepInEx;
+using LeTai.Asset.TranslucentImage;
+using LobbyAppearanceImprovements.CharacterSceneLayouts;
 using LobbyAppearanceImprovements.Scenes;
 using RoR2;
-using System;
-using UnityEngine;
-using static LobbyAppearanceImprovements.ConfigSetup;
-using static LobbyAppearanceImprovements.LAIPlugin;
-using System.Linq;
-using System.Collections;
-using UnityEngine.EventSystems;
+using RoR2.SurvivorMannequins;
 using RoR2.UI;
-using RoR2.UI.SkinControllers;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEngine.UI;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using static LobbyAppearanceImprovements.ConfigSetup;
+using static LobbyAppearanceImprovements.LAIPlugin;
 using static UnityEngine.ColorUtility;
-using LeTai.Asset.TranslucentImage;
-using RoR2.SurvivorMannequins;
-using BepInEx;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -102,7 +98,7 @@ namespace LobbyAppearanceImprovements
             if (!bodyPrefab)
             {
                 if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
-                    _logger.LogMessage("CreateDisplay :: Aborted, no body prefab found for "+bodyPrefabName);
+                    _logger.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName);
                 return null;
             }
 
@@ -110,7 +106,7 @@ namespace LobbyAppearanceImprovements
             if (!survivorDef)
             {
                 if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
-                    _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for "+bodyPrefabName);
+                    _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName);
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -142,16 +138,20 @@ namespace LobbyAppearanceImprovements
 
                 case "RobEnforcer":
                     break;
+
                 case "Treebot":
                     gameObject.transform.Find("ModelBase/mdlTreebot").gameObject.GetComponent<CharacterModel>().enabled = false;
                     break;
+
                 case "Toolbot":
                     gameObject.transform.Find("Base/mdlToolbot").gameObject.GetComponent<CharacterModel>().enabled = false;
                     break;
+
                 case "HANDOverclocked":
                     var teaser = LAIPlugin.sceneInstance.transform.Find("HANDTeaser");
                     if (teaser) teaser.gameObject.SetActive(false);
                     break;
+
                 case "RobPaladin":
                     if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Paladin"))
                     {
@@ -167,7 +167,6 @@ namespace LobbyAppearanceImprovements
         {
             UnityEngine.Object.Destroy(gameObject.GetComponent<PaladinMod.Misc.MenuSound>());
         }
-
 
         public static GameObject GetBodyPrefab(string bodyPrefabName, bool strict = false)
         {
@@ -298,7 +297,6 @@ namespace LobbyAppearanceImprovements
             return LoadSceneAndLayoutResult.NoSceneNoLayout;
         }
 
-
         public class ClickToSelectCharacter : MonoBehaviour
         {
             //CapsuleCollider capsuleCollider;
@@ -325,7 +323,6 @@ namespace LobbyAppearanceImprovements
                 }
                 else
                 {
-
                     if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
                         _logger.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name);
                 }
@@ -378,7 +375,6 @@ namespace LobbyAppearanceImprovements
 
                 boxCollider.size = size;
                 boxCollider.center = center;
-
             }
 
             public SkinnedMeshRenderer GetTargetRenderer(string cachedName)
@@ -391,46 +387,59 @@ namespace LobbyAppearanceImprovements
                     case "Commando":
                         path = "mdlCommandoDualies/CommandoMesh";
                         break;
+
                     case "Huntress":
                         path = "mdlHuntress (1)/HuntressMesh";
                         break;
+
                     case "Engi":
                     case "Mage":
                     case "Merc":
                     case "Croco":
-                        path = "mdl"+ cachedName + "/"+ cachedName + "Mesh";
+                        path = "mdl" + cachedName + "/" + cachedName + "Mesh";
                         break;
+
                     case "Toolbot":
                         path = "Base/mdlToolbot/ToolbotMesh";
                         break;
+
                     case "Treebot":
                         path = "";
                         break;
+
                     case "Loader":
                         break;
+
                     case "Enforcer":
                         path = "meshEnforcer";
                         break;
+
                     case "Nemforcer":
                         path = "Nemforcer";
                         break;
+
                     case "SniperClassic":
                         path = "SniperMesh";
                         break;
+
                     case "HAND":
                     case "HAN-D":
                         path = "HAN-DMesh";
                         break;
+
                     case "Miner":
                         path = "MinerDisplay/MinerBody";
                         break;
+
                     case "RobPaladin":
                         path = "meshPaladin";
                         break;
+
                     case "CHEF":
                     case "Chef":
                         path = "Chef";
                         break;
+
                     default:
                         break;
                 }
@@ -526,7 +535,8 @@ namespace LobbyAppearanceImprovements
                 if (!instance)
                 {
                     instance = this;
-                } else
+                }
+                else
                 {
                     _logger.LogWarning("Two instances of LAICameraController were spawned?");
                 }
@@ -630,8 +640,6 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-
-
             void OnApplicationFocus(bool hasFocus)
             {
                 screenIsFocused = hasFocus;
@@ -657,7 +665,7 @@ namespace LobbyAppearanceImprovements
                 value.y = Mathf.Lerp(defaultPosition.y + screenLimitDistance, defaultPosition.y - screenLimitDistance, fractionY);
 
                 //if (Input.GetMouseButtonDown(2))
-                    //value.z = startingPosition.z;
+                //value.z = startingPosition.z;
 
                 var val = defaultPosition.z + Input.mouseScrollDelta.y * forwardMult;
                 value.z = Mathf.Clamp(val, defaultPosition.z - forwardLimit, defaultPosition.z + forwardLimit);
@@ -802,7 +810,6 @@ namespace LobbyAppearanceImprovements
             {
                 //if (LobbyViewType != StaticValues.LobbyViewType.Zoom) //if Zoom is selected, then this will NRE //here
                 obj.transform.localScale = Vector3.one * size;
-
             }
         }
 
@@ -883,7 +890,8 @@ namespace LobbyAppearanceImprovements
                 SIL_Enabled.Value = value; //order matters
                 // Needs to be set before so the fucking method can change it back
                 Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
-            } else
+            }
+            else
             {
                 Methods.LoadSceneAndLayout(null, nameof(Any_Empty), false);
                 SIL_Enabled.Value = value;
@@ -911,7 +919,8 @@ namespace LobbyAppearanceImprovements
             {
                 UserProfile.onSurvivorPreferenceChangedGlobal += UserProfile_onSurvivorPreferenceChangedGlobal;
                 //_logger.LogMessage("Hook'd");
-            } else
+            }
+            else
             {
                 UserProfile.onSurvivorPreferenceChangedGlobal -= UserProfile_onSurvivorPreferenceChangedGlobal;
                 Methods.SetCamera();
