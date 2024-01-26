@@ -82,9 +82,9 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             Debug.Log("Creating Statue");
             var model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);
             model.GetComponent<CharacterModel>().enabled = false;
-            model.transform.Find("meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
-            model.transform.Find("meshSword").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
-            model.transform.Find("Armature").gameObject.SetActive(false);
+            model.transform.Find("Armature/meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
+            model.transform.Find("Armature/meshSword").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
+            model.transform.Find("Armature/spine").gameObject.SetActive(false);
             model.name = "PaladinStatue";
             //model.GetComponent<Animator>().playbackTime = 5;
             model.transform.position = new Vector3(0, -50f, 0);
