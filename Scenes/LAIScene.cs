@@ -1,4 +1,5 @@
 ﻿using RoR2.UI;
+using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -9,6 +10,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public LAIScene()
         {
         }
+
+        public static Action<LAIScene> onSceneLoaded;
+        public static Action<LAIScene> onSceneUnloaded;
 
         public abstract string SceneName { get; }
         public abstract string SceneNameToken { get; }
@@ -32,6 +36,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 sceneInstance.transform.rotation = Rotation;
                 sceneInstance.transform.localScale = Scale;
             }
+            onSceneLoaded?.Invoke(this);
             return sceneInstance;
         }
 
@@ -55,8 +60,9 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public void OnDestroy()
         {
-            if (TitleInstance) Object.Destroy(TitleInstance);
-            if (SubTitleInstance) Object.Destroy(SubTitleInstance);
+            if (TitleInstance) UnityEngine.Object.Destroy(TitleInstance);
+            if (SubTitleInstance) UnityEngine.Object.Destroy(SubTitleInstance);
+            onSceneUnloaded?.Invoke(this);
         }
 
         public static GameObject LoadAsset(string path)
