@@ -16,6 +16,7 @@ using UnityEngine.UI;
 using static UnityEngine.ColorUtility;
 using LeTai.Asset.TranslucentImage;
 using RoR2.SurvivorMannequins;
+using BepInEx;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -25,7 +26,7 @@ namespace LobbyAppearanceImprovements
     {
         public static void ChangeLobbyLightColor(Color32 color)
         {
-            GameObject.Find("Directional Light").gameObject.GetComponent<Light>().color = color;
+            GameObject.Find("Directional Light").GetComponent<Light>().color = color;
         }
 
         public class LAI_CharDisplayTracker : MonoBehaviour
@@ -50,7 +51,7 @@ namespace LobbyAppearanceImprovements
             return;
             if (!cameraRig)
             {
-                cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
+                cameraRig = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
 
                 if (!cameraRig)
                 {
@@ -136,7 +137,7 @@ namespace LobbyAppearanceImprovements
             switch (bodyPrefabName)
             {
                 case "Croco":
-                    gameObject.transform.Find("mdlCroco")?.transform.Find("Spawn")?.transform.Find("FloorMesh")?.gameObject.SetActive(false);
+                    gameObject.transform.Find("mdlCroco").transform.Find("Spawn").transform.Find("FloorMesh").gameObject.SetActive(false);
                     break;
 
                 case "RobEnforcer":
@@ -148,7 +149,8 @@ namespace LobbyAppearanceImprovements
                     gameObject.transform.Find("Base/mdlToolbot").gameObject.GetComponent<CharacterModel>().enabled = false;
                     break;
                 case "HANDOverclocked":
-                    GameObject.Find("HANDTeaser")?.SetActive(false);
+                    var teaser = LAIPlugin.sceneInstance.transform.Find("HANDTeaser");
+                    if (teaser) teaser.gameObject.SetActive(false);
                     break;
                 case "RobPaladin":
                     if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.rob.Paladin"))
@@ -228,7 +230,7 @@ namespace LobbyAppearanceImprovements
                 ConfigSetup.SIL_SelectedLayout.Value = layoutNameLower;
 
             //Resets camera on layout change
-            var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
+            var cameraRig = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
             SetCamera(cameraRig);
         }
 
@@ -270,9 +272,9 @@ namespace LobbyAppearanceImprovements
                     resultScene = true;
                 }
             }
-            if (layoutName == null)
+            if (layoutName.IsNullOrWhiteSpace())
             {
-                layoutName = LAIPlugin.chosenScene.PreferredLayout != null ? LAIPlugin.chosenScene.PreferredLayout : nameof(Any_Empty);
+                layoutName = chosenScene.PreferredLayout != null ? LAIPlugin.chosenScene.PreferredLayout : nameof(Any_Empty);
             }
             if (SIL_Enabled.Value)
                 if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
@@ -433,7 +435,7 @@ namespace LobbyAppearanceImprovements
                         break;
                 }
                 Transform transform = gameObject.transform.Find(path);
-                return path != "" ? transform?.GetComponent<SkinnedMeshRenderer>() : null;
+                return path != "" && transform ? transform.GetComponent<SkinnedMeshRenderer>() : null;
             }
 
             public SkinnedMeshRenderer GetTargetRendererFallback()
@@ -461,7 +463,7 @@ namespace LobbyAppearanceImprovements
                         return;
                     LocalUserManager.GetFirstLocalUser().userProfile.SetSurvivorPreference(survivorDef);
                     characterSelectController.SetSurvivorInfoPanelActive(true);
-                    localUser.currentNetworkUser?.CallCmdSetBodyPreference(BodyCatalog.FindBodyIndex(survivorDef.bodyPrefab));
+                    if (localUser.currentNetworkUser) localUser.currentNetworkUser.CallCmdSetBodyPreference(BodyCatalog.FindBodyIndex(survivorDef.bodyPrefab));
                     return;
                 }
             }
@@ -492,9 +494,9 @@ namespace LobbyAppearanceImprovements
             public string setpParallax = "==Parallax==";
             public Vector3 desiredPosition; // Desired position for parallax
             private Vector3 velocity;
-            private float screenLimitDistance = 0.25f; //Limit of the screen to move with parallax from the center of the screen.
-            private float forwardLimit = 5f;
-            private float forwardMult = 0.25f;
+            private readonly float screenLimitDistance = 0.25f; //Limit of the screen to move with parallax from the center of the screen.
+            private readonly float forwardLimit = 5f;
+            private readonly float forwardMult = 0.25f;
 
             // Zoom On Character
             public string sepZoom = "==Zoom==";
@@ -777,7 +779,7 @@ namespace LobbyAppearanceImprovements
             var directionalLight = GameObject.Find("Directional Light");
             if (directionalLight)
             {
-                directionalLight.gameObject.GetComponent<FlickerLight>().enabled = Light_Flicker.Value;
+                directionalLight.GetComponent<FlickerLight>().enabled = Light_Flicker.Value;
             }
         }
         public static void Hook_LightUpdate_Intensity(float intensity)
@@ -786,7 +788,7 @@ namespace LobbyAppearanceImprovements
             var directionalLight = GameObject.Find("Directional Light");
             if (directionalLight)
             {
-                directionalLight.gameObject.GetComponent<Light>().intensity = Light_Intensity.Value;
+                directionalLight.GetComponent<Light>().intensity = Light_Intensity.Value;
             }
         }
 
@@ -919,7 +921,7 @@ namespace LobbyAppearanceImprovements
 
         private static void UserProfile_onSurvivorPreferenceChangedGlobal(UserProfile userProfile)
         {
-            var cameraRig = GameObject.Find("Main Camera").gameObject.GetComponent<CameraRigController>();
+            var cameraRig = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
             var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(userProfile.GetSurvivorPreference().survivorIndex));
 
             //_logger.LogMessage($"Body Name: {bodyName}");

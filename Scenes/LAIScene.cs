@@ -32,8 +32,7 @@ namespace LobbyAppearanceImprovements.Scenes
             if (BackgroundPrefab)
             {
                 sceneInstance = UnityEngine.Object.Instantiate<GameObject>(BackgroundPrefab);
-                sceneInstance.transform.position = Position;
-                sceneInstance.transform.rotation = Rotation;
+                sceneInstance.transform.SetPositionAndRotation(Position, Rotation);
                 sceneInstance.transform.localScale = Scale;
             }
             onSceneLoaded?.Invoke(this);
@@ -43,7 +42,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public void CreateTitleText()
         {
             if (!LAIPlugin.characterSelectController) return;
-            if (!LAIPlugin.TitleRef) LAIPlugin.TitleRef = LAIPlugin.characterSelectController.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
+            if (!LAIPlugin.TitleRef) LAIPlugin.TitleRef = LAIPlugin.characterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
             if (!LAIPlugin.TitleRef) return;
             TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
             TitleInstance.name = $"LobbyAppearanceImprovements_Scene_Title";
