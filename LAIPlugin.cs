@@ -84,9 +84,17 @@ namespace LobbyAppearanceImprovements
 
             SceneSetup.Init();
 
+            LAIScene.onSceneLoaded += OnSceneLoaded;
+
             On.RoR2.CameraRigController.Start += CameraRigController_Start;
             On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredSceneLayoutSetup;
             On.RoR2.PreGameController.RefreshLobbyBackground += PreGameController_RefreshLobbyBackground;
+        }
+
+        public static void OnSceneLoaded(LAIScene laiScene)
+        {
+            if (LAIPlugin.sceneInstance)
+            MeshPropsRef = LAIPlugin.sceneInstance.transform.Find("MeshProps").gameObject;
         }
 
         private void PreGameController_RefreshLobbyBackground(On.RoR2.PreGameController.orig_RefreshLobbyBackground orig, PreGameController self)
@@ -204,7 +212,6 @@ namespace LobbyAppearanceImprovements
             }
             if (!self.gameObject.GetComponent<Methods.LAICameraController>())
                 self.gameObject.AddComponent<Methods.LAICameraController>();
-            MeshPropsRef = GameObject.Find("MeshProps");
             UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
 
 
