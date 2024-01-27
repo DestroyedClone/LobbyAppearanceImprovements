@@ -85,7 +85,7 @@ namespace LobbyAppearanceImprovements
 
         public static void OnSceneLoaded(LAIScene laiScene)
         {
-            if (LAIPlugin.sceneInstance)
+            if (LAIPlugin.sceneInstance && LAIPlugin.sceneInstance.transform.Find("MeshProps"))
                 MeshPropsRef = LAIPlugin.sceneInstance.transform.Find("MeshProps").gameObject;
         }
 
