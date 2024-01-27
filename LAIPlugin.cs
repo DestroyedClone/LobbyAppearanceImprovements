@@ -30,7 +30,7 @@ namespace LobbyAppearanceImprovements
     [R2APISubmoduleDependency(nameof(R2API.SceneAssetAPI))]
     public partial class LAIPlugin : BaseUnityPlugin
     {
-        public const string ModVer = "1.1.1";
+        public const string ModVer = "1.2.0";
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
