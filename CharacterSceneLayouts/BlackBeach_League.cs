@@ -9,6 +9,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneName => "BlackBeach";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Risk of Legends";
+        public override string ReadmeDescription => "League of Legends characters";
 
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {

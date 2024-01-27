@@ -81,6 +81,8 @@ namespace LobbyAppearanceImprovements
             On.RoR2.CameraRigController.Start += CameraRigController_Start;
             On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredSceneLayoutSetup;
             On.RoR2.PreGameController.RefreshLobbyBackground += PreGameController_RefreshLobbyBackground;
+
+
         }
 
         public static void OnSceneLoaded(LAIScene laiScene)

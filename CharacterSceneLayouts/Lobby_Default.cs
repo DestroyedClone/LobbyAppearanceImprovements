@@ -9,6 +9,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneName => "Lobby";
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Default";
+        public override string ReadmeDescription => "";
 
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {

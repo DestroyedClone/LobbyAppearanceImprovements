@@ -8,7 +8,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneLayout => "Arena_Nemesis";
         public override string SceneName => "Arena";
         public override string Author => "DestroyedClone";
-        public override string LayoutName => "Shadow of the Nemesis";
+        public override string LayoutName => "Split Personality";
+        public override string ReadmeDescription => "Characters with their corresponding nemeses.";
 
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {
