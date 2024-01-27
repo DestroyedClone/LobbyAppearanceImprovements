@@ -192,8 +192,8 @@ namespace LobbyAppearanceImprovements
             inLobbyConfigEntry.SectionFields["Scenes+Layouts"] = new List<IConfigField>
             {
                 //new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
-                new StringConfigField(Scene_Selection.Definition.Key, Scene_Selection.Description.Description, () => Scene_Selection.Value, null, tempSelectSceneAction),
                 new BooleanConfigField(Scene_Header.Definition.Key, Scene_Header.Description.Description, () => Scene_Header.Value, Hook_ToggleSceneHeaderVisibility),
+                new StringConfigField(Scene_Selection.Definition.Key, Scene_Selection.Description.Description, () => Scene_Selection.Value, null, tempSelectSceneAction),
                 new StringConfigField(SIL_SelectedLayout.Definition.Key, SIL_SelectedLayout.Description.Description, () => SIL_SelectedLayout.Value, null, tempSelectLayoutAction),
                 new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
                 new BooleanConfigField(SIL_Enabled.Definition.Key, SIL_Enabled.Description.Description, () => SIL_Enabled.Value, Hook_SurvivorsInLobby),
