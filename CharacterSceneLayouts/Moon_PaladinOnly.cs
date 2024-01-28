@@ -11,7 +11,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string Author => "DestroyedClone";
         public override string LayoutName => "Paladin's Entrance";
         public override string ReadmeDescription => "Based on the logo.";
-        public override string[] RequiredModGUID => new string[] { "com.rob.Paladin" };
+        public override string[] RequiredModGUIDs => new string[] { "com.rob.Paladin" };
 
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
         {

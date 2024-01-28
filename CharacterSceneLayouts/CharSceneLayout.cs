@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.Methods;
 
 namespace LobbyAppearanceImprovements.CharacterSceneLayouts
@@ -24,7 +26,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public virtual string ReadmeDescription { get; }
 
-        public virtual string[] RequiredModGUID { get; }
+        public virtual string[] RequiredModGUIDs { get; }
 
         public abstract Dictionary<string, Vector3[]> CharacterLayouts { get; }
 
@@ -48,6 +50,25 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             public float yaw { get; }
             public Vector3 position { get; }
             public Vector3 rotation { get; }
+        }
+
+        public bool CanLoadLayout()
+        {
+            if (RequiredModGUIDs != null && RequiredModGUIDs.Length > 0)
+            {
+                foreach (var GUID in RequiredModGUIDs) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                {
+                    if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                    {
+                        if (ShowLoggingText.Value > LoggingStyle.Minimal)
+                        {
+                            LAIPlugin._logger.LogMessage($"Refused to load layout \"{LayoutName}\" because GUID \"{GUID}\" was not loaded!");
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public GameObject CreateLayout()

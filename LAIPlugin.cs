@@ -207,25 +207,7 @@ namespace LobbyAppearanceImprovements
                 if (sceneType.IsAssignableFrom(type))
                 {
                     var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
-                    bool canLoadScene = true;
-                    var guids = sceneObjectInitializer.RequiredModGUID;
-
-                    if (guids != null && guids.Length > 0)
-                    {
-                        foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
-                        {
-                            //if (printpala) Debug.Log("current GUID: "+GUID);
-                            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
-                            {
-                                canLoadScene = false;
-                                if (ShowLoggingText.Value > LoggingStyle.Minimal)
-                                {
-                                    _logger.LogMessage($"Refused to load scene \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    bool canLoadScene = sceneObjectInitializer.CanLoadScene();
                     if (canLoadScene)
                     {
                         var sceneName = type.Name.ToLower();
@@ -236,24 +218,7 @@ namespace LobbyAppearanceImprovements
                 else if (layoutType.IsAssignableFrom(type))
                 {
                     var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
-                    bool canLoadLayout = true;
-                    var guids = sceneObjectInitializer.RequiredModGUID;
-                    if (guids != null && guids.Length > 0)
-                    {
-                        foreach (var GUID in guids) //Todo: Add optional assembly: "a.b.c||a.b.d"
-                        {
-                            //if (printpala) Debug.Log("current GUID: "+GUID);
-                            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
-                            {
-                                canLoadLayout = false;
-                                if (ShowLoggingText.Value > LoggingStyle.Minimal)
-                                {
-                                    _logger.LogMessage($"Refused to load layout \"{type.Name}\" because GUID \"{GUID}\" was not loaded!");
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    bool canLoadLayout = sceneObjectInitializer.CanLoadLayout();
                     if (canLoadLayout)
                     {
                         var layoutNameLower = type.Name.ToLower();

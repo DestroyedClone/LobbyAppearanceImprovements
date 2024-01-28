@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using static LobbyAppearanceImprovements.ConfigSetup;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -23,7 +24,26 @@ namespace LobbyAppearanceImprovements.Scenes
         public virtual GameObject TitleInstance { get; set; }
         public virtual GameObject SubTitleInstance { get; set; }
         public virtual string PreferredLayout { get; }
-        public virtual string[] RequiredModGUID { get; }
+        public virtual string[] RequiredModGUIDs { get; }
+
+        public bool CanLoadScene()
+        {
+            if (RequiredModGUIDs != null && RequiredModGUIDs.Length > 0)
+            {
+                foreach (var GUID in RequiredModGUIDs) //Todo: Add optional assembly: "a.b.c||a.b.d"
+                {
+                    if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
+                    {
+                        if (ShowLoggingText.Value > LoggingStyle.Minimal)
+                        {
+                            LAIPlugin._logger.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!");
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         public GameObject CreateScene()
         {

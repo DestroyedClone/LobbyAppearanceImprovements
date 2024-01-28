@@ -23,7 +23,7 @@ namespace LobbyAppearanceImprovements.readme
                     characterStringBuilder.Append($"{chr.Key}, ");
                 }
 
-                var sceneName = lay.RequiredModGUID.Length == 0 ? "🔒" : "";
+                var sceneName = lay.RequiredModGUIDs.Length == 0 ? "🔒" : "";
                 sceneName += lay.SceneName;
 
                 sb.AppendLine(string.Format(thing, sceneName, lay.SceneLayout, characterStringBuilder.ToString(), lay.ReadmeDescription));
