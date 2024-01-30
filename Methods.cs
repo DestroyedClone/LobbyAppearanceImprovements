@@ -218,9 +218,14 @@ namespace LobbyAppearanceImprovements
                     _logger.LogWarning($"SelectLayout :: {layoutName} \'(parsed as {layoutNameLower})\' not found!");
                 return;
             }
-
             if (layoutInstance)
+            {
+                if (ConfigSetup.SIL_SelectedLayout.Value.ToLower() == layoutNameLower)
+                {
+                    return;
+                }
                 UnityEngine.Object.Destroy(layoutInstance);
+            }
 
             var layoutObject = (CharSceneLayout)Activator.CreateInstance(layout);
             chosenLayout = layoutObject;
