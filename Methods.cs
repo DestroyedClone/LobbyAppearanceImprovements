@@ -51,10 +51,7 @@ namespace LobbyAppearanceImprovements
 
                 if (!cameraRig)
                 {
-                    if (ConfigSetup.ShowLoggingText.Value > LoggingStyle.Minimal)
-                    {
-                        _logger.LogMessage("Couldn't find CameraRig!");
-                    }
+                    LAIPlugin.LogMessage("Couldn't find CameraRig!", LoggingStyle.UserMessages);
                     return;
                 }
             }
@@ -97,16 +94,14 @@ namespace LobbyAppearanceImprovements
             var bodyPrefab = GetBodyPrefab(bodyPrefabName, strictName);
             if (!bodyPrefab)
             {
-                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
-                    _logger.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName);
+                LAIPlugin.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserMessages);
                 return null;
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             if (!survivorDef)
             {
-                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
-                    _logger.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName);
+                LAIPlugin.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserMessages);
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -185,8 +180,7 @@ namespace LobbyAppearanceImprovements
             var selectedScene = scenesDict.TryGetValue(sceneNameLower, out var scene);
             if (!selectedScene)
             {
-                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-                    _logger.LogWarning($"SelectScene :: {sceneName} (parsed as \'{sceneNameLower})\' not found!");
+                LAIPlugin.LogWarning($"SelectScene :: {sceneName} (parsed as \'{sceneNameLower})\' not found!", ConfigSetup.LoggingStyle.UserMessages);
                 return;
             }
 
@@ -214,8 +208,7 @@ namespace LobbyAppearanceImprovements
             var selectedLayout = layoutsDict.TryGetValue(layoutNameLower, out var layout);
             if (!selectedLayout)
             {
-                if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-                    _logger.LogWarning($"SelectLayout :: {layoutName} \'(parsed as {layoutNameLower})\' not found!");
+                LAIPlugin.LogWarning($"SelectLayout :: {layoutName} \'(parsed as {layoutNameLower})\' not found!", ConfigSetup.LoggingStyle.UserMessages);
                 return;
             }
             if (layoutInstance)
@@ -267,8 +260,7 @@ namespace LobbyAppearanceImprovements
             {
                 if (!scenesDict.ContainsKey(sceneName))
                 {
-                    if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.None)
-                        _logger.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!");
+                    LAIPlugin.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!", ConfigSetup.LoggingStyle.UserMessages);
                 }
                 else
                 {
@@ -328,8 +320,7 @@ namespace LobbyAppearanceImprovements
                 }
                 else
                 {
-                    if (ConfigSetup.ShowLoggingText.Value > ConfigSetup.LoggingStyle.Minimal)
-                        _logger.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name);
+                    LAIPlugin.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name, ConfigSetup.LoggingStyle.UserMessages);
                 }
 
                 /*capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
@@ -384,7 +375,7 @@ namespace LobbyAppearanceImprovements
 
             public SkinnedMeshRenderer GetTargetRenderer(string cachedName)
             {
-                _logger.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.");
+                LAIPlugin.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.", ConfigSetup.LoggingStyle.UserMessages);
                 string path = "";
 
                 switch (cachedName)
@@ -543,7 +534,7 @@ namespace LobbyAppearanceImprovements
                 }
                 else
                 {
-                    _logger.LogWarning("Two instances of LAICameraController were spawned?");
+                    LAIPlugin.LogWarning("Two instances of LAICameraController were spawned?", ConfigSetup.LoggingStyle.UserMessages);
                 }
 
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
@@ -564,7 +555,7 @@ namespace LobbyAppearanceImprovements
 
                 if (CurrentCameraController != null && CurrentCameraController != this)
                 {
-                    _logger.LogWarning("Somehow there are two camera parallaxes?");
+                    LAIPlugin.LogWarning("Somehow there are two camera parallaxes?", ConfigSetup.LoggingStyle.UserMessages);
                 }
                 CurrentCameraController = this;
             }
@@ -602,17 +593,17 @@ namespace LobbyAppearanceImprovements
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     if (survivorMannequinSlotControllers == null)
                     {
-                        _logger.LogError($"survivorMannequinSlotControllers is missing!");
+                        LAIPlugin.LogError($"survivorMannequinSlotControllers is missing!", ConfigSetup.LoggingStyle.UserMessages);
                         return;
                     }
                     if (survivorMannequinSlotControllers[0] == null)
                     {
-                        _logger.LogError($"survivorMannequinSlotControllers[0] is missing!");
+                        LAIPlugin.LogError($"survivorMannequinSlotControllers[0] is missing!", ConfigSetup.LoggingStyle.UserMessages);
                         return;
                     }
                     if (survivorMannequinSlotControllers[0].mannequinInstanceTransform == null)
                     {
-                        _logger.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!");
+                        LAIPlugin.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!", ConfigSetup.LoggingStyle.UserMessages);
                         return;
                     }
                     survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_initialPosition;
@@ -749,11 +740,9 @@ namespace LobbyAppearanceImprovements
                 rightBlurColor.color.b,
                 transparencyValue);
 
-            if (ConfigSetup.ShowLoggingText.Value > LoggingStyle.Minimal)
-            {
-                _logger.LogMessage($"Transparency Value: {transparencyValue}");
-                _logger.LogMessage($"Color transparency: {leftBlurColor.color.a}");
-            }
+
+            LAIPlugin.LogMessage($"Transparency Value: {transparencyValue}" +
+                $"\nColor transparency: {leftBlurColor.color.a}", LoggingStyle.UserMessages);
         }
 
         public static void Hook_UIScale(float value)
@@ -855,7 +844,7 @@ namespace LobbyAppearanceImprovements
 
             if (!MeshPropsRef)
             {
-                _logger.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef");
+                LAIPlugin.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef", LoggingStyle.UserMessages);
                 return;
             }
             var meshPropHolder = MeshPropsRef.transform;

@@ -34,10 +34,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 {
                     if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                     {
-                        if (ShowLoggingText.Value > LoggingStyle.Minimal)
-                        {
-                            LAIPlugin._logger.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!");
-                        }
+                        LAIPlugin.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserMessages);
                         return false;
                     }
                 }

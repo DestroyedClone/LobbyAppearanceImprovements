@@ -35,6 +35,21 @@ namespace LobbyAppearanceImprovements
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
         internal static BepInEx.Logging.ManualLogSource _logger = null;
+        public static void LogMessage(string message, ConfigSetup.LoggingStyle loggingStyle)
+        {
+            if (ConfigSetup.ShowLoggingText.Value >= loggingStyle)
+                _logger.LogMessage(message);
+        }
+        public static void LogWarning(string message, ConfigSetup.LoggingStyle loggingStyle)
+        {
+            if (ConfigSetup.ShowLoggingText.Value >= loggingStyle)
+                _logger.LogWarning(message);
+        }
+        public static void LogError(string message, ConfigSetup.LoggingStyle loggingStyle)
+        {
+            if (ConfigSetup.ShowLoggingText.Value >= loggingStyle)
+                _logger.LogError(message);
+        }
 
         public static LAIScene chosenScene = null;
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
@@ -225,7 +240,7 @@ namespace LobbyAppearanceImprovements
                         layoutsDict[layoutNameLower] = type;
                         layoutNameList.Add(layoutNameLower);
                         //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
-                        _logger.LogMessage("Initializing Scene:" + type);
+                        LAIPlugin.LogMessage("Initializing Scene: " + type, LoggingStyle.Developer);
                         sceneObjectInitializer.Init();
                     }
                 }
