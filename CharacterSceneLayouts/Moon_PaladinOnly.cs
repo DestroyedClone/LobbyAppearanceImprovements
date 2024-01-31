@@ -46,7 +46,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             }
             if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0)
             {
-                Debug.Log("Unable to load scene due to missing survivor Paladin");
+                LAIPlugin.LogWarning("Couldn't find survivorDef for RobPaladin, but GUID is loaded? What's going on!?", ConfigSetup.LoggingStyle.None);
                 return null;
             }
             List<GameObject> list = new List<GameObject>();
