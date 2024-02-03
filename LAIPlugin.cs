@@ -182,14 +182,14 @@ namespace LobbyAppearanceImprovements
             TitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
 
             // UI //
-            Hook_ShowFade(UI_ShowFade.Value);
-            Hook_BlurOpacity(UI_BlurOpacity.Value);
+            Hook_UI_ShowFade(UI_ShowFade.Value);
+            Hook_UI_BlurOpacity(UI_BlurOpacity.Value);
             Hook_UIScale(UI_Scale.Value);
 
             // Overlay //
             // Post Processing //
-            Hook_ShowPostProcessing(PostProcessing.Value);
-            Hook_Parallax(Parallax.Value);
+            Hook_Overlay_ShowPostProcessing(PostProcessing.Value);
+            Hook_Overlay_Parallax(Parallax.Value);
 
             // Lights //
             Hook_LightUpdate_Color(Light_Color.Value);
@@ -197,9 +197,9 @@ namespace LobbyAppearanceImprovements
             Hook_LightUpdate_Intensity(Light_Intensity.Value);
 
             // Character Pad Displays //
-            Hook_RescalePads(CharacterPadScale.Value);
-            Hook_Rotate_Toggle(TurnCharacter.Value);
-            Hook_Rotate_Speed(TurnCharacterMult.Value);
+            Hook_RescalePads(MannequinScale.Value);
+            Hook_Rotate_Toggle(MannequinEnableLocalTurn.Value);
+            Hook_Rotate_Speed(MannequinEnableLocalTurnMultiplier.Value);
 
             // Background Elements //
             Hook_HideProps(MeshProps.Value);

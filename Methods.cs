@@ -577,7 +577,7 @@ namespace LobbyAppearanceImprovements
                     MousePosition = Input.mousePosition;
                     if (Parallax.Value)
                         desiredPosition = GetDesiredPositionFromScreenFraction();
-                    if (TurnCharacter.Value)
+                    if (MannequinEnableLocalTurn.Value)
                         RotateCamera();
                 }
 
@@ -704,7 +704,7 @@ namespace LobbyAppearanceImprovements
 
     public static class HookMethods
     {
-        public static void Hook_ShowFade(bool value)
+        public static void Hook_UI_ShowFade(bool value)
         {
             UI_ShowFade.Value = value;
             UI_OriginRef.Find("BottomSideFade").gameObject.SetActive(value);
@@ -719,7 +719,7 @@ namespace LobbyAppearanceImprovements
                 shaker.enabled = value;
         }
 
-        public static void Hook_BlurOpacity(int value)
+        public static void Hook_UI_BlurOpacity(int value)
         {
             ConfigSetup.UI_BlurOpacity.Value = (int)Mathf.Clamp(value, 0f, 100);
 
@@ -755,7 +755,7 @@ namespace LobbyAppearanceImprovements
             ui_left.localScale = Vector3.one * value;
             ui_right.localScale = Vector3.one * value;
         }
-        public static void Hook_ShowPostProcessing(bool value)
+        public static void Hook_Overlay_ShowPostProcessing(bool value)
         {
             PostProcessing.Value = value;
             if (!LAIPlugin.sceneInstance) return;
@@ -796,7 +796,7 @@ namespace LobbyAppearanceImprovements
 
         public static void Hook_RescalePads(float size)
         {
-            CharacterPadScale.Value = size;
+            MannequinScale.Value = size;
             var contr = UnityEngine.Object.FindObjectOfType<SurvivorMannequinDioramaController>();
             var obj = contr.gameObject;
 
@@ -809,7 +809,7 @@ namespace LobbyAppearanceImprovements
 
         public static void Hook_Rotate_Toggle(bool value)
         {
-            TurnCharacter.Value = value;
+            MannequinEnableLocalTurn.Value = value;
 
             if (CurrentCameraController)
             {
@@ -819,7 +819,7 @@ namespace LobbyAppearanceImprovements
 
         public static void Hook_Rotate_Speed(float speed)
         {
-            TurnCharacterMult.Value = speed;
+            MannequinEnableLocalTurnMultiplier.Value = speed;
             if (CurrentCameraController)
             {
                 CurrentCameraController.AdjustRotateSpeed(speed);
@@ -858,7 +858,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        public static void Hook_Parallax(bool value)
+        public static void Hook_Overlay_Parallax(bool value)
         {
             Parallax.Value = value;
 

@@ -39,10 +39,10 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<float> Light_Intensity { get; set; }
 
         // Character Pad Displays //
-        public static ConfigEntry<float> CharacterPadScale { get; set; }
+        public static ConfigEntry<float> MannequinScale { get; set; }
 
-        public static ConfigEntry<bool> TurnCharacter { get; set; }
-        public static ConfigEntry<float> TurnCharacterMult { get; set; }
+        public static ConfigEntry<bool> MannequinEnableLocalTurn { get; set; }
+        public static ConfigEntry<float> MannequinEnableLocalTurnMultiplier { get; set; }
 
         // Background Elements //
         // Anything in the background unrelated to the characters //
@@ -89,53 +89,58 @@ namespace LobbyAppearanceImprovements
             // CONFIG //
             // Ordered by Layer //
             // UI //
-            UI_ShowFade = config.Bind("UI", "Show Fade", true, "Toggles the dark fade bars at the top and bottom of the lobby.");
-            UI_BlurOpacity = config.Bind("UI", "Blur Opacity", 100, "Adjusts the blur opacity behind the UI elements on the left and right." +
+            string cat = "UI";
+            UI_ShowFade = config.Bind(cat, "Show Fade", true, "Toggles the dark fade bars at the top and bottom of the lobby.");
+            UI_BlurOpacity = config.Bind(cat, "Blur Opacity", 100, "Adjusts the blur opacity behind the UI elements on the left and right." +
                 "\n0:fully transparent - 100:default");
-            UI_Scale = config.Bind("UI", "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
+            UI_Scale = config.Bind(cat, "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
             UI_Scale.Value = Mathf.Clamp(UI_Scale.Value, UI_Scale_Min, UI_Scale_Max);
 
             // Overlay //
             // Anything that affects the scene as a whole //
             // Post Processing //
-            PostProcessing = config.Bind("Overlay", "Post Processing", true, "Toggles the blurry post processing.");
-            Parallax = config.Bind("Overlay", "Parallax", true, "Enable to toggle on a slight parallax effect controlled by the position of the cursor.");
+            cat = "Overlay";
+            PostProcessing = config.Bind(cat, "Post Processing", true, "Toggles the blurry post processing.");
+            Parallax = config.Bind(cat, "Parallax", true, "Enable to toggle on a slight parallax effect controlled by the position of the cursor.");
             //EnableCharacterRotation = config.Bind("Overlay", "Character Rotation", true, "Clicking and dragging will rotate the frontmost character.");
 
             // Lights //
             // The primary light over the scene //
-            Light_Color = config.Bind("Lights", "Hex Color", "default", "Change the default color of the light, include the # for hex values"); //#fa5a5a
-            Light_Flicker = config.Bind("Lights", "Flickerlight", true, "Makes the light not flicker anymore.");
-            Light_Intensity = config.Bind("Lights", "Intensity", 1f, "Change the intensity of the light.");
+            cat = "Lights";
+            Light_Color = config.Bind(cat, "Hex Color", "default", "Change the default color of the light, include the # for hex values"); //#fa5a5a
+            Light_Flicker = config.Bind(cat, "Flickerlight", true, "Makes the light not flicker anymore.");
+            Light_Intensity = config.Bind(cat, "Intensity", 1f, "Change the intensity of the light.");
 
             // Character Pad Displays //
-            CharacterPadScale = config.Bind("Character Pad", "Character Display Scale", 1f, "Resizes character displays. "); //def 1f
-            TurnCharacter = config.Bind("Character Pad", "Character Rotate", true, "If true, then your character can be dragged to rotate.");
-            TurnCharacterMult = config.Bind("Character Pad", "Character Rotate Speed", 2f, "Sets the speed of character rotation.");
+            cat = "Character Display";
+            MannequinScale = config.Bind(cat, "Character Display Scale", 1f, "Resizes character displays. "); //def 1f
+            MannequinEnableLocalTurn = config.Bind(cat, "Character Rotate", true, "If true, then your character can be dragged to rotate.");
+            MannequinEnableLocalTurnMultiplier = config.Bind(cat, "Character Rotate Speed", 2f, "Sets the speed of character rotation.");
 
             // Background Elements //
             // Anything in the background unrelated to the characters //
-            MeshProps = config.Bind("Background", "Show Static MeshProps", false, "Toggles all the stationary meshprops.");
-            PhysicsProps = config.Bind("Background", "Show Physics Props", false, "Toggles all the physics props like the Chair.");
-            Shaking = config.Bind("Background", "Shaking", false, "Toggles the random shaking that rattles the ship.");
+            cat = "Background";
+            MeshProps = config.Bind(cat, "Show Static MeshProps", false, "Toggles all the stationary meshprops.");
+            PhysicsProps = config.Bind(cat, "Show Physics Props", false, "Toggles all the physics props like the Chair.");
+            Shaking = config.Bind(cat, "Shaking", false, "Toggles the random shaking that rattles the ship.");
 
             // Custom Background //
-            Scene_Selection = config.Bind("Background", "Select Scene", "default", "Sets the current scene of the lobby.");
-            Scene_Header = config.Bind("Background", "Scene Header", true, "Shows the scene's title and subtitle.");
+            Scene_Selection = config.Bind(cat, "Select Scene", "default", "Sets the current scene of the lobby.");
+            Scene_Header = config.Bind(cat, "Scene Header", true, "Shows the scene's title and subtitle.");
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
-            SIL_Enabled = config.Bind("Background", "Enable Character Layouts", true, "Shows background elements in certain orientations." +
+            SIL_Enabled = config.Bind(cat, "Enable Character Layouts", true, "Shows background elements in certain orientations." +
                 "\nThese background survivors don't reflect the loadouts in the lobby.");
-            SIL_LockedCharactersBlack = config.Bind("Background", "Enable Unavailable Shadow Survivors", true, "If true, any survivors in a character layout that you don't have unlocked become shadowy.");
-            SIL_SelectedLayout = config.Bind("Background", "Character Layout Name", "default", "Name of the layout to set to.");
-            SIL_ZoomEnable = config.Bind("Background", "Zoom On Character Select", true, "If true, selecting a character will zoom the camera onto that character.");
+            SIL_LockedCharactersBlack = config.Bind(cat, "Enable Unavailable Shadow Survivors", true, "If true, any survivors in a character layout that you don't have unlocked become shadowy.");
+            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Name of the layout to set to.");
+            SIL_ZoomEnable = config.Bind(cat, "Zoom On Character Select", true, "If true, selecting a character will zoom the camera onto that character.");
             /*SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
                 "\n2 = Zoom on selection"); //def 1f*/
             //ReplayAnim = config.Bind("Background", "X Replay Animation", true, "Replays the animation for the selected character.");
             //LivePreview = config.Bind("Background", "X Live Preview", true, "Updates the appearance for the selected character.");
-            SIL_ClickOnCharacterToSwap = config.Bind("Background", "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them." +
+            SIL_ClickOnCharacterToSwap = config.Bind(cat, "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them." +
                 "\nExperimental: Clicking on the character might be unavailable, or offset.");
 
             ShowLoggingText = config.Bind("zDebugging", "Print logging text to console", LoggingStyle.UserMessages, "If true, then some logging messages are sent to the console. Error and warning messages will still display.");
@@ -162,14 +167,14 @@ namespace LobbyAppearanceImprovements
             };
             inLobbyConfigEntry.SectionFields["UI"] = new List<IConfigField>
             {
-                new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_ShowFade),
-                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_BlurOpacity, null, 0, 100),
+                new BooleanConfigField(UI_ShowFade.Definition.Key, UI_ShowFade.Description.Description, () => UI_ShowFade.Value, Hook_UI_ShowFade),
+                new IntConfigField(UI_BlurOpacity.Definition.Key, () => UI_BlurOpacity.Value, Hook_UI_BlurOpacity, null, 0, 100),
                 new FloatConfigField(UI_Scale.Definition.Key, () => UI_Scale.Value, null, Hook_UIScale, UI_Scale_Min, UI_Scale_Max)
             };
             inLobbyConfigEntry.SectionFields["Overlay"] = new List<IConfigField>
             {
-                new BooleanConfigField(PostProcessing.Definition.Key, PostProcessing.Description.Description, () => PostProcessing.Value, Hook_ShowPostProcessing),
-                new BooleanConfigField(Parallax.Definition.Key, Parallax.Description.Description, () => Parallax.Value, Hook_Parallax),
+                new BooleanConfigField(PostProcessing.Definition.Key, PostProcessing.Description.Description, () => PostProcessing.Value, Hook_Overlay_ShowPostProcessing),
+                new BooleanConfigField(Parallax.Definition.Key, Parallax.Description.Description, () => Parallax.Value, Hook_Overlay_Parallax),
             };
             inLobbyConfigEntry.SectionFields["Lights"] = new List<IConfigField>
             {
@@ -177,11 +182,11 @@ namespace LobbyAppearanceImprovements
                 new BooleanConfigField(Light_Flicker.Definition.Key, Light_Flicker.Description.Description, () => Light_Flicker.Value, Hook_LightUpdate_Flicker),
                 new FloatConfigField(Light_Intensity.Definition.Key, Light_Intensity.Description.Description, () => Light_Intensity.Value, Hook_LightUpdate_Intensity)
             };
-            inLobbyConfigEntry.SectionFields["Character Pads"] = new List<IConfigField>
+            inLobbyConfigEntry.SectionFields["Mannequins"] = new List<IConfigField>
             {
-                new FloatConfigField(CharacterPadScale.Definition.Key, CharacterPadScale.Description.Description, () => CharacterPadScale.Value, Hook_RescalePads),
-                new BooleanConfigField(TurnCharacter.Definition.Key, TurnCharacter.Description.Description, () => TurnCharacter.Value, Hook_Rotate_Toggle),
-                new FloatConfigField(TurnCharacterMult.Definition.Key, TurnCharacterMult.Description.Description, () => TurnCharacterMult.Value, Hook_Rotate_Speed),
+                new FloatConfigField(MannequinScale.Definition.Key, MannequinScale.Description.Description, () => MannequinScale.Value, Hook_RescalePads),
+                new BooleanConfigField(MannequinEnableLocalTurn.Definition.Key, MannequinEnableLocalTurn.Description.Description, () => MannequinEnableLocalTurn.Value, Hook_Rotate_Toggle),
+                new FloatConfigField(MannequinEnableLocalTurnMultiplier.Definition.Key, MannequinEnableLocalTurnMultiplier.Description.Description, () => MannequinEnableLocalTurnMultiplier.Value, Hook_Rotate_Speed),
             };
             inLobbyConfigEntry.SectionFields["Background Elements"] = new List<IConfigField>
             {
