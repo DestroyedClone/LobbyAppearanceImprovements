@@ -131,25 +131,23 @@ namespace LobbyAppearanceImprovements
                     var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
                     bool canLoadScene = sceneObjectInitializer.CanLoadScene();
                     if (!canLoadScene)
-                    {
-                        var sceneName = type.Name.ToLower();
-                        LAISceneManager.scenesDict[sceneName] = type;
-                        LAISceneManager.sceneNameList.Add(sceneName);
-                        sceneObjectInitializer.Init();
-                    }
+                        continue;
+                    var sceneName = type.Name.ToLower();
+                    LAISceneManager.scenesDict[sceneName] = type;
+                    LAISceneManager.sceneNameList.Add(sceneName);
+                    sceneObjectInitializer.Init();
                 }
                 else if (layoutType.IsAssignableFrom(type))
                 {
                     var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
                     bool canLoadLayout = sceneObjectInitializer.CanLoadLayout();
-                    if (canLoadLayout)
-                    {
-                        var layoutNameLower = type.Name.ToLower();
-                        LAILayoutManager.layoutsDict[layoutNameLower] = type;
-                        LAILayoutManager.layoutNameList.Add(layoutNameLower);
-                        LAILogging.LogMessage("Initializing Scene: " + type, LoggingStyle.Developer);
-                        sceneObjectInitializer.Init();
-                    }
+                    if (!canLoadLayout)
+                        continue;
+                    var layoutNameLower = type.Name.ToLower();
+                    LAILayoutManager.layoutsDict[layoutNameLower] = type;
+                    LAILayoutManager.layoutNameList.Add(layoutNameLower);
+                    LAILogging.LogMessage("Initializing Scene: " + type, LoggingStyle.Developer);
+                    sceneObjectInitializer.Init();
                 }
             }
         }
