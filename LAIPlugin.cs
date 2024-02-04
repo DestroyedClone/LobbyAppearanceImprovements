@@ -4,6 +4,7 @@ using LobbyAppearanceImprovements.Scenes;
 using R2API;
 using R2API.Utils;
 using RoR2;
+using RoR2.SurvivorMannequins;
 using RoR2.UI;
 using System;
 using System.Collections.Generic;
@@ -70,6 +71,7 @@ namespace LobbyAppearanceImprovements
         public static Transform UI_OriginRef;
         public static Transform TitleRef;
         public static CharacterSelectController characterSelectController = null;
+        public static SurvivorMannequinDioramaController mannequinDioramaController = null;
 
         //public static GameObject DefaultTextObject;
 
@@ -87,6 +89,11 @@ namespace LobbyAppearanceImprovements
             //AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
+            On.RoR2.SurvivorMannequins.SurvivorMannequinDioramaController.OnEnable += (orig, self) =>
+            {
+                mannequinDioramaController = self;
+                orig(self);
+            };
             // Hook Start instead?
 
             SceneSetup.Init();
