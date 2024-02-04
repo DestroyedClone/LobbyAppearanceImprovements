@@ -10,6 +10,11 @@ namespace LobbyAppearanceImprovements
 {
     public static class ConfigSetup
     {
+        public static void Initialize(ConfigFile configFile)
+        {
+            Bind(configFile);
+            InLobbyBind();
+        }
         #region Config
 
         // CONFIG //

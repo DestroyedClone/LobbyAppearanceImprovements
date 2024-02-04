@@ -51,7 +51,7 @@ namespace LobbyAppearanceImprovements
 
                 if (!cameraRig)
                 {
-                    LAIPlugin.LogMessage("Couldn't find CameraRig!", LoggingStyle.UserMessages);
+                    LAILogging.LogMessage("Couldn't find CameraRig!", LoggingStyle.UserMessages);
                     return;
                 }
             }
@@ -94,14 +94,14 @@ namespace LobbyAppearanceImprovements
             var bodyPrefab = GetBodyPrefab(bodyPrefabName, strictName);
             if (!bodyPrefab)
             {
-                LAIPlugin.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserMessages);
+                LAILogging.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserMessages);
                 return null;
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             if (!survivorDef)
             {
-                LAIPlugin.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserMessages);
+                LAILogging.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserMessages);
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -143,7 +143,7 @@ namespace LobbyAppearanceImprovements
                     break;
 
                 case "HANDOverclocked":
-                    var teaser = LAIPlugin.sceneInstance.transform.Find("HANDTeaser");
+                    var teaser = LAISceneManager.sceneInstance.transform.Find("HANDTeaser");
                     if (teaser) teaser.gameObject.SetActive(false);
                     break;
 
@@ -177,17 +177,17 @@ namespace LobbyAppearanceImprovements
         public static void SelectScene(string sceneName)
         {
             var sceneNameLower = sceneName.ToLower();
-            var selectedScene = scenesDict.TryGetValue(sceneNameLower, out var scene);
+            var selectedScene = LAISceneManager.scenesDict.TryGetValue(sceneNameLower, out var scene);
             if (!selectedScene)
             {
-                LAIPlugin.LogWarning($"SelectScene :: {sceneName} (parsed as \'{sceneNameLower})\' not found!", ConfigSetup.LoggingStyle.UserMessages);
+                LAILogging.LogWarning($"SelectScene :: {sceneName} (parsed as \'{sceneNameLower})\' not found!", ConfigSetup.LoggingStyle.UserMessages);
                 return;
             }
 
-            if (sceneInstance)
+            if (LAISceneManager.sceneInstance)
             {
-                chosenScene.OnDestroy();
-                UnityEngine.Object.Destroy(sceneInstance);
+                LAISceneManager.chosenScene.OnDestroy();
+                UnityEngine.Object.Destroy(LAISceneManager.sceneInstance);
             }
 
             //RefreshLobbyBackground
@@ -197,32 +197,32 @@ namespace LobbyAppearanceImprovements
             }
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
-            chosenScene = sceneObject;
-            sceneInstance = sceneObject.CreateScene();
+            LAISceneManager.chosenScene = sceneObject;
+            LAISceneManager.sceneInstance = sceneObject.CreateScene();
             ConfigSetup.Scene_Selection.Value = sceneNameLower;
         }
 
         public static void SelectLayout(string layoutName, bool saveChanges = true)
         {
             var layoutNameLower = layoutName.ToLower();
-            var selectedLayout = layoutsDict.TryGetValue(layoutNameLower, out var layout);
+            var selectedLayout = LAILayoutManager.layoutsDict.TryGetValue(layoutNameLower, out var layout);
             if (!selectedLayout)
             {
-                LAIPlugin.LogWarning($"SelectLayout :: {layoutName} \'(parsed as {layoutNameLower})\' not found!", ConfigSetup.LoggingStyle.UserMessages);
+                LAILogging.LogWarning($"SelectLayout :: {layoutName} \'(parsed as {layoutNameLower})\' not found!", ConfigSetup.LoggingStyle.UserMessages);
                 return;
             }
-            if (layoutInstance)
+            if (LAILayoutManager.layoutInstance)
             {
                 if (ConfigSetup.SIL_SelectedLayout.Value.ToLower() == layoutNameLower)
                 {
                     return;
                 }
-                UnityEngine.Object.Destroy(layoutInstance);
+                UnityEngine.Object.Destroy(LAILayoutManager.layoutInstance);
             }
 
             var layoutObject = (CharSceneLayout)Activator.CreateInstance(layout);
-            chosenLayout = layoutObject;
-            layoutInstance = layoutObject.CreateLayout();
+            LAILayoutManager.chosenLayout = layoutObject;
+            LAILayoutManager.layoutInstance = layoutObject.CreateLayout();
             if (saveChanges)
                 ConfigSetup.SIL_SelectedLayout.Value = layoutNameLower;
 
@@ -233,7 +233,7 @@ namespace LobbyAppearanceImprovements
 
         public static string GetDefaultLayoutNameForScene(string sceneName)
         {
-            foreach (var kvp in layoutsDict)
+            foreach (var kvp in LAILayoutManager.layoutsDict)
             {
                 if (kvp.Key.ToLower().Contains(sceneName.ToLower()) && kvp.Key.ToLower().Contains("default"))
                     return kvp.Key;
@@ -258,9 +258,9 @@ namespace LobbyAppearanceImprovements
 
             if (sceneName != null)
             {
-                if (!scenesDict.ContainsKey(sceneName))
+                if (!LAISceneManager.scenesDict.ContainsKey(sceneName))
                 {
-                    LAIPlugin.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!", ConfigSetup.LoggingStyle.UserMessages);
+                    LAILogging.LogWarning($"LoadSceneAndLayout :: Could not find scene \"{sceneName}\"!", ConfigSetup.LoggingStyle.UserMessages);
                 }
                 else
                 {
@@ -270,7 +270,7 @@ namespace LobbyAppearanceImprovements
             }
             if (layoutName.IsNullOrWhiteSpace())
             {
-                layoutName = chosenScene.PreferredLayout != null ? LAIPlugin.chosenScene.PreferredLayout : nameof(Any_Empty);
+                layoutName = LAISceneManager.chosenScene.PreferredLayout != null ? LAISceneManager.chosenScene.PreferredLayout : nameof(Any_Empty);
             }
             if (SIL_Enabled.Value)
                 if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
@@ -320,7 +320,7 @@ namespace LobbyAppearanceImprovements
                 }
                 else
                 {
-                    LAIPlugin.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name, ConfigSetup.LoggingStyle.UserMessages);
+                    LAILogging.LogWarning("ClickToSelectCharacter :: No SurvivorDef found for " + gameObject.name, ConfigSetup.LoggingStyle.UserMessages);
                 }
 
                 /*capsuleCollider = gameObject.AddComponent<CapsuleCollider>();
@@ -375,7 +375,7 @@ namespace LobbyAppearanceImprovements
 
             public SkinnedMeshRenderer GetTargetRenderer(string cachedName)
             {
-                LAIPlugin.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.", ConfigSetup.LoggingStyle.UserMessages);
+                LAILogging.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.", ConfigSetup.LoggingStyle.UserMessages);
                 string path = "";
 
                 switch (cachedName)
@@ -534,7 +534,7 @@ namespace LobbyAppearanceImprovements
                 }
                 else
                 {
-                    LAIPlugin.LogWarning("Two instances of LAICameraController were spawned?", ConfigSetup.LoggingStyle.UserMessages);
+                    LAILogging.LogWarning("Two instances of LAICameraController were spawned?", ConfigSetup.LoggingStyle.UserMessages);
                 }
 
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
@@ -553,11 +553,12 @@ namespace LobbyAppearanceImprovements
 
                 desiredPosition = defaultPosition;
 
-                if (CurrentCameraController != null && CurrentCameraController != this)
+                if (LAICameraManager.CurrentCameraController != null && LAICameraManager.CurrentCameraController != this)
                 {
-                    LAIPlugin.LogWarning("Somehow there are two camera parallaxes?", ConfigSetup.LoggingStyle.UserMessages);
+                    LAILogging.LogWarning("Somehow there are two camera parallaxes?", ConfigSetup.LoggingStyle.UserMessages);
                 }
-                CurrentCameraController = this;
+
+                LAICameraManager.CurrentCameraController = this;
             }
 
             public void AdjustRotateSpeed(float speed)
@@ -567,7 +568,7 @@ namespace LobbyAppearanceImprovements
 
             public void OnDestroy()
             {
-                CurrentCameraController = null;
+                LAICameraManager.CurrentCameraController = null;
             }
 
             public void Update()
@@ -593,17 +594,17 @@ namespace LobbyAppearanceImprovements
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     if (survivorMannequinSlotControllers == null)
                     {
-                        LAIPlugin.LogError($"survivorMannequinSlotControllers is missing!", ConfigSetup.LoggingStyle.UserMessages);
+                        LAILogging.LogError($"survivorMannequinSlotControllers is missing!", ConfigSetup.LoggingStyle.UserMessages);
                         return;
                     }
                     if (survivorMannequinSlotControllers[0] == null)
                     {
-                        LAIPlugin.LogError($"survivorMannequinSlotControllers[0] is missing!", ConfigSetup.LoggingStyle.UserMessages);
+                        LAILogging.LogError($"survivorMannequinSlotControllers[0] is missing!", ConfigSetup.LoggingStyle.UserMessages);
                         return;
                     }
                     if (survivorMannequinSlotControllers[0].mannequinInstanceTransform == null)
                     {
-                        LAIPlugin.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!", ConfigSetup.LoggingStyle.UserMessages);
+                        LAILogging.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!", ConfigSetup.LoggingStyle.UserMessages);
                         return;
                     }
                     survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_initialPosition;
@@ -698,7 +699,7 @@ namespace LobbyAppearanceImprovements
         public static List<string> GetScenes()
         {
             //Debug.Log(sceneNameList.Count);
-            return sceneNameList;
+            return LAISceneManager.sceneNameList;
         }
     }
 
@@ -707,8 +708,8 @@ namespace LobbyAppearanceImprovements
         public static void Hook_UI_ShowFade(bool value)
         {
             UI_ShowFade.Value = value;
-            UI_OriginRef.Find("BottomSideFade").gameObject.SetActive(value);
-            UI_OriginRef.Find("TopSideFade").gameObject.SetActive(value);
+            CharSelUITransform.Find("BottomSideFade").gameObject.SetActive(value);
+            CharSelUITransform.Find("TopSideFade").gameObject.SetActive(value);
         }
 
         public static void Hook_DisableShaking(bool value)
@@ -723,7 +724,7 @@ namespace LobbyAppearanceImprovements
         {
             ConfigSetup.UI_BlurOpacity.Value = (int)Mathf.Clamp(value, 0f, 100);
 
-            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
+            var SafeArea = CharSelUITransform.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
 
@@ -739,16 +740,14 @@ namespace LobbyAppearanceImprovements
                 rightBlurColor.color.g,
                 rightBlurColor.color.b,
                 transparencyValue);
-
-
-            LAIPlugin.LogMessage($"Transparency Value: {transparencyValue}" +
+            LAILogging.LogMessage($"Transparency Value: {transparencyValue}" +
                 $"\nColor transparency: {leftBlurColor.color.a}", LoggingStyle.UserMessages);
         }
 
         public static void Hook_UIScale(float value)
         {
             UI_Scale.Value = value;
-            var SafeArea = UI_OriginRef.Find("SafeArea").transform;
+            var SafeArea = CharSelUITransform.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
 
@@ -758,8 +757,8 @@ namespace LobbyAppearanceImprovements
         public static void Hook_Overlay_ShowPostProcessing(bool value)
         {
             PostProcessing.Value = value;
-            if (!LAIPlugin.sceneInstance) return;
-            var obj = LAIPlugin.sceneInstance.transform.Find("PP");
+            if (!LAISceneManager.sceneInstance) return;
+            var obj = LAISceneManager.sceneInstance.transform.Find("PP");
             if (obj) obj.gameObject.SetActive(value);
         }
 
@@ -811,18 +810,18 @@ namespace LobbyAppearanceImprovements
         {
             MannequinEnableLocalTurn.Value = value;
 
-            if (CurrentCameraController)
+            if (LAICameraManager.CurrentCameraController)
             {
-                CurrentCameraController.RotateCamera(true);
+                LAICameraManager.CurrentCameraController.RotateCamera(true);
             }
         }
 
         public static void Hook_Rotate_Speed(float speed)
         {
             MannequinEnableLocalTurnMultiplier.Value = speed;
-            if (CurrentCameraController)
+            if (LAICameraManager.CurrentCameraController)
             {
-                CurrentCameraController.AdjustRotateSpeed(speed);
+                LAICameraManager.CurrentCameraController.AdjustRotateSpeed(speed);
             }
         }
 
@@ -842,12 +841,16 @@ namespace LobbyAppearanceImprovements
         {
             PhysicsProps.Value = value;
 
-            if (!MeshPropsRef)
+            if (!(LAISceneManager.chosenScene is Lobby lobby))
+                return;
+
+
+            if (!Lobby.MeshPropsRef)
             {
-                LAIPlugin.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef", LoggingStyle.UserMessages);
+                LAILogging.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef for Lobby scene", LoggingStyle.UserMessages);
                 return;
             }
-            var meshPropHolder = MeshPropsRef.transform;
+            var meshPropHolder = Lobby.MeshPropsRef.transform;
             if (meshPropHolder)
             {
                 foreach (var propName in Lobby.PhysicsPropNames)
@@ -862,9 +865,9 @@ namespace LobbyAppearanceImprovements
         {
             Parallax.Value = value;
 
-            if (CurrentCameraController)
+            if (LAICameraManager.CurrentCameraController)
             {
-                CurrentCameraController.GetDesiredPositionFromScreenFraction(true);
+                LAICameraManager.CurrentCameraController.GetDesiredPositionFromScreenFraction(true);
             }
         }
 
@@ -872,9 +875,9 @@ namespace LobbyAppearanceImprovements
         {
             Scene_Header.Value = value;
 
-            if (!LAIPlugin.sceneInstance || LAIPlugin.chosenScene == null) return;
-            LAIPlugin.chosenScene.TitleInstance.SetActive(value);
-            LAIPlugin.chosenScene.SubTitleInstance.SetActive(value);
+            if (!LAISceneManager.sceneInstance || LAISceneManager.chosenScene == null) return;
+            LAISceneManager.chosenScene.TitleInstance.SetActive(value);
+            LAISceneManager.chosenScene.SubTitleInstance.SetActive(value);
         }
 
         public static void Hook_SurvivorsInLobby(bool value) // i have no idea what im doing
@@ -929,9 +932,9 @@ namespace LobbyAppearanceImprovements
 
             //_logger.LogMessage($"Body Name: {bodyName}");
             // Error here on any_empty
-            if (chosenLayout != null && chosenLayout.CharacterCameraSettings != null)
+            if (LAILayoutManager.chosenLayout != null && LAILayoutManager.chosenLayout.CharacterCameraSettings != null)
             {
-                if (LAIPlugin.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
+                if (LAILayoutManager.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
                 {
                     Methods.SetCamera(cameraRig, cameraSetting);
                 }

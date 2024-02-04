@@ -21,5 +21,13 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             "HANDTeaser", "HumanCrate1Mesh", "HumanCrate2Mesh", "HumanCanister1Mesh"
         };
+
+        public static GameObject MeshPropsRef;
+
+        public override void Init()
+        {
+            base.Init();
+            MeshPropsRef = LAISceneManager.sceneInstance.transform.Find("MeshProps").gameObject;
+        }
     }
 }

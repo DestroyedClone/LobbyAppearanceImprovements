@@ -25,6 +25,18 @@ namespace LobbyAppearanceImprovements.Scenes
         public virtual GameObject SubTitleInstance { get; set; }
         public virtual string PreferredLayout { get; }
         public virtual string[] RequiredModGUIDs { get; }
+        public bool HasSetup = false;
+
+        public virtual void Init()
+        {
+            LAILogging.LogMessage($"{SceneName}.Init :: Setting up layout.", LoggingStyle.UserMessages);
+            if (HasSetup)
+            {
+                LAILogging.LogMessage($"{SceneName}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserMessages);
+                return;
+            }
+            HasSetup = true;
+        }
 
         public bool CanLoadScene()
         {
@@ -34,7 +46,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 {
                     if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                     {
-                        LAIPlugin.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserMessages);
+                        LAILogging.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserMessages);
                         return false;
                     }
                 }
@@ -59,11 +71,11 @@ namespace LobbyAppearanceImprovements.Scenes
         public void CreateTitleText()
         {
             if (!LAIPlugin.characterSelectController) return;
-            if (!LAIPlugin.TitleRef) LAIPlugin.TitleRef = LAIPlugin.characterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
-            if (!LAIPlugin.TitleRef) return;
-            TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            if (!LAIPlugin.LAITitleRef) LAIPlugin.LAITitleRef = LAIPlugin.characterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
+            if (!LAIPlugin.LAITitleRef) return;
+            TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.characterSelectController.transform);
             TitleInstance.name = $"LobbyAppearanceImprovements_Scene_Title";
-            SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.TitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.characterSelectController.transform);
             SubTitleInstance.name = $"LobbyAppearanceImprovements_Scene_Subtitle";
 
             TitleInstance.transform.localPosition = new Vector3(0f, 450f, 0f);

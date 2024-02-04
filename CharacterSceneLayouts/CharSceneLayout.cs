@@ -60,7 +60,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
                 {
                     if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                     {
-                        LAIPlugin.LogMessage($"Refused to load layout \"{LayoutName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserMessages);
+                        LAILogging.LogMessage($"Refused to load layout \"{LayoutName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserMessages);
                         return false;
                     }
                 }
@@ -92,10 +92,10 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // For creating objects at runtime
         public virtual void Init()
         {
-            LAIPlugin.LogMessage($"{SceneLayout}.Init :: Setting up layout.", LoggingStyle.UserMessages);
+            LAILogging.LogMessage($"{SceneLayout}.Init :: Setting up layout.", LoggingStyle.UserMessages);
             if (HasSetup)
             {
-                LAIPlugin.LogMessage($"{SceneLayout}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserMessages);
+                LAILogging.LogMessage($"{SceneLayout}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserMessages);
                 return;
             }
             HasSetup = true;

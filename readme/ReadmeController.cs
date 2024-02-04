@@ -14,7 +14,7 @@ namespace LobbyAppearanceImprovements.readme
         public static void Output()
         {
             var sb = HG.StringBuilderPool.RentStringBuilder();
-            foreach (var entry in LAIPlugin.layoutsDict)
+            foreach (var entry in LAILayoutManager.layoutsDict)
             {
                 var characterStringBuilder = HG.StringBuilderPool.RentStringBuilder();
                 var lay = (CharSceneLayout)Activator.CreateInstance(entry.Value);

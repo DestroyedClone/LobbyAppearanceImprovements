@@ -27,7 +27,7 @@ namespace LobbyAppearanceImprovements
         [ConCommand(commandName = "LAI_ListScenes", flags = ConVarFlags.None, helpText = "Lists the available scenes.")]
         public static void CMD_ListScene(ConCommandArgs args)
         {
-            foreach (var keyValuePair in scenesDict)
+            foreach (var keyValuePair in LAISceneManager.scenesDict)
             {
                 Debug.Log(keyValuePair.Key);
             }
@@ -53,7 +53,7 @@ namespace LobbyAppearanceImprovements
             if (args.Count == 1)
             {
                 var sceneName = args.GetArgString(0);
-                foreach (var keyValuePair in layoutsDict)
+                foreach (var keyValuePair in LAILayoutManager.layoutsDict)
                 {
                     var instance = (CharacterSceneLayouts.CharSceneLayout)Activator.CreateInstance(keyValuePair.Value);
                     if (instance.SceneName == sceneName)
@@ -62,7 +62,7 @@ namespace LobbyAppearanceImprovements
             }
             else
             {
-                foreach (var keyValuePair in layoutsDict)
+                foreach (var keyValuePair in LAILayoutManager.layoutsDict)
                 {
                     Debug.Log(keyValuePair.Key);
                 }

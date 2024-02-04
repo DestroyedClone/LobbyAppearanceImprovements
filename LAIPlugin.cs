@@ -14,6 +14,8 @@ using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.HookMethods;
 
+[assembly: HG.Reflection.SearchableAttribute.OptIn]
+
 namespace LobbyAppearanceImprovements
 {
     [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
@@ -35,136 +37,34 @@ namespace LobbyAppearanceImprovements
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
-        internal static BepInEx.Logging.ManualLogSource _logger = null;
-        public static void LogMessage(string message, ConfigSetup.LoggingStyle loggingStyle)
-        {
-            if (ConfigSetup.ShowLoggingText.Value >= loggingStyle)
-                _logger.LogMessage(message);
-        }
-        public static void LogWarning(string message, ConfigSetup.LoggingStyle loggingStyle)
-        {
-            if (ConfigSetup.ShowLoggingText.Value >= loggingStyle)
-                _logger.LogWarning(message);
-        }
-        public static void LogError(string message, ConfigSetup.LoggingStyle loggingStyle)
-        {
-            if (ConfigSetup.ShowLoggingText.Value >= loggingStyle)
-                _logger.LogError(message);
-        }
-
-        public static LAIScene chosenScene = null;
-        public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
-        public static List<string> sceneNameList = new List<string>();
-        public static GameObject sceneInstance;
-
-        public static CharSceneLayout chosenLayout = null;
-        public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
-        public static List<string> layoutNameList = new List<string>();
-        public static GameObject layoutInstance;
-
-        public static Dictionary<string, CharSceneLayout.CameraSetting> currentCameraSettings = new Dictionary<string, CharSceneLayout.CameraSetting>();
-
         //public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
         //public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
 
-        public static GameObject MeshPropsRef;
-        public static Transform UI_OriginRef;
-        public static Transform TitleRef;
+        public static Transform CharSelUITransform;
+        public static Transform LAITitleRef;
         public static CharacterSelectController characterSelectController = null;
-        public static SurvivorMannequinDioramaController mannequinDioramaController = null;
-
-        //public static GameObject DefaultTextObject;
-
-        public static Methods.LAICameraController CurrentCameraController;
 
         public void Awake()
         {
-            _logger = Logger;
+            LAILogging.Init(Logger);
 
             //DefaultTextObject = CreateDefaultTextObject();
-            ConfigSetup.Bind(Config);
-            ConfigSetup.InLobbyBind();
-            CommandHelper.AddToConsoleWhenReady();
+            ConfigSetup.Initialize(Config);
             LAILanguage.Init();
+            LAIMannequinManager.Init();
             //AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
-            On.RoR2.SurvivorMannequins.SurvivorMannequinDioramaController.OnEnable += (orig, self) =>
-            {
-                mannequinDioramaController = self;
-                orig(self);
-            };
-            // Hook Start instead?
+            LAISceneManager.Initialize();
 
-            SceneSetup.Init();
-
-            LAIScene.onSceneLoaded += OnSceneLoaded;
-
-            On.RoR2.CameraRigController.Start += CameraRigController_Start;
-            On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredSceneLayoutSetup;
-            On.RoR2.PreGameController.RefreshLobbyBackground += PreGameController_RefreshLobbyBackground;
-
-
+            On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredAssemblySetup;
         }
 
-        public static void OnSceneLoaded(LAIScene laiScene)
-        {
-            if (LAIPlugin.sceneInstance && LAIPlugin.sceneInstance.transform.Find("MeshProps"))
-                MeshPropsRef = LAIPlugin.sceneInstance.transform.Find("MeshProps").gameObject;
-        }
-
-        private void PreGameController_RefreshLobbyBackground(On.RoR2.PreGameController.orig_RefreshLobbyBackground orig, PreGameController self)
-        {
-            orig(self);
-            if (self.lobbyBackground) self.lobbyBackground.SetActive(false);
-        }
-
-        private void DeferredSceneLayoutSetup(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
+        private void DeferredAssemblySetup(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
         {
             orig(self);
             AssemblySetup();
-            On.RoR2.UI.MainMenu.MainMenuController.Start -= DeferredSceneLayoutSetup;
-        }
-
-        private void CameraRigController_Start(On.RoR2.CameraRigController.orig_Start orig, CameraRigController self)
-        {
-            orig(self);
-            var a = self.gameObject.AddComponent<CameraController>();
-            a.SetCam(self);
-            a.enabled = false;
-        }
-
-        public static GameObject[] CreateDefaultText()
-        {
-            List<GameObject> gameObjects = new List<GameObject>();
-            var cocks = GameObject.Find("CharacterSelectUI/SafeArea/ReadyPanel/ReadyButton/ReadyText");
-            gameObjects.Add(cocks.gameObject);
-            return gameObjects.ToArray();
-        }
-
-        public static GameObject CreateDefaultTextObject()
-        {
-            var textPrefab = PrefabAPI.InstantiateClone(Resources.Load<GameObject>("prefabs/effects/DamageRejected"), "DeathMessageAboveCorpse_DefaultTextObjectChild");
-            textPrefab.name = "DeathMessageAboveCorpse_DefaultTextObject";
-            UnityEngine.Object.Destroy(textPrefab.GetComponent<EffectComponent>());
-            UnityEngine.Object.Destroy(textPrefab.GetComponent<ObjectScaleCurve>());
-            UnityEngine.Object.Destroy(textPrefab.GetComponent<VelocityRandomOnStart>());
-            UnityEngine.Object.Destroy(textPrefab.GetComponent<ConstantForce>());
-            UnityEngine.Object.Destroy(textPrefab.GetComponent<Rigidbody>());
-            UnityEngine.Object.Destroy(textPrefab.GetComponent<DestroyOnTimer>());
-            UnityEngine.Object.Destroy(textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<ScaleSpriteByCamDistance>());
-            UnityEngine.Object.Destroy(textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<Billboard>());
-
-            TextObjectComponent textObjectComponent = textPrefab.AddComponent<TextObjectComponent>();
-            textObjectComponent.textMeshPro = textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<TextMeshPro>();
-            textObjectComponent.languageTextMeshController = textPrefab.transform.Find("TextMeshPro").gameObject.GetComponent<LanguageTextMeshController>();
-            return textPrefab;
-        }
-
-        public class TextObjectComponent : MonoBehaviour
-        {
-            public TextMeshPro textMeshPro;
-            public LanguageTextMeshController languageTextMeshController;
+            On.RoR2.UI.MainMenu.MainMenuController.Start -= DeferredAssemblySetup;
         }
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
@@ -182,11 +82,11 @@ namespace LobbyAppearanceImprovements
             }
             if (!self.gameObject.GetComponent<Methods.LAICameraController>())
                 self.gameObject.AddComponent<Methods.LAICameraController>();
-            UI_OriginRef = GameObject.Find("CharacterSelectUI").transform;
+            CharSelUITransform = GameObject.Find("CharacterSelectUI").transform;
 
             Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
 
-            TitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
+            LAITitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
 
             // UI //
             Hook_UI_ShowFade(UI_ShowFade.Value);
@@ -230,11 +130,12 @@ namespace LobbyAppearanceImprovements
                 {
                     var sceneObjectInitializer = (LAIScene)Activator.CreateInstance(type);
                     bool canLoadScene = sceneObjectInitializer.CanLoadScene();
-                    if (canLoadScene)
+                    if (!canLoadScene)
                     {
                         var sceneName = type.Name.ToLower();
-                        scenesDict[sceneName] = type;
-                        sceneNameList.Add(sceneName);
+                        LAISceneManager.scenesDict[sceneName] = type;
+                        LAISceneManager.sceneNameList.Add(sceneName);
+                        sceneObjectInitializer.Init();
                     }
                 }
                 else if (layoutType.IsAssignableFrom(type))
@@ -244,10 +145,9 @@ namespace LobbyAppearanceImprovements
                     if (canLoadLayout)
                     {
                         var layoutNameLower = type.Name.ToLower();
-                        layoutsDict[layoutNameLower] = type;
-                        layoutNameList.Add(layoutNameLower);
-                        //var selectedLayout = layoutsDict.TryGetValue(type.Name, out var layout);
-                        LAIPlugin.LogMessage("Initializing Scene: " + type, LoggingStyle.Developer);
+                        LAILayoutManager.layoutsDict[layoutNameLower] = type;
+                        LAILayoutManager.layoutNameList.Add(layoutNameLower);
+                        LAILogging.LogMessage("Initializing Scene: " + type, LoggingStyle.Developer);
                         sceneObjectInitializer.Init();
                     }
                 }
