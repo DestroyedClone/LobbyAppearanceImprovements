@@ -29,7 +29,7 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public virtual void Init()
         {
-            LAILogging.LogMessage($"{SceneName}.Init :: Setting up layout.", LoggingStyle.UserMessages);
+            LAILogging.LogMessage($"{SceneName}.Init :: Setting up scene.", LoggingStyle.UserMessages);
             if (HasSetup)
             {
                 LAILogging.LogMessage($"{SceneName}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserMessages);

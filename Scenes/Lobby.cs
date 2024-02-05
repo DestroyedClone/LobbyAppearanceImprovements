@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -27,7 +28,13 @@ namespace LobbyAppearanceImprovements.Scenes
         public override void Init()
         {
             base.Init();
-            MeshPropsRef = LAISceneManager.sceneInstance.transform.Find("MeshProps").gameObject;
+            LAIScene.onSceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(LAIScene scene)
+        {
+            if (LAISceneManager.sceneInstance)
+                MeshPropsRef = LAISceneManager.sceneInstance.transform.Find("MeshProps").gameObject;
         }
     }
 }
