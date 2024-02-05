@@ -5,7 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class VoidStage : LAIScene
     {
-        public override string SceneName => "Hidden Realm: Void Fields";
+        public override string SceneName => "Void Locus";
         public override string SceneNameToken => "MAP_VOIDSTAGE";
         public override GameObject BackgroundPrefab => Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/voidstage/VoidStageDiorama.prefab").WaitForCompletion();
         public override Vector3 Position => new Vector3(-44.1364f, -20.5f, 55.4364f);
