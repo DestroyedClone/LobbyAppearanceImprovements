@@ -42,7 +42,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         {
             if (!StatueHolders)
             {
-                Init();
+                //Init();
+                SetupStatueAsPrefab();
             }
             if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0)
             {
@@ -66,11 +67,11 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         {
             base.Init();
             //if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0) return;
-            SetupStatue();
+            //SetupStatueAsPrefab();
         }
 
         [RoR2.SystemInitializer(dependencies: typeof(RoR2.SurvivorCatalog))]
-        public void SetupStatue()
+        public void SetupStatueAsPrefab()
         {
             if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0)
             {

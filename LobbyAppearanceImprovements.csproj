@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Actions.cs" />
 	  <Compile Remove="CharacterSceneLayouts\WispGraveyard_Snipers.cs" />
 	</ItemGroup>
 

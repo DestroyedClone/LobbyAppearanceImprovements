@@ -29,10 +29,10 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public virtual void Init()
         {
-            LAILogging.LogMessage($"{SceneName}.Init :: Setting up scene.", LoggingStyle.UserMessages);
+            LAILogging.LogMessage($"{SceneName}.Init :: Setting up scene.", LoggingStyle.UserShouldSee);
             if (HasSetup)
             {
-                LAILogging.LogMessage($"{SceneName}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserMessages);
+                LAILogging.LogMessage($"{SceneName}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
                 return;
             }
             HasSetup = true;
@@ -46,7 +46,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 {
                     if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                     {
-                        LAILogging.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserMessages);
+                        LAILogging.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserShouldSee);
                         return false;
                     }
                 }

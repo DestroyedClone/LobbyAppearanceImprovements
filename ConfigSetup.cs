@@ -148,7 +148,7 @@ namespace LobbyAppearanceImprovements
             SIL_ClickOnCharacterToSwap = config.Bind(cat, "Click on bg char to select (EXPERIMENTAL)", true, "Allows clicking on a character to select them." +
                 "\nExperimental: Clicking on the character might be unavailable, or offset.");
 
-            ShowLoggingText = config.Bind("zDebugging", "Print logging text to console", LoggingStyle.UserMessages, "If true, then some logging messages are sent to the console. Error and warning messages will still display.");
+            ShowLoggingText = config.Bind("zDebugging", "Print logging text to console", LoggingStyle.UserShouldSee, "If true, then some logging messages are sent to the console. Error and warning messages will still display.");
 
             tempSelectSceneAction += SetNewScene;
             tempSelectLayoutAction += SetNewLayout;
@@ -160,8 +160,8 @@ namespace LobbyAppearanceImprovements
         public enum LoggingStyle
         {
             None,
-            UserMessages,
-            Developer
+            UserShouldSee,
+            ObscureSoOnlyDevSees
         }
 
         public static void InLobbyBind()

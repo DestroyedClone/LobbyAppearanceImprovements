@@ -52,6 +52,7 @@ namespace LobbyAppearanceImprovements
             ConfigSetup.Initialize(Config);
             LAILanguage.Init();
             LAIMannequinManager.Init();
+            LAICameraManager.Init();
             //AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
@@ -146,7 +147,7 @@ namespace LobbyAppearanceImprovements
                     var layoutNameLower = type.Name.ToLower();
                     LAILayoutManager.layoutsDict[layoutNameLower] = type;
                     LAILayoutManager.layoutNameList.Add(layoutNameLower);
-                    LAILogging.LogMessage("Initializing Scene: " + type, LoggingStyle.Developer);
+                    LAILogging.LogMessage("Initializing Scene: " + type, LoggingStyle.ObscureSoOnlyDevSees);
                     sceneObjectInitializer.Init();
                 }
             }
