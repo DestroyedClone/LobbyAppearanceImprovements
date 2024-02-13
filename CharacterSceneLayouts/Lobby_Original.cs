@@ -31,7 +31,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
         {
-            {"CommandoBody", new CameraSetting( 20, 0, 22 ) },
+            {"CommandoBody", new CameraSetting( 20, new Vector3(-2.5f, 1.24f, 15) ) },
             {"EnforcerBody", new CameraSetting( 10, -1, 10 ) },
             {"BanditReloadedBody", new CameraSetting( 10, 0, 6 ) },
             {"Bandit2Body", new CameraSetting( 15, -1, 17.5f ) },

@@ -29,18 +29,18 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
         {
-            {"CommandoBody", new CameraSetting( 20, 2, 24 ) },
-            {"HuntressBody", new CameraSetting( 9, -3, 18 ) },
-            {"ToolbotBody", new CameraSetting( 10, -1, -1 ) },
-            {"EngiBody", new CameraSetting( 6, 1, -7.5f ) },
-            {"MageBody", new CameraSetting( 8, -1, 13 ) },
-            {"MercBody", new CameraSetting( 5, -8.5f, -3 ) },
-            {"TreebotBody", new CameraSetting( 6, 0.7f, -15.5f ) },
-            {"LoaderBody", new CameraSetting( 11, -2, 20 ) },
-            {"CrocoBody", new CameraSetting( 8, -8.5f, 13 ) },
-            {"CaptainBody", new CameraSetting( 9, -1, 6 ) },
-            {"Railgunner", new CameraSetting( 9, -1, 6 ) },
-            {"VoidSurvivor", new CameraSetting( 9, -1, 6 ) },
+            {"CommandoBody", new CameraSetting( 60, new Vector3(2.5f, 1.24f, 3) ) },
+            {"HuntressBody", new CameraSetting( 60, new Vector3(3, 2.24f, 13.5f), new Vector3(0, 35, 0) ) },
+            {"ToolbotBody", new CameraSetting( 60, new Vector3(-0.5f, 1.74f, 16.5f) ) },
+            {"EngiBody", new CameraSetting( 60, new Vector3(-2.5f, 1.24f, 15) ) },
+            {"MageBody", new CameraSetting( 60, new Vector3(3, 1.24f, 12) ) },
+            {"MercBody", new CameraSetting( 60, new Vector3(-1.5f, 4.74f, 18.5f) ) },
+            {"TreebotBody", new CameraSetting( 60, new Vector3(-6.5f, 0.74f, 19.5f) ) },
+            {"LoaderBody", new CameraSetting( 60, new Vector3(4.5f, 1.24f, 10.5f) ) },
+            {"CrocoBody", new CameraSetting( 60, new Vector3(5, 4.74f, 19) ) },
+            {"CaptainBody", new CameraSetting( 60, new Vector3(2, 1.24f, 15) ) },
+            {"RailgunnerBody", new CameraSetting( 60, new Vector3(1, 4.74f, 19) ) },
+            {"VoidSurvivorBody", new CameraSetting( 60, new Vector3(3, 0.74f, 2.5f) ) },
         };
     }
 }

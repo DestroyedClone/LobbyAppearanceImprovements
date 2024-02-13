@@ -105,5 +105,10 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             StatueHolders = localStatueHolders;
             gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.FindSurvivorIndex("RobPaladin")).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
         }
+
+        public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
+        {
+            { "RobPaladinBody", new CameraSetting(60f, new Vector3(0, 3.24f, -3)) }
+        };
     }
 }

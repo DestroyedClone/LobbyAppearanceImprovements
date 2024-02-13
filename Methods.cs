@@ -39,10 +39,11 @@ namespace LobbyAppearanceImprovements
 
         public static void SetCamera(CameraRigController cameraRig, CharSceneLayout.CameraSetting cameraSetting)
         {
-            SetCamera(cameraRig, cameraSetting.fov, cameraSetting.pitch, cameraSetting.yaw);
+            SetCamera(cameraRig, cameraSetting.fov, cameraSetting.position, cameraSetting.rotation);
             //add pos and rot
         }
-        public static void SetCamera(CameraRigController cameraRig = null, float fov = 60f, float pitch = 0f, float yaw = 0f)
+
+        public static void SetCamera(CameraRigController cameraRig = null, float fov = 60f, Vector3 position = default, Vector3 rotation = default)
         {
             if (!cameraRig)
             {
@@ -56,7 +57,7 @@ namespace LobbyAppearanceImprovements
             }
 
             var modifier = 0f;
-            if (fov != 60f && pitch != 0f && yaw != 0f)
+            if (fov != 60f) //todo add pos and rot //used to 'bounce' the camera when selecting different characters
             {
                 float threshold = 5f;
                 float min = fov - threshold;
@@ -68,6 +69,12 @@ namespace LobbyAppearanceImprovements
                 }
             }
             cameraRig.baseFov = fov + modifier;
+            var currentCam = LAICameraManager.CurrentCameraController;
+            var desiredPosition = position == default ? currentCam.DefaultPosition : position;
+            currentCam.desiredCenterPosition = desiredPosition;
+            var desiredRotation = rotation == default ? currentCam.DefaultRotation : Quaternion.Euler(rotation);
+            currentCam.desiredRotation = desiredRotation;
+
             /*cameraRig.GenerateCameraModeContext(out RoR2.CameraModes.CameraModeBase.CameraModeContext cameraModeContext);
             //object rawInstanceData = cameraRig.cameraMode.camToRawInstanceData[cameraModeContext.cameraInfo.cameraRigController];
             object rawInstanceData = cameraRig.cameraMode.camToRawInstanceData[cameraRig];
@@ -492,20 +499,21 @@ namespace LobbyAppearanceImprovements
             public GameObject sceneCamera;
             // Defaults
             public string sepDefaults = "==Defaults==";
-            public Vector3 defaultPosition;
-            public Quaternion defaultRotation;
+            public Vector3 DefaultPosition { get; private set; }
+            public Quaternion DefaultRotation { get; private set; }
             // Parallax
             public string setpParallax = "==Parallax==";
-            public Vector3 desiredPosition; // Desired position for parallax
+            public Vector3 desiredPosition;
+            public Vector3 desiredCenterPosition;
             public Quaternion desiredRotation;
-            private Vector3 velocity;
+            private Vector3 dampPositionVelocity;
+            private Quaternion dampRotationVelocity;
             private readonly float screenLimitDistance = 0.25f; //Limit of the screen to move with parallax from the center of the screen.
             private readonly float forwardLimit = 5f;
             private readonly float forwardMult = 0.25f;
 
             // Zoom On Character
             public string sepZoom = "==Zoom==";
-            public Vector3 desiredPositionOverride; // Desired position for ZoomOnCharacter
 
             // Rotating Character
             public string sepRotate = "==Rotate==";
@@ -538,8 +546,8 @@ namespace LobbyAppearanceImprovements
                 }
 
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
-                defaultPosition = sceneCamera.transform.position;
-                defaultRotation = sceneCamera.transform.rotation;
+                DefaultPosition = sceneCamera.transform.position;
+                DefaultRotation = sceneCamera.transform.rotation;
                 if (!characterSelectController)
                 {
                     characterSelectController = UnityEngine.Object.FindObjectOfType<CharacterSelectController>();
@@ -551,8 +559,9 @@ namespace LobbyAppearanceImprovements
                     rotate_defaultRotationChar = new Vector3(0f, 219.0844f, 0f);
                 }
 
-                desiredPosition = defaultPosition;
-                desiredRotation = defaultRotation;
+                desiredCenterPosition = DefaultPosition;
+                desiredPosition = DefaultPosition;
+                desiredRotation = DefaultRotation;
 
                 if (LAICameraManager.CurrentCameraController != null && LAICameraManager.CurrentCameraController != this)
                 {
@@ -583,6 +592,7 @@ namespace LobbyAppearanceImprovements
                     else
                     {
                         MousePosition = Input.mousePosition;
+
                         if (Parallax.Value)
                             desiredPosition = GetDesiredPositionFromScreenFraction();
                         if (MannequinEnableLocalTurn.Value)
@@ -591,6 +601,14 @@ namespace LobbyAppearanceImprovements
                 }
 
                 DampPosition();
+                DampRotation();
+            }
+
+            //https://forum.unity.com/threads/quaternion-smoothdamp.793533/
+            //https://gist.github.com/maxattack/4c7b4de00f5c1b95a33b
+            private void DampRotation()
+            {
+                sceneCamera.transform.rotation = QuaternionUtil.SmoothDamp(sceneCamera.transform.rotation, desiredRotation, ref dampRotationVelocity, 0.4f);
             }
 
             public static bool isFreeCam = false;
@@ -623,7 +641,7 @@ namespace LobbyAppearanceImprovements
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    desiredPosition = defaultPosition;
+                    desiredPosition = DefaultPosition;
                 }
 
                 if (Input.GetKeyDown(KeyCode.P))
@@ -636,8 +654,8 @@ namespace LobbyAppearanceImprovements
             {
                 if (reset)
                 {
-                    rotate_initialPosition = defaultPosition;
-                    rotate_currentPosition = defaultPosition;
+                    rotate_initialPosition = DefaultPosition;
+                    rotate_currentPosition = DefaultPosition;
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     if (survivorMannequinSlotControllers == null)
                     {
@@ -667,8 +685,8 @@ namespace LobbyAppearanceImprovements
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
-                    rotate_initialPosition = defaultPosition;
-                    rotate_currentPosition = defaultPosition;
+                    rotate_initialPosition = DefaultPosition;
+                    rotate_currentPosition = DefaultPosition;
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_defaultRotationChar;
                 }
@@ -691,7 +709,7 @@ namespace LobbyAppearanceImprovements
 
             public void DampPosition()
             {
-                sceneCamera.transform.position = Vector3.SmoothDamp(sceneCamera.transform.position, desiredPosition, ref velocity, 0.4f, float.PositiveInfinity, Time.deltaTime);
+                sceneCamera.transform.position = Vector3.SmoothDamp(sceneCamera.transform.position, desiredPosition, ref dampPositionVelocity, 0.4f, float.PositiveInfinity, Time.deltaTime);
             }
 
             public Vector3 GetDesiredPositionFromScreenFraction(bool reset = false)
@@ -705,20 +723,20 @@ namespace LobbyAppearanceImprovements
                 float fractionX = (Screen.width - MousePosition.x) / Screen.width;
                 float fractionY = (Screen.height - MousePosition.y) / Screen.height;
 
-                value.x = Mathf.Lerp(defaultPosition.x + screenLimitDistance, defaultPosition.x - screenLimitDistance, fractionX);
-                value.y = Mathf.Lerp(defaultPosition.y + screenLimitDistance, defaultPosition.y - screenLimitDistance, fractionY);
+                value.x = Mathf.Lerp(desiredCenterPosition.x + screenLimitDistance, desiredCenterPosition.x - screenLimitDistance, fractionX);
+                value.y = Mathf.Lerp(desiredCenterPosition.y + screenLimitDistance, desiredCenterPosition.y - screenLimitDistance, fractionY);
 
                 //if (Input.GetMouseButtonDown(2))
                 //value.z = startingPosition.z;
 
-                var val = defaultPosition.z + Input.mouseScrollDelta.y * forwardMult;
-                value.z = Mathf.Clamp(val, defaultPosition.z - forwardLimit, defaultPosition.z + forwardLimit);
+                var val = desiredCenterPosition.z + Input.mouseScrollDelta.y * forwardMult;
+                value.z = Mathf.Clamp(val, desiredCenterPosition.z - forwardLimit, desiredCenterPosition.z + forwardLimit);
                 return value;
             }
 
             public void OnDisable()
             {
-                desiredPosition = defaultPosition;
+                desiredPosition = DefaultPosition;
             }
         }
 

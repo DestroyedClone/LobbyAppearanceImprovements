@@ -16,6 +16,11 @@
 
 	<ItemGroup>
 	  <Compile Remove="Actions.cs" />
+	  <Compile Remove="CharacterSceneLayouts\Arena_Nemesis.cs" />
+	  <Compile Remove="CharacterSceneLayouts\BlackBeach_League.cs" />
+	  <Compile Remove="CharacterSceneLayouts\Lobby_Default.cs" />
+	  <Compile Remove="CharacterSceneLayouts\Lobby_Original.cs" />
+	  <Compile Remove="CharacterSceneLayouts\Moon_Default.cs" />
 	  <Compile Remove="CharacterSceneLayouts\WispGraveyard_Snipers.cs" />
 	</ItemGroup>
 
