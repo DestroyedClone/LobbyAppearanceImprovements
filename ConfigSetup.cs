@@ -63,8 +63,6 @@ namespace LobbyAppearanceImprovements
 
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
-        public static ConfigEntry<bool> SIL_Enabled { get; set; }
-
         public static ConfigEntry<bool> SIL_LockedCharactersBlack { get; set; }
         public static ConfigEntry<string> SIL_SelectedLayout { get; set; }
         public static ConfigEntry<bool> SIL_ZoomEnable { get; set; }
@@ -135,10 +133,8 @@ namespace LobbyAppearanceImprovements
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
-            SIL_Enabled = config.Bind(cat, "Enable Character Layouts", true, "Shows background elements in certain orientations." +
-                "\nThese background survivors don't reflect the loadouts in the lobby.");
             SIL_LockedCharactersBlack = config.Bind(cat, "Enable Unavailable Shadow Survivors", true, "If true, any survivors in a character layout that you don't have unlocked become shadowy.");
-            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Name of the layout to set to.");
+            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Shows background elements in certain orientations. Set to Any_Empty to disable.");
             SIL_ZoomEnable = config.Bind(cat, "Zoom On Character Select", true, "If true, selecting a character will zoom the camera onto that character.");
             /*SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
@@ -206,7 +202,6 @@ namespace LobbyAppearanceImprovements
                 new StringConfigField(Scene_Selection.Definition.Key, Scene_Selection.Description.Description, () => Scene_Selection.Value, null, tempSelectSceneAction),
                 new StringConfigField(SIL_SelectedLayout.Definition.Key, SIL_SelectedLayout.Description.Description, () => SIL_SelectedLayout.Value, null, tempSelectLayoutAction),
                 new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
-                new BooleanConfigField(SIL_Enabled.Definition.Key, SIL_Enabled.Description.Description, () => SIL_Enabled.Value, Hook_SurvivorsInLobby),
                 new BooleanConfigField(SIL_ZoomEnable.Definition.Key, SIL_ZoomEnable.Description.Description, () => SIL_ZoomEnable.Value, Hook_ToggleZooming),
                 new BooleanConfigField(SIL_LockedCharactersBlack.Definition.Key, SIL_LockedCharactersBlack.Description.Description, () => SIL_LockedCharactersBlack.Value, Hook_BlackenSurvivors),
             };

@@ -30,6 +30,16 @@ namespace LobbyAppearanceImprovements
             public CharacterModel characterModel;
             public bool hasUnlocked = false;
 
+            public void Awake()
+            {
+                InstanceTracker.Add(this);
+            }
+
+            public void OnDestroy()
+            {
+                InstanceTracker.Remove(this);
+            }
+
             public void ToggleShadow(bool value)
             {
                 if (characterModel)
@@ -278,12 +288,11 @@ namespace LobbyAppearanceImprovements
             {
                 layoutName = LAISceneManager.chosenScene.PreferredLayout != null ? LAISceneManager.chosenScene.PreferredLayout : nameof(Any_Empty);
             }
-            if (SIL_Enabled.Value)
-                if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
-                {
-                    Methods.SelectLayout(layoutName, saveChanges);
-                    resultLayout = true;
-                }
+            if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
+            {
+                Methods.SelectLayout(layoutName, saveChanges);
+                resultLayout = true;
+            }
             return UnderstandConceptOfLove(resultScene, resultLayout);
         }
 
@@ -945,27 +954,11 @@ namespace LobbyAppearanceImprovements
             LAISceneManager.chosenScene.SubTitleInstance.SetActive(value);
         }
 
-        public static void Hook_SurvivorsInLobby(bool value) // i have no idea what im doing
-        {
-            if (value)
-            {
-                SIL_Enabled.Value = value; //order matters
-                // Needs to be set before so the fucking method can change it back
-                Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
-            }
-            else
-            {
-                Methods.LoadSceneAndLayout(null, nameof(Any_Empty), false);
-                SIL_Enabled.Value = value;
-                // needs to be set after so the method can change
-            }
-        }
-
         public static void Hook_BlackenSurvivors(bool value)
         {
             SIL_LockedCharactersBlack.Value = value;
-            var comps = UnityEngine.Object.FindObjectsOfType<Methods.LAI_CharDisplayTracker>();
-            if (comps == null || comps.Length == 0) return;
+            var comps = InstanceTracker.GetInstancesList<Methods.LAI_CharDisplayTracker>();
+            if (comps == null || comps.Count == 0) return;
 
             foreach (var tracker in comps)
             {
