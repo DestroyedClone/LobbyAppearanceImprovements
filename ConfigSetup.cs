@@ -93,49 +93,48 @@ namespace LobbyAppearanceImprovements
             // Ordered by Layer //
             // UI //
             string cat = "UI";
-            UI_ShowFade = config.Bind(cat, "Show Fade", true, "Toggles the dark fade bars at the top and bottom of the lobby.");
-            UI_BlurOpacity = config.Bind(cat, "Blur Opacity", 100, "Adjusts the blur opacity behind the UI elements on the left and right." +
+            UI_ShowFade = config.Bind(cat, "Show Fade", true, "Toggle: Dark fade bars at the top and bottom of the lobby.");
+            UI_BlurOpacity = config.Bind(cat, "Blur Opacity", 100, "Adjust: Blur opacity behind the UI." +
                 "\n0:fully transparent - 100:default");
-            UI_Scale = config.Bind(cat, "UI Scale", 1f, "Resizes the UIs on the left and right."); //def 1f
+            UI_Scale = config.Bind(cat, "UI Scale", 1f, "Adjust: Resizes the UIs on the left and right."); //def 1f
             UI_Scale.Value = Mathf.Clamp(UI_Scale.Value, UI_Scale_Min, UI_Scale_Max);
 
             // Overlay //
             // Anything that affects the scene as a whole //
             // Post Processing //
             cat = "Overlay";
-            PostProcessing = config.Bind(cat, "Post Processing", true, "Toggles the blurry post processing.");
-            Parallax = config.Bind(cat, "Parallax", true, "Enable to toggle on a slight parallax effect controlled by the position of the cursor.");
-            //EnableCharacterRotation = config.Bind("Overlay", "Character Rotation", true, "Clicking and dragging will rotate the frontmost character.");
+            PostProcessing = config.Bind(cat, "Post Processing", true, "Toggle: Post processing.");
+            Parallax = config.Bind(cat, "Parallax", true, "Toggle: Parallax effect on the camera controlled by the position of the cursor.");
 
             // Lights //
             // The primary light over the scene //
             cat = "Lights";
-            Light_Color = config.Bind(cat, "Hex Color", "default", "Change the default color of the light, include the # for hex values"); //#fa5a5a
-            Light_Flicker = config.Bind(cat, "Flickerlight", true, "Makes the light not flicker anymore.");
-            Light_Intensity = config.Bind(cat, "Intensity", 1f, "Change the intensity of the light.");
+            Light_Color = config.Bind(cat, "Hex Color", "default", "Adjust: The color of the lobby's light, include # for hex values"); //#fa5a5a
+            Light_Flicker = config.Bind(cat, "Flickerlight", true, "Toggle: Flickering of the Light.");
+            Light_Intensity = config.Bind(cat, "Intensity", 1f, "Adjust: Change the intensity of the light.");
 
             // Character Pad Displays //
             cat = "Character Display";
-            MannequinScale = config.Bind(cat, "Character Display Scale", 1f, "Resizes character displays. "); //def 1f
-            MannequinEnableLocalTurn = config.Bind(cat, "Character Rotate", true, "If true, then your character can be dragged to rotate.");
-            MannequinEnableLocalTurnMultiplier = config.Bind(cat, "Character Rotate Speed", 2f, "Sets the speed of character rotation.");
+            MannequinScale = config.Bind(cat, "Character Display Scale", 1f, "Adjust: Resizes character displays."); //def 1f
+            MannequinEnableLocalTurn = config.Bind(cat, "Character Rotate", true, "Toggle: Click and drag to rotate your character in the lobby.");
+            MannequinEnableLocalTurnMultiplier = config.Bind(cat, "Character Rotate Speed", 2f, "Adjust: Sets the speed of character rotation.");
 
             // Background Elements //
             // Anything in the background unrelated to the characters //
             cat = "Background";
-            MeshProps = config.Bind(cat, "Show Static MeshProps", false, "Toggles all the stationary meshprops.");
-            PhysicsProps = config.Bind(cat, "Show Physics Props", false, "Toggles all the physics props like the Chair.");
-            Shaking = config.Bind(cat, "Shaking", false, "Toggles the random shaking that rattles the ship.");
+            MeshProps = config.Bind(cat, "LobbyScene: Show Static MeshProps", false, "Toggle: all the stationary meshprops.");
+            PhysicsProps = config.Bind(cat, "LobbyScene: Show Physics Props", false, "Toggle: all the physics props like the Chair.");
+            Shaking = config.Bind(cat, "LobbyScene: Shaking", false, "Toggles the random shaking that rattles the ship.");
 
             // Custom Background //
-            Scene_Selection = config.Bind(cat, "Select Scene", "default", "Sets the current scene of the lobby.");
-            Scene_Header = config.Bind(cat, "Scene Header", true, "Shows the scene's title and subtitle.");
+            Scene_Selection = config.Bind(cat, "Select Scene", "default", "Adjust: Sets the current scene of the lobby.");
+            Scene_Header = config.Bind(cat, "Scene Header", true, "Toggle: Shows the scene's title and subtitle.");
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
-            SIL_LockedCharactersBlack = config.Bind(cat, "Enable Unavailable Shadow Survivors", true, "If true, any survivors in a character layout that you don't have unlocked become shadowy.");
-            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Shows background elements in certain orientations. Set to Any_Empty to disable.");
-            SIL_ZoomEnable = config.Bind(cat, "Zoom On Character Select", true, "If true, selecting a character will zoom the camera onto that character.");
+            SIL_LockedCharactersBlack = config.Bind(cat, "Enable Unavailable Shadow Survivors", true, "Toggle: Any survivors in a character layout that you don't have unlocked become shadowy.");
+            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Adjust: Shows background elements in certain orientations. Set to Any_Empty to disable.");
+            SIL_ZoomEnable = config.Bind(cat, "Zoom On Character Select", true, "Toggle: Selecting a character will zoom the camera onto that character.");
             /*SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
                 "\n2 = Zoom on selection"); //def 1f*/
