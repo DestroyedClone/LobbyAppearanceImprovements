@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -33,8 +32,21 @@ namespace LobbyAppearanceImprovements.Scenes
 
         private void OnSceneLoaded(LAIScene scene)
         {
-            if (LAISceneManager.sceneInstance)
-                MeshPropsRef = LAISceneManager.sceneInstance.transform.Find("MeshProps").gameObject;
+            Debug.Log($"Scene: {scene} LayoutInstance: {LAISceneManager.sceneInstance}");
+            if (!LAISceneManager.sceneInstance)
+                return;
+            if (!(LAISceneManager.chosenScene is Lobby))
+                return;
+            MeshPropsRef = LAISceneManager.sceneInstance.transform.Find("MeshProps").gameObject;
+
+            // Lights //
+            HookMethods.Hook_LightUpdate_Color(ConfigSetup.Light_Color.Value);
+            HookMethods.Hook_LightUpdate_Flicker(ConfigSetup.Light_Flicker.Value);
+            HookMethods.Hook_LightUpdate_Intensity(ConfigSetup.Light_Intensity.Value);
+
+            // Background Elements //
+            HookMethods.Hook_HideProps(ConfigSetup.MeshProps.Value);
+            HookMethods.Hook_HidePhysicsProps(ConfigSetup.PhysicsProps.Value);
         }
     }
 }

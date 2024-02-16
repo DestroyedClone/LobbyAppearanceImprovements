@@ -1,7 +1,5 @@
 ﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace LobbyAppearanceImprovements.readme

@@ -1,15 +1,10 @@
 ﻿using BepInEx;
 using LobbyAppearanceImprovements.CharacterSceneLayouts;
 using LobbyAppearanceImprovements.Scenes;
-using R2API;
 using R2API.Utils;
-using RoR2;
-using RoR2.SurvivorMannequins;
 using RoR2.UI;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using TMPro;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.HookMethods;
@@ -42,7 +37,19 @@ namespace LobbyAppearanceImprovements
 
         public static Transform CharSelUITransform;
         public static Transform LAITitleRef;
-        public static CharacterSelectController characterSelectController = null;
+
+        public static CharacterSelectController CharacterSelectController
+        {
+            get
+            {
+                if (!_characterSelectController)
+                    _characterSelectController = UnityEngine.Object.FindObjectOfType<CharacterSelectController>();
+                return _characterSelectController;
+            }
+            set { _characterSelectController = value; }
+        }
+
+        private static CharacterSelectController _characterSelectController;
 
         public void Awake()
         {
@@ -71,7 +78,7 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
-            characterSelectController = self;
+            CharacterSelectController = self;
             if (UnityEngine.SceneManagement.SceneManager.sceneCount == 1)
             {
                 //_logger.LogMessage("good");
@@ -96,24 +103,15 @@ namespace LobbyAppearanceImprovements
 
             // Overlay //
             // Post Processing //
-            Hook_Overlay_ShowPostProcessing(PostProcessing.Value);
             Hook_Overlay_Parallax(Parallax.Value);
-
-            // Lights //
-            Hook_LightUpdate_Color(Light_Color.Value);
-            Hook_LightUpdate_Flicker(Light_Flicker.Value);
-            Hook_LightUpdate_Intensity(Light_Intensity.Value);
 
             // Character Pad Displays //
             Hook_RescalePads(MannequinScale.Value);
             Hook_Rotate_Toggle(MannequinEnableLocalTurn.Value);
             Hook_Rotate_Speed(MannequinEnableLocalTurnMultiplier.Value);
 
-            // Background Elements //
-            Hook_HideProps(MeshProps.Value);
-            Hook_HidePhysicsProps(PhysicsProps.Value);
-            Hook_DisableShaking(Shaking.Value);
-            Hook_ToggleZooming(SIL_ZoomEnable.Value);
+            HookMethods.Hook_ToggleZooming(ConfigSetup.SIL_ZoomEnable.Value);
+            HookMethods.Hook_DisableShaking(ConfigSetup.Shaking.Value);
         }
 
         //Defer?

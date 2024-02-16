@@ -1,8 +1,6 @@
 ﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
-using System.Collections.Generic;
-using static LobbyAppearanceImprovements.LAIPlugin;
 using RoR2;
-using RoR2.CameraModes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LobbyAppearanceImprovements
@@ -41,6 +39,7 @@ namespace LobbyAppearanceImprovements
             {
                 cam = newCam;
             }
+
             public void FixedUpdate()
             {
                 if (restart)

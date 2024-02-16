@@ -28,6 +28,9 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public virtual string[] RequiredModGUIDs { get; }
 
+        public static Action<CharSceneLayout> onLayoutLoaded;
+        public static Action<CharSceneLayout> onLayoutUnloaded;
+
         public abstract Dictionary<string, Vector3[]> CharacterLayouts { get; }
 
         public bool HasSetup = false;
@@ -76,7 +79,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             {
                 obj.transform.parent = layoutHolder.transform;
             }
-
+            onLayoutLoaded?.Invoke(this);
             return layoutHolder;
         }
 
@@ -95,6 +98,11 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
                 return;
             }
             HasSetup = true;
+        }
+
+        public void OnDestroy()
+        {
+            onLayoutUnloaded?.Invoke(this);
         }
     }
 }

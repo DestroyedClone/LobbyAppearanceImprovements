@@ -2,7 +2,6 @@
 using RoR2;
 using System;
 using UnityEngine;
-using static LobbyAppearanceImprovements.LAIPlugin;
 using static LobbyAppearanceImprovements.Methods;
 
 namespace LobbyAppearanceImprovements

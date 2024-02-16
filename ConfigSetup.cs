@@ -15,6 +15,7 @@ namespace LobbyAppearanceImprovements
             Bind(configFile);
             InLobbyBind();
         }
+
         #region Config
 
         // CONFIG //
@@ -64,6 +65,7 @@ namespace LobbyAppearanceImprovements
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
         public static ConfigEntry<bool> SIL_LockedCharactersBlack { get; set; }
+
         public static ConfigEntry<string> SIL_SelectedLayout { get; set; }
         public static ConfigEntry<bool> SIL_ZoomEnable { get; set; }
         public static ConfigEntry<bool> SIL_ClickOnCharacterToSwap { get; set; }

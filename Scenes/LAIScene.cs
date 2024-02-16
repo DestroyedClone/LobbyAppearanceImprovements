@@ -54,9 +54,8 @@ namespace LobbyAppearanceImprovements.Scenes
             return true;
         }
 
-        public GameObject CreateScene()
+        public GameObject CreateScene(bool selectScene)
         {
-            CreateTitleText();
             GameObject sceneInstance = null;
             if (BackgroundPrefab)
             {
@@ -64,25 +63,75 @@ namespace LobbyAppearanceImprovements.Scenes
                 sceneInstance.transform.SetPositionAndRotation(Position, Rotation);
                 sceneInstance.transform.localScale = Scale;
             }
-            onSceneLoaded?.Invoke(this);
+            if (selectScene)
+            {
+                LAISceneManager.sceneInstance = sceneInstance;
+                HookMethods.Hook_Overlay_ShowPostProcessing(PostProcessing.Value);
+                onSceneLoaded?.Invoke(this);
+            }
+            CreateTitleText();
             return sceneInstance;
+        }
+
+        //yeesh
+        private class TitleRefEnsurer : MonoBehaviour
+        {
+            public bool foundRef = false;
+            public float stopwatch;
+            private const float cooldown = 3f;
+
+            private void Awake()
+            {
+                stopwatch = cooldown;
+            }
+
+            private void FixedUpdate()
+            {
+                stopwatch -= Time.fixedDeltaTime;
+                if (stopwatch < 0)
+                {
+                    stopwatch = cooldown;
+                    var refCheck = LAIPlugin.CharacterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
+                    if (refCheck)
+                        LAIPlugin.LAITitleRef = refCheck;
+                    if (LAIPlugin.LAITitleRef)
+                    {
+                        LAILogging.LogMessage($"Found the titleref!", LoggingStyle.UserShouldSee);
+                        LAISceneManager.chosenScene.CreateTitleText();
+                        enabled = false;
+                        Destroy(gameObject);
+                    }
+                }
+            }
         }
 
         public void CreateTitleText()
         {
-            if (!LAIPlugin.characterSelectController) return;
-            if (!LAIPlugin.LAITitleRef) LAIPlugin.LAITitleRef = LAIPlugin.characterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
-            if (!LAIPlugin.LAITitleRef) return;
-            TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            //if (!LAIPlugin.LAITitleRef) LAIPlugin.LAITitleRef = LAIPlugin.characterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
+            if (!LAIPlugin.LAITitleRef)
+            {
+                LAILogging.LogMessage($"LAITITLEREF missing, attempting spawn", LoggingStyle.UserShouldSee);
+                var obj = new GameObject();
+                obj.name = $"LAITITLEREFGAMEOBJECT";
+                obj.AddComponent<TitleRefEnsurer>();
+                return;
+            }
+            LAILogging.LogMessage($"LAITITLEREF existing!, attempting spawn", LoggingStyle.UserShouldSee);
+            TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
             TitleInstance.name = $"LobbyAppearanceImprovements_Scene_Title";
-            SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.characterSelectController.transform);
+            SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
             SubTitleInstance.name = $"LobbyAppearanceImprovements_Scene_Subtitle";
 
             TitleInstance.transform.localPosition = new Vector3(0f, 450f, 0f);
             SubTitleInstance.transform.localPosition = new Vector3(0f, 500f, 300f);
 
             TitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetString(GetTitleToken());
+            //TitleInstance.GetComponent<HGTextMeshProUGUI>().alpha = 0f;
+            //TitleInstance.GetComponent<HGTextMeshProUGUI>().CrossFadeAlpha(1f, 3f, false);
+
             SubTitleInstance.GetComponent<HGTextMeshProUGUI>().text = $"<color=grey>{RoR2.Language.GetString(GetSubtitleToken())}</color>";
+            //SubTitleInstance.GetComponent<HGTextMeshProUGUI>().alpha = 0f;
+            //SubTitleInstance.GetComponent<HGTextMeshProUGUI>().CrossFadeAlpha(1f, 3f, false);
             HookMethods.Hook_ToggleSceneHeaderVisibility(ConfigSetup.Scene_Header.Value);
         }
 

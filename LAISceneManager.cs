@@ -1,19 +1,8 @@
-﻿using BepInEx;
-using LobbyAppearanceImprovements;
-using LobbyAppearanceImprovements.CharacterSceneLayouts;
-using LobbyAppearanceImprovements.Scenes;
-using R2API;
-using R2API.Utils;
+﻿using LobbyAppearanceImprovements.Scenes;
 using RoR2;
-using RoR2.SurvivorMannequins;
-using RoR2.UI;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using TMPro;
 using UnityEngine;
-using static LobbyAppearanceImprovements.ConfigSetup;
-using static LobbyAppearanceImprovements.HookMethods;
 
 namespace LobbyAppearanceImprovements
 {

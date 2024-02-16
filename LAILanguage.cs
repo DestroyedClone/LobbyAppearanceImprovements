@@ -13,7 +13,7 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_MAP_CONTACTLIGHT_SUBTITLE", "Emergency Pods");
             LanguageAPI.Add("LAI_MAP_LOBBY_TITLE", "UES SAFE TRAVELS");
             LanguageAPI.Add("LAI_MAP_LOBBY_SUBTITLE", "Captain's Ship");
-            LanguageAPI.Add("LAI_MAP_LOBBY_INFINITETOWERTITLE", "U?S ??FE TR?V??S");
+            LanguageAPI.Add("LAI_MAP_LOBBY_INFINITETOWER_TITLE", "U?S ??FE TR?V??S");
             LanguageAPI.Add("LAI_MAP_LOBBY_INFINITETOWER_SUBTITLE", "C?p??in's S??p");
         }
     }

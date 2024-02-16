@@ -214,7 +214,7 @@ namespace LobbyAppearanceImprovements
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             LAISceneManager.chosenScene = sceneObject;
-            LAISceneManager.sceneInstance = sceneObject.CreateScene();
+            sceneObject.CreateScene(true);
             ConfigSetup.Scene_Selection.Value = sceneNameLower;
         }
 
@@ -233,6 +233,7 @@ namespace LobbyAppearanceImprovements
                 {
                     return;
                 }
+                LAILayoutManager.chosenLayout.OnDestroy();
                 UnityEngine.Object.Destroy(LAILayoutManager.layoutInstance);
             }
 
@@ -312,13 +313,14 @@ namespace LobbyAppearanceImprovements
         public class ClickToSelectCharacter : MonoBehaviour
         {
             //CapsuleCollider capsuleCollider;
-            BoxCollider boxCollider;
+            private BoxCollider boxCollider;
+
             public SurvivorDef survivorDef;
             public Highlight highlight;
             public bool survivorUnlocked = false;
             public LocalUser localUser;
-            CharacterSelectController characterSelectController;
-            bool screenIsFocused = true;
+            private CharacterSelectController characterSelectController;
+            private bool screenIsFocused = true;
 
             public void Start()
             {
@@ -487,6 +489,7 @@ namespace LobbyAppearanceImprovements
                     return;
                 }
             }
+
             public void OnApplicationFocus(bool hasFocus)
             {
                 screenIsFocused = hasFocus;
@@ -496,22 +499,28 @@ namespace LobbyAppearanceImprovements
             {
                 if (highlight) highlight.isOn = true;
             }
+
             public void OnMouseExit()
             {
                 if (highlight) highlight.isOn = false;
             }
         }
+
         public class LAICameraController : MonoBehaviour
         {
             public static LAICameraController instance;
 
             public GameObject sceneCamera;
+
             // Defaults
             public string sepDefaults = "==Defaults==";
+
             public Vector3 DefaultPosition { get; private set; }
             public Quaternion DefaultRotation { get; private set; }
+
             // Parallax
             public string setpParallax = "==Parallax==";
+
             public Vector3 desiredPosition;
             public Vector3 desiredCenterPosition;
             public Quaternion desiredRotation;
@@ -526,6 +535,7 @@ namespace LobbyAppearanceImprovements
 
             // Rotating Character
             public string sepRotate = "==Rotate==";
+
             public Vector3 rotate_initialPosition;
             public Vector3 rotate_currentPosition;
             public float rotate_multiplier = 2f;
@@ -533,7 +543,8 @@ namespace LobbyAppearanceImprovements
 
             // Other
             public string setpOther = "==Other==";
-            bool screenIsFocused = true;
+
+            private bool screenIsFocused = true;
             private Vector3 MousePosition;
 
             private bool mouse0Click = false;
@@ -622,6 +633,7 @@ namespace LobbyAppearanceImprovements
 
             public static bool isFreeCam = false;
             public float freeCamMultiplier = 1;
+
             public void FreeCamPostion()
             {
                 if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -711,7 +723,7 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-            void OnApplicationFocus(bool hasFocus)
+            private void OnApplicationFocus(bool hasFocus)
             {
                 screenIsFocused = hasFocus;
             }
@@ -754,7 +766,7 @@ namespace LobbyAppearanceImprovements
             public float delayInSeconds;
             public MeshCollider meshCollider;
             public Mesh meshToBind;
-            float stopwatch = 0f;
+            private float stopwatch = 0f;
 
             public void Update()
             {
@@ -796,13 +808,14 @@ namespace LobbyAppearanceImprovements
 
         public static void Hook_UI_BlurOpacity(int value)
         {
-            ConfigSetup.UI_BlurOpacity.Value = (int)Mathf.Clamp(value, 0f, 100);
+            var clampedValue = Mathf.Clamp(value, 0f, 100);
+            ConfigSetup.UI_BlurOpacity.Value = Mathf.CeilToInt(clampedValue);
 
             var SafeArea = CharSelUITransform.Find("SafeArea").transform;
             var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
             var ui_right = SafeArea.Find("RightHandPanel");
 
-            var transparencyValue = ConfigSetup.UI_BlurOpacity.Value / 100;
+            float transparencyValue = ConfigSetup.UI_BlurOpacity.Value / 100f;
 
             var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
             leftBlurColor.color = new Color(leftBlurColor.color.r,
@@ -828,6 +841,7 @@ namespace LobbyAppearanceImprovements
             ui_left.localScale = Vector3.one * value;
             ui_right.localScale = Vector3.one * value;
         }
+
         public static void Hook_Overlay_ShowPostProcessing(bool value)
         {
             PostProcessing.Value = value;
@@ -857,6 +871,7 @@ namespace LobbyAppearanceImprovements
                 directionalLight.GetComponent<FlickerLight>().enabled = Light_Flicker.Value;
             }
         }
+
         public static void Hook_LightUpdate_Intensity(float intensity)
         {
             Light_Intensity.Value = intensity;
@@ -918,7 +933,6 @@ namespace LobbyAppearanceImprovements
             if (!(LAISceneManager.chosenScene is Lobby lobby))
                 return;
 
-
             if (!Lobby.MeshPropsRef)
             {
                 LAILogging.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef for Lobby scene", LoggingStyle.UserShouldSee);
@@ -949,7 +963,7 @@ namespace LobbyAppearanceImprovements
         {
             Scene_Header.Value = value;
 
-            if (!LAISceneManager.sceneInstance || LAISceneManager.chosenScene == null) return;
+            if (LAISceneManager.chosenScene == null) return;
             LAISceneManager.chosenScene.TitleInstance.SetActive(value);
             LAISceneManager.chosenScene.SubTitleInstance.SetActive(value);
         }

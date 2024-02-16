@@ -12,7 +12,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 public static class QuaternionUtil
 {
-
     public static Quaternion AngVelToDeriv(Quaternion Current, Vector3 AngVel)
     {
         var Spin = new Quaternion(AngVel.x, AngVel.y, AngVel.z, 0f);
