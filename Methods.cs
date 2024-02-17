@@ -863,7 +863,7 @@ namespace LobbyAppearanceImprovements
         public static void Hook_LightUpdate_Flicker(bool flicker)
         {
             Light_Flicker.Value = flicker;
-            var directionalLight = GameObject.Find("Directional Light");
+            var directionalLight = LAISceneManager.sceneInstance.transform.Find("Directional Light");
             if (directionalLight)
             {
                 directionalLight.GetComponent<FlickerLight>().enabled = Light_Flicker.Value;
@@ -873,7 +873,7 @@ namespace LobbyAppearanceImprovements
         public static void Hook_LightUpdate_Intensity(float intensity)
         {
             Light_Intensity.Value = intensity;
-            var directionalLight = GameObject.Find("Directional Light");
+            var directionalLight = LAISceneManager.sceneInstance.transform.Find("Directional Light");
             if (directionalLight)
             {
                 directionalLight.GetComponent<Light>().intensity = Light_Intensity.Value;
