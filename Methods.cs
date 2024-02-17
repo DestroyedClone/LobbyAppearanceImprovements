@@ -57,13 +57,7 @@ namespace LobbyAppearanceImprovements
         {
             if (!cameraRig)
             {
-                cameraRig = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
-
-                if (!cameraRig)
-                {
-                    LAILogging.LogMessage("Couldn't find CameraRig!", LoggingStyle.UserShouldSee);
-                    return;
-                }
+                cameraRig = LAICameraManager.MainCameraRigController;
             }
 
             var modifier = 0f;
@@ -244,8 +238,7 @@ namespace LobbyAppearanceImprovements
                 ConfigSetup.SIL_SelectedLayout.Value = layoutNameLower;
 
             //Resets camera on layout change
-            var cameraRig = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
-            SetCamera(cameraRig);
+            SetCamera();
         }
 
         public static string GetDefaultLayoutNameForScene(string sceneName)
@@ -617,6 +610,11 @@ namespace LobbyAppearanceImprovements
                             desiredPosition = GetDesiredPositionFromScreenFraction();
                         if (MannequinEnableLocalTurn.Value)
                             RotateCamera();
+
+                        if (Input.GetKeyDown(ConfigSetup.SIL_ResetCameraKey.Value))
+                        {
+                            Methods.SetCamera();
+                        }
                     }
                 }
 

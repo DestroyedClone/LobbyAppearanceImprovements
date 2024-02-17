@@ -68,6 +68,7 @@ namespace LobbyAppearanceImprovements
 
         public static ConfigEntry<string> SIL_SelectedLayout { get; set; }
         public static ConfigEntry<bool> SIL_ZoomEnable { get; set; }
+        public static ConfigEntry<KeyCode> SIL_ResetCameraKey { get; set; }
         public static ConfigEntry<bool> SIL_ClickOnCharacterToSwap { get; set; }
         //public static ConfigEntry<bool> ReplayAnim { get; set; }
         //public static ConfigEntry<bool> LivePreview { get; set; }
@@ -137,6 +138,7 @@ namespace LobbyAppearanceImprovements
             SIL_LockedCharactersBlack = config.Bind(cat, "Enable Unavailable Shadow Survivors", true, "Toggle: Any survivors in a character layout that you don't have unlocked become shadowy.");
             SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Adjust: Shows background elements in certain orientations. Set to Any_Empty to disable.");
             SIL_ZoomEnable = config.Bind(cat, "Zoom On Character Select", true, "Toggle: Selecting a character will zoom the camera onto that character.");
+            SIL_ResetCameraKey = config.Bind(cat, "Reset Camera", KeyCode.Equals, "Adjust: Sets keybind for resetting the ");
             /*SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
                 "\n1 = Disappear on selection" +
                 "\n2 = Zoom on selection"); //def 1f*/
@@ -204,6 +206,7 @@ namespace LobbyAppearanceImprovements
                 new StringConfigField(SIL_SelectedLayout.Definition.Key, SIL_SelectedLayout.Description.Description, () => SIL_SelectedLayout.Value, null, tempSelectLayoutAction),
                 new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
                 new BooleanConfigField(SIL_ZoomEnable.Definition.Key, SIL_ZoomEnable.Description.Description, () => SIL_ZoomEnable.Value, Hook_ToggleZooming),
+                new EnumConfigField<KeyCode>(SIL_ResetCameraKey.Definition.Key, SIL_ResetCameraKey.Description.Description, () => SIL_ResetCameraKey.Value),
                 new BooleanConfigField(SIL_LockedCharactersBlack.Definition.Key, SIL_LockedCharactersBlack.Description.Description, () => SIL_LockedCharactersBlack.Value, Hook_BlackenSurvivors),
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);

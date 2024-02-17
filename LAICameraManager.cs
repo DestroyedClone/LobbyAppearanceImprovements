@@ -12,6 +12,20 @@ namespace LobbyAppearanceImprovements
         //public static GameObject DefaultTextObject;
 
         public static Methods.LAICameraController CurrentCameraController;
+        public static CameraRigController MainCameraRigController
+        {
+            get
+            {
+                if (!_mainCameraRigController)
+                    _mainCameraRigController = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
+                return _mainCameraRigController;
+            }
+            set
+            {
+                _mainCameraRigController = value;
+            }
+        }
+        private static CameraRigController _mainCameraRigController;
 
         public static void Init()
         {
