@@ -962,8 +962,8 @@ namespace LobbyAppearanceImprovements
             Scene_Header.Value = value;
 
             if (LAISceneManager.chosenScene == null) return;
-            LAISceneManager.chosenScene.TitleInstance.SetActive(value);
-            LAISceneManager.chosenScene.SubTitleInstance.SetActive(value);
+            LAISceneManager.TitleInstance.SetActive(value);
+            LAISceneManager.SubTitleInstance.SetActive(value);
         }
 
         public static void Hook_BlackenSurvivors(bool value)
