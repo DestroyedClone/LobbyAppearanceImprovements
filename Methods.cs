@@ -75,7 +75,7 @@ namespace LobbyAppearanceImprovements
             cameraRig.baseFov = fov + modifier;
             var currentCam = LAICameraManager.CurrentCameraController;
             var desiredPosition = position == default ? currentCam.DefaultPosition : position;
-            currentCam.desiredCenterPosition = desiredPosition;
+            currentCam.DesiredCenterPosition = desiredPosition;
             var desiredRotation = rotation == default ? currentCam.DefaultRotation : Quaternion.Euler(rotation);
             currentCam.desiredRotation = desiredRotation;
 
@@ -514,8 +514,22 @@ namespace LobbyAppearanceImprovements
             // Parallax
             public string setpParallax = "==Parallax==";
 
-            public Vector3 desiredPosition;
-            public Vector3 desiredCenterPosition;
+            private Vector3 desiredPosition;
+            public Vector3 DesiredCenterPosition
+            {
+                get
+                {
+                    return _desiredCenterPosition;
+                }
+                set
+                {
+                    lastDesiredCenterPosition = DesiredCenterPosition;
+                    _desiredCenterPosition = value;
+                }
+            }
+            private Vector3 _desiredCenterPosition;
+            private Vector3 lastDesiredCenterPosition;
+
             public Quaternion desiredRotation;
             private Vector3 dampPositionVelocity;
             private Quaternion dampRotationVelocity;
@@ -572,7 +586,8 @@ namespace LobbyAppearanceImprovements
                     rotate_defaultRotationChar = new Vector3(0f, 219.0844f, 0f);
                 }
 
-                desiredCenterPosition = DefaultPosition;
+                lastDesiredCenterPosition = DefaultPosition;
+                DesiredCenterPosition = DefaultPosition;
                 desiredPosition = DefaultPosition;
                 desiredRotation = DefaultRotation;
 
@@ -613,7 +628,12 @@ namespace LobbyAppearanceImprovements
 
                         if (Input.GetKeyDown(ConfigSetup.SIL_ResetCameraKey.Value))
                         {
-                            Methods.SetCamera();
+                            if (DesiredCenterPosition == DefaultPosition)
+                            {
+                                HookMethods.SetCameraFromSurvivor(LocalUserManager.GetFirstLocalUser().userProfile.GetSurvivorPreference().survivorIndex);
+                            }
+                            else
+                                Methods.SetCamera();
                         }
                     }
                 }
@@ -742,14 +762,14 @@ namespace LobbyAppearanceImprovements
                 float fractionX = (Screen.width - MousePosition.x) / Screen.width;
                 float fractionY = (Screen.height - MousePosition.y) / Screen.height;
 
-                value.x = Mathf.Lerp(desiredCenterPosition.x + screenLimitDistance, desiredCenterPosition.x - screenLimitDistance, fractionX);
-                value.y = Mathf.Lerp(desiredCenterPosition.y + screenLimitDistance, desiredCenterPosition.y - screenLimitDistance, fractionY);
+                value.x = Mathf.Lerp(DesiredCenterPosition.x + screenLimitDistance, DesiredCenterPosition.x - screenLimitDistance, fractionX);
+                value.y = Mathf.Lerp(DesiredCenterPosition.y + screenLimitDistance, DesiredCenterPosition.y - screenLimitDistance, fractionY);
 
                 //if (Input.GetMouseButtonDown(2))
                 //value.z = startingPosition.z;
 
-                var val = desiredCenterPosition.z + Input.mouseScrollDelta.y * forwardMult;
-                value.z = Mathf.Clamp(val, desiredCenterPosition.z - forwardLimit, desiredCenterPosition.z + forwardLimit);
+                var val = DesiredCenterPosition.z + Input.mouseScrollDelta.y * forwardMult;
+                value.z = Mathf.Clamp(val, DesiredCenterPosition.z - forwardLimit, DesiredCenterPosition.z + forwardLimit);
                 return value;
             }
 
@@ -984,33 +1004,41 @@ namespace LobbyAppearanceImprovements
             SIL_ZoomEnable.Value = value;
             if (value)
             {
-                UserProfile.onSurvivorPreferenceChangedGlobal += UserProfile_onSurvivorPreferenceChangedGlobal;
+                UserProfile.onSurvivorPreferenceChangedGlobal += MoveCameraOnSurvivorPreferenceChange;
                 //_logger.LogMessage("Hook'd");
             }
             else
             {
-                UserProfile.onSurvivorPreferenceChangedGlobal -= UserProfile_onSurvivorPreferenceChangedGlobal;
+                UserProfile.onSurvivorPreferenceChangedGlobal -= MoveCameraOnSurvivorPreferenceChange;
                 Methods.SetCamera();
                 //_logger.LogMessage("Unhooked");
             }
         }
 
-        private static void UserProfile_onSurvivorPreferenceChangedGlobal(UserProfile userProfile)
+        private static void MoveCameraOnSurvivorPreferenceChange(UserProfile userProfile)
         {
-            var cameraRig = GameObject.Find("Main Camera").GetComponent<CameraRigController>();
-            var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(userProfile.GetSurvivorPreference().survivorIndex));
+            SetCameraFromSurvivor(userProfile.GetSurvivorPreference().survivorIndex);
+        }
 
+        public static void SetCameraFromSurvivor(SurvivorIndex survivorIndex)
+        {
+            var bodyName = BodyCatalog.GetBodyName(SurvivorCatalog.GetBodyIndexFromSurvivorIndex(survivorIndex));
+            SetCameraFromBodyName(bodyName);
+        }
+
+        public static void SetCameraFromBodyName(string bodyName)
+        {
             //_logger.LogMessage($"Body Name: {bodyName}");
             // Error here on any_empty
             if (LAILayoutManager.chosenLayout != null && LAILayoutManager.chosenLayout.CharacterCameraSettings != null)
             {
                 if (LAILayoutManager.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
                 {
-                    Methods.SetCamera(cameraRig, cameraSetting);
+                    Methods.SetCamera(null, cameraSetting);
                 }
                 else
                 {
-                    Methods.SetCamera(cameraRig);
+                    Methods.SetCamera();
                 }
             }
         }
