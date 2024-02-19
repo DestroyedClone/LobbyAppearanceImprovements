@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -23,6 +24,7 @@ namespace LobbyAppearanceImprovements.Scenes
         };
 
         public static GameObject MeshPropsRef;
+        public static GameObject DirectionalLight;
 
         public override void Init()
         {
@@ -32,17 +34,15 @@ namespace LobbyAppearanceImprovements.Scenes
 
         private void OnSceneLoaded(LAIScene scene)
         {
-            Debug.Log($"Scene: {scene} LayoutInstance: {LAISceneManager.sceneInstance}");
-            if (!LAISceneManager.sceneInstance)
-                return;
             if (!(LAISceneManager.chosenScene is Lobby))
                 return;
+            if (!LAISceneManager.sceneInstance)
+                return;
             MeshPropsRef = LAISceneManager.sceneInstance.transform.Find("MeshProps").gameObject;
+            DirectionalLight = LAISceneManager.sceneInstance.transform.Find("Directional Light").gameObject;
 
             // Lights //
-            HookMethods.Hook_LightUpdate_Color(ConfigSetup.Light_Color.Value);
-            HookMethods.Hook_LightUpdate_Flicker(ConfigSetup.Light_Flicker.Value);
-            HookMethods.Hook_LightUpdate_Intensity(ConfigSetup.Light_Intensity.Value);
+            HookMethods.UpdateDirectionalLight();
 
             // Background Elements //
             HookMethods.Hook_HideProps(ConfigSetup.MeshProps.Value);

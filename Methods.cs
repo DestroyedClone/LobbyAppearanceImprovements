@@ -20,10 +20,6 @@ namespace LobbyAppearanceImprovements
 {
     public static class Methods
     {
-        public static void ChangeLobbyLightColor(Color32 color)
-        {
-            GameObject.Find("Directional Light").GetComponent<Light>().color = color;
-        }
 
         public class LAI_CharDisplayTracker : MonoBehaviour
         {
@@ -868,36 +864,35 @@ namespace LobbyAppearanceImprovements
             if (obj) obj.gameObject.SetActive(value);
         }
 
-        public static void Hook_LightUpdate_Color(string color)
+        public static void Hook_LightUpdate_Color(UnityEngine.Color color)
         {
             Light_Color.Value = color;
-            var directionalLight = GameObject.Find("Directional Light");
-
-            if (directionalLight)
-            {
-                if ((Light_Color.Value != "default" || Light_Color.Value != null) && TryParseHtmlString(Light_Color.Value, out Color newColor))
-                    Methods.ChangeLobbyLightColor(newColor);
-            }
+            UpdateDirectionalLight();
         }
 
         public static void Hook_LightUpdate_Flicker(bool flicker)
         {
             Light_Flicker.Value = flicker;
-            var directionalLight = LAISceneManager.sceneInstance.transform.Find("Directional Light");
-            if (directionalLight)
-            {
-                directionalLight.GetComponent<FlickerLight>().enabled = Light_Flicker.Value;
-            }
+            UpdateDirectionalLight();
         }
 
         public static void Hook_LightUpdate_Intensity(float intensity)
         {
             Light_Intensity.Value = intensity;
-            var directionalLight = LAISceneManager.sceneInstance.transform.Find("Directional Light");
-            if (directionalLight)
-            {
-                directionalLight.GetComponent<Light>().intensity = Light_Intensity.Value;
-            }
+            UpdateDirectionalLight();
+        }
+
+        public static void UpdateDirectionalLight()
+        {
+            if (!LAISceneManager.sceneInstance) return;
+            if (!Lobby.DirectionalLight) return;
+            var light = Lobby.DirectionalLight.GetComponent<Light>();
+            //why
+            light.color = new Color(Light_Color.Value.r/255, Light_Color.Value.g / 255, Light_Color.Value.b / 255, Light_Color.Value.a / 255);
+            light.intensity = Light_Intensity.Value;
+            var flickerLight = Lobby.DirectionalLight.GetComponent<FlickerLight>();
+            flickerLight.enabled = Light_Flicker.Value;
+            flickerLight.initialLightIntensity = Light_Intensity.Value;
         }
 
         public static void Hook_RescalePads(float size)

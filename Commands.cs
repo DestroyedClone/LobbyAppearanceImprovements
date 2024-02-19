@@ -79,7 +79,7 @@ namespace LobbyAppearanceImprovements
         {
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
             {
-                Methods.ChangeLobbyLightColor(new Color32((byte)args.GetArgInt(0), (byte)args.GetArgInt(1), (byte)args.GetArgInt(2), (byte)args.GetArgInt(3)));
+                //Methods.ChangeLobbyLightColor(new Color32((byte)args.GetArgInt(0), (byte)args.GetArgInt(1), (byte)args.GetArgInt(2), (byte)args.GetArgInt(3)));
             }
         }
 

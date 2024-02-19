@@ -39,7 +39,7 @@ namespace LobbyAppearanceImprovements
 
         // Lights //
         // The primary light over the scene //
-        public static ConfigEntry<string> Light_Color { get; set; }
+        public static ConfigEntry<Color> Light_Color { get; set; }
 
         public static ConfigEntry<bool> Light_Flicker { get; set; }
         public static ConfigEntry<float> Light_Intensity { get; set; }
@@ -112,9 +112,9 @@ namespace LobbyAppearanceImprovements
             // Lights //
             // The primary light over the scene //
             cat = "Lights";
-            Light_Color = config.Bind(cat, "Hex Color", "default", "Adjust: The color of the lobby's light, include # for hex values"); //#fa5a5a
-            Light_Flicker = config.Bind(cat, "Flickerlight", true, "Toggle: Flickering of the Light.");
-            Light_Intensity = config.Bind(cat, "Intensity", 1f, "Adjust: Change the intensity of the light.");
+            Light_Color = config.Bind(cat, "Color", new Color(0.9811f, 0.3564f, 0.3564f, 1f), "Adjust: The color of the lobby's light, include # for hex values"); //#fa5a5a
+            Light_Flicker = config.Bind(cat, "Flickering", true, "Toggle: Flickering of the Light.");
+            Light_Intensity = config.Bind(cat, "Intensity", 0.4873f, "Adjust: Change the intensity of the light.");
 
             // Character Pad Displays //
             cat = "Character Display";
@@ -130,13 +130,13 @@ namespace LobbyAppearanceImprovements
             Shaking = config.Bind(cat, "LobbyScene: Shaking", false, "Toggles the random shaking that rattles the ship.");
 
             // Custom Background //
-            Scene_Selection = config.Bind(cat, "Select Scene", "default", "Adjust: Sets the current scene of the lobby.");
+            Scene_Selection = config.Bind(cat, "Select Scene", "lobby", "Adjust: Sets the current scene of the lobby.");
             Scene_Header = config.Bind(cat, "Scene Header", true, "Toggle: Shows the scene's title and subtitle.");
 
             // Survivors In Lobby //
             // Anything related to the config setting to show displays in the lobby //
             SIL_LockedCharactersBlack = config.Bind(cat, "Enable Unavailable Shadow Survivors", true, "Toggle: Any survivors in a character layout that you don't have unlocked become shadowy.");
-            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "default", "Adjust: Shows background elements in certain orientations. Set to Any_Empty to disable.");
+            SIL_SelectedLayout = config.Bind(cat, "Character Layout Name", "any_empty", "Adjust: Shows background elements in certain orientations. Set to Any_Empty to disable.");
             SIL_ZoomEnable = config.Bind(cat, "Zoom On Character Select", true, "Toggle: Selecting a character will zoom the camera onto that character.");
             SIL_ResetCameraKey = config.Bind(cat, "Reset Camera", KeyCode.Equals, "Adjust: Sets keybind for resetting the ");
             /*SelectViewMode = config.Bind("Background", "X Select View Mode (Requires SurvivorsInLobby set to true)", 0, "0 = None" +
@@ -182,7 +182,7 @@ namespace LobbyAppearanceImprovements
             };
             inLobbyConfigEntry.SectionFields["Lights"] = new List<IConfigField>
             {
-                new StringConfigField(Light_Color.Definition.Key, Light_Color.Description.Description, () => Light_Color.Value, Hook_LightUpdate_Color),
+                new ColorConfigField(Light_Color.Definition.Key, Light_Color.Description.Description, () => Light_Color.Value, Hook_LightUpdate_Color, null, false),
                 new BooleanConfigField(Light_Flicker.Definition.Key, Light_Flicker.Description.Description, () => Light_Flicker.Value, Hook_LightUpdate_Flicker),
                 new FloatConfigField(Light_Intensity.Definition.Key, Light_Intensity.Description.Description, () => Light_Intensity.Value, Hook_LightUpdate_Intensity)
             };
