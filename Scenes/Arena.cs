@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class Arena : LAIScene
     {
-        public override string SceneName => "Hidden Realm: Void Fields";
         public override string SceneNameToken => "MAP_ARENA";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/arena/ArenaDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(3.5f, -1.5f, 3);

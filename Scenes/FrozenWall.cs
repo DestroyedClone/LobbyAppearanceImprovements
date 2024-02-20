@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class FrozenWall : LAIScene
     {
-        public override string SceneName => "Rallypoint Delta";
         public override string SceneNameToken => "MAP_FROZENWALL";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/frozenwall/FrozenwallDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(7f, -2.25f, 7);

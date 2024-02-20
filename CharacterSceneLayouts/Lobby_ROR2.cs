@@ -8,7 +8,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneLayout => "Lobby_ROR2";
         public override string SceneName => "Lobby";
         public override string Author => "DestroyedClone";
-        public override string LayoutName => "ROR2";
+        public override string LayoutNameToken => "LAI_LAYOUT_ROR2";
         public override string ReadmeDescription => "Only the characters from RoR2";
 
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
@@ -36,12 +36,13 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
             {"EngiBody", new CameraSetting( 60, new Vector3(-2.5f, 1.24f, 15) ) },
             {"MageBody", new CameraSetting( 60, new Vector3(3, 1.24f, 12) ) },
             {"MercBody", new CameraSetting( 60, new Vector3(-1.5f, 4.74f, 18.5f) ) },
-            {"TreebotBody", new CameraSetting( 60, new Vector3(-6.5f, 0.74f, 19.5f) ) },
+            {"TreebotBody", new CameraSetting( 60, new Vector3(-5f, 0.24f, 20.5f), new Vector3(359.5351f, 322.6054f, 0) ) },
             {"LoaderBody", new CameraSetting( 60, new Vector3(4.5f, 1.24f, 10.5f) ) },
             {"CrocoBody", new CameraSetting( 60, new Vector3(5, 4.74f, 19) ) },
             {"CaptainBody", new CameraSetting( 60, new Vector3(2, 1.24f, 15) ) },
             {"RailgunnerBody", new CameraSetting( 60, new Vector3(1, 4.74f, 19) ) },
             {"VoidSurvivorBody", new CameraSetting( 60, new Vector3(3, 0.74f, 2.5f) ) },
+            {"Bandit2Body", new CameraSetting( 60, new Vector3(3.5f, 1.74f, 9.5f) ) },
         };
     }
 }

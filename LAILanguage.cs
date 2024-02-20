@@ -23,6 +23,12 @@ namespace LobbyAppearanceImprovements
 
             LanguageAPI.Add("LAI_MAP_TITLE_FORMAT", "{0}");
             LanguageAPI.Add("LAI_MAP_SUBTTILE_FORMAT", "<color=grey>{0}</color>");
+            LanguageAPI.Add("LAI_MAP_LAYOUT_FORMAT", "<color=grey>{0}</color>");
+
+            //LAYOUTS
+            LanguageAPI.Add("LAI_LAYOUT_ROR2_TITLE", "Risk of Rain, Too");
+            LanguageAPI.Add("LAI_LAYOUT_PALADINONLY_TITLE", "Paladin's Entrance");
+            LanguageAPI.Add("LAI_LAYOUT_CAPTAINSHELM_TITLE", "Outlook");
         }
     }
 }

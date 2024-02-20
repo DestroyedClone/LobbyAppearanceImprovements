@@ -1,4 +1,5 @@
-﻿using LobbyAppearanceImprovements.Scenes;
+﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
+using LobbyAppearanceImprovements.Scenes;
 using RoR2;
 using RoR2.UI;
 using System;
@@ -17,12 +18,19 @@ namespace LobbyAppearanceImprovements
 
         public static GameObject TitleInstance;
         public static GameObject SubTitleInstance;
+        public static GameObject LayoutTitleInstance;
 
         public static void Initialize()
         {
             SceneSetup.Init();
             On.RoR2.PreGameController.RefreshLobbyBackground += RemoveDefaultLobby;
             LAIScene.onSceneLoaded += CreateHeaderIfMissing;
+            CharSceneLayout.onLayoutLoaded += OnLayoutLoaded;
+        }
+
+        private static void OnLayoutLoaded(CharSceneLayout layout)
+        {
+            CreateOrUpdateHeaderText();
         }
 
         private static void RemoveDefaultLobby(On.RoR2.PreGameController.orig_RefreshLobbyBackground orig, PreGameController self)
@@ -96,6 +104,13 @@ namespace LobbyAppearanceImprovements
                 //SubTitleInstance.GetComponent<HGTextMeshProUGUI>().CrossFadeAlpha(1f, 3f, false);
             }
             LAISceneManager.SubTitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_SUBTTILE_FORMAT", RoR2.Language.GetString(LAISceneManager.chosenScene.SceneSubtitleToken));
+            if (!LayoutTitleInstance)
+            {
+                LAISceneManager.LayoutTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
+                LAISceneManager.LayoutTitleInstance.name = $"LobbyAppearanceImprovements_Layout_Title";
+                LAISceneManager.LayoutTitleInstance.transform.localPosition = new Vector3(0f, 600f, 800f);
+            }
+            LAISceneManager.LayoutTitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_LAYOUT_FORMAT", RoR2.Language.GetString(LAILayoutManager.chosenLayout.LayoutTitleToken));
             HookMethods.Hook_ToggleSceneHeaderVisibility(ConfigSetup.Scene_Header.Value);
         }
     }

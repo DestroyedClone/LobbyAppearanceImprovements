@@ -5,7 +5,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class SnowyForest : LAIScene
     {
-        public override string SceneName => "Siphoned Forest";
         public override string SceneNameToken => "MAP_SNOWYFOREST";
         public override GameObject BackgroundPrefab => Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/snowyforest/SnowyForestDioramaDisplay.prefab").WaitForCompletion();
         public override Vector3 Position => new Vector3(3.5f, -4.6f, 21);

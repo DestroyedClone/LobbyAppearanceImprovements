@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class BlackBeach : LAIScene
     {
-        public override string SceneName => "Distant Roost";
         public override string SceneNameToken => "MAP_BLACKBEACH";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/blackbeach/BlackbeachDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -2.4f, 5);

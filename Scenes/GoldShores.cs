@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class GoldShores : LAIScene
     {
-        public override string SceneName => "Hidden Realm: Gilded Coast";
         public override string SceneNameToken => "MAP_GOLDSHORES";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/goldshores/GoldshoresDiorama.prefab");
         public override Vector3 Position => new Vector3(0f, -2.7f, 16);

@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class WispGraveyard : LAIScene
     {
-        public override string SceneName => "Scorched Acres";
         public override string SceneNameToken => "MAP_WISPGRAVEYARD";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/wispgraveyard/WispgraveyardDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -10.7f, 15);

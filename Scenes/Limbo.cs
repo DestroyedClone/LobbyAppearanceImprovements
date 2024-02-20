@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class Limbo : LAIScene
     {
-        public override string SceneName => "Hidden Realm: A Moment, Whole";
         public override string SceneNameToken => "MAP_LIMBO";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/limbo/LimboDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -3.05f, 0);

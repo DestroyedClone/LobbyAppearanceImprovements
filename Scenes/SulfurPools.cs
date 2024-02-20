@@ -5,7 +5,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class SulfurPools : LAIScene
     {
-        public override string SceneName => "Sulfur Pools";
         public override string SceneNameToken => "MAP_SULFURPOOLS";
         public override GameObject BackgroundPrefab => Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/sulfurpools/SulfurpoolsDioramaDisplay.prefab").WaitForCompletion();
         public override Vector3 Position => new Vector3(3.5f, -6f, 20f);

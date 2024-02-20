@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class GolemPlains : LAIScene
     {
-        public override string SceneName => "Titanic Plains";
         public override string SceneNameToken => "MAP_GOLEMPLAINS";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/golemplains/GolemplainsDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(9f, -3.1f, 9);

@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class MysterySpace : LAIScene
     {
-        public override string SceneName => "Hidden Realm: A Moment, Fractured";
         public override string SceneNameToken => "MAP_MYSTERYSPACE";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/mysteryspace/MysteryspaceDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -5f, 30);

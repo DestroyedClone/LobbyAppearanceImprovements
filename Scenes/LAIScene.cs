@@ -14,8 +14,6 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public static Action<LAIScene> onSceneLoaded;
         public static Action<LAIScene> onSceneUnloaded;
-
-        public abstract string SceneName { get; }
         public abstract string SceneNameToken { get; }
         public abstract GameObject BackgroundPrefab { get; }
         public abstract Vector3 Position { get; }
@@ -27,10 +25,11 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public virtual void Init()
         {
-            LAILogging.LogMessage($"{SceneName}.Init :: Setting up scene.", LoggingStyle.UserShouldSee);
+            var nameOfThis = GetType().Name;
+            LAILogging.LogMessage($"{nameOfThis}.Init :: Setting up scene.", LoggingStyle.UserShouldSee);
             if (HasSetup)
             {
-                LAILogging.LogMessage($"{SceneName}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage($"{nameOfThis}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
                 return;
             }
             HasSetup = true;
@@ -44,7 +43,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 {
                     if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                     {
-                        LAILogging.LogMessage($"Refused to load scene \"{SceneName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserShouldSee);
+                        LAILogging.LogMessage($"Refused to load scene \"{GetType().Name}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserShouldSee);
                         return false;
                     }
                 }

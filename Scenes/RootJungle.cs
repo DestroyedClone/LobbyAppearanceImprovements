@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class RootJungle : LAIScene
     {
-        public override string SceneName => "Sundered Grove";
         public override string SceneNameToken => "MAP_ROOTJUNGLE";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/rootjungle/RootjungleDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -5f, 30);

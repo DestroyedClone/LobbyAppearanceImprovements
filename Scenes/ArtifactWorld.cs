@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class ArtifactWorld : LAIScene
     {
-        public override string SceneName => "Hidden Realm: Bulwark's Ambry";
         public override string SceneNameToken => "MAP_ARTIFACTWORLD";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/artifactworld/ArtifactworldDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(4f, -2.5f, 0);

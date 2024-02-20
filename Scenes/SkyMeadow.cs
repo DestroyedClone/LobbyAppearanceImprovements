@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class SkyMeadow : LAIScene
     {
-        public override string SceneName => "Sky Meadow";
         public override string SceneNameToken => "MAP_SKYMEADOW";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/skymeadow/SkyMeadowDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -3f, 0);

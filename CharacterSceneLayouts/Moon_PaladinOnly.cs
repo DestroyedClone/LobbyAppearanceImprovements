@@ -9,7 +9,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override string SceneLayout => "Moon_PaladinOnly";
         public override string SceneName => "Moon";
         public override string Author => "DestroyedClone";
-        public override string LayoutName => "Paladin's Entrance";
+        public override string LayoutNameToken => "LAI_LAYOUT_PALADINONLY";
         public override string ReadmeDescription => "Based on the logo.";
         public override string[] RequiredModGUIDs => new string[] { "com.rob.Paladin" };
 

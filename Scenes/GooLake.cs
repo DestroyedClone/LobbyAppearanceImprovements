@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class GooLake : LAIScene
     {
-        public override string SceneName => "Abandoned Aqueduct";
         public override string SceneNameToken => "MAP_GOOLAKE";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/goolake/GoolakeDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0, -5f, 8);

@@ -4,7 +4,6 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class DampCave : LAIScene
     {
-        public override string SceneName => "Abyssal Depths";
         public override string SceneNameToken => "MAP_DAMPCAVE";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/dampcavesimple/DampcaveDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(4f, -2f, 4);

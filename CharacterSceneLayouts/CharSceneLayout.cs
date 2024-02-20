@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BepInEx;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
@@ -21,8 +22,14 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         // Author of the scene : "DestroyedClone"
         public abstract string Author { get; }
 
-        // Name of the layout : "Original Crew"
-        public abstract string LayoutName { get; }
+        public virtual string LayoutNameToken { get; }
+        public string LayoutTitleToken
+        {
+            get
+            {
+                return LayoutNameToken.IsNullOrWhiteSpace() ? string.Empty : LayoutNameToken + "_TITLE";
+            }
+        }
 
         public virtual string ReadmeDescription { get; }
 
@@ -59,7 +66,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
                 {
                     if (!BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(GUID))
                     {
-                        LAILogging.LogMessage($"Refused to load layout \"{LayoutName}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserShouldSee);
+                        LAILogging.LogMessage($"Refused to load layout \"{SceneLayout}\" because GUID \"{GUID}\" was not loaded!", LoggingStyle.UserShouldSee);
                         return false;
                     }
                 }
