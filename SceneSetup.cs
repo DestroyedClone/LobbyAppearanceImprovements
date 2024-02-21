@@ -11,6 +11,8 @@ namespace LobbyAppearanceImprovements
 
         public static Action<GameObject[]> SceneAssetAPI_IntroAction;
         public static Action<GameObject[]> SceneAssetAPI_LobbyAction;
+        public static Action<GameObject[]> SceneAssetAPI_TitleAction;
+        public static Action<GameObject[]> SceneAssetAPI_VoidOutroAction;
 
         public static void Init()
         {
@@ -19,7 +21,49 @@ namespace LobbyAppearanceImprovements
             //SceneAssetAPI_LobbyAction += SceneAssetAPI_GetLobbyObjects;
             //SceneAssetAPI.AddAssetRequest("lobby", SceneAssetAPI_LobbyAction);
             //SetupContactLight();
+
+            SceneAssetAPI_TitleAction += LobbyMulti_Setup;
+            SceneAssetAPI.AddAssetRequest("title", SceneAssetAPI_TitleAction);
+
+            SceneAssetAPI_VoidOutroAction += VoidOceanFloor_Setup;
+            SceneAssetAPI.AddAssetRequest("voidoutro", SceneAssetAPI_VoidOutroAction);
         }
+
+        public static GameObject VoidOutroSet7;
+        private static void VoidOceanFloor_Setup(GameObject[] obj)
+        {
+            foreach (var go in obj)
+            {
+                if (go.name == "Set 7: Bottom of the Ocean")
+                {
+                    VoidOutroSet7 = PrefabAPI.InstantiateClone(go, "LAI_VOIDOUTROSET7", false);
+                    VoidOutroSet7.transform.Find("CrabHolder").GetComponent<ShakeEmitter>().enabled = false;
+                    VoidOutroSet7.gameObject.SetActive(true);
+                    return;
+                }
+            }
+        }
+
+        public static GameObject SpaceCabin;
+        private static void LobbyMulti_Setup(GameObject[] gameObjects)
+        {
+            foreach (var gameObject in gameObjects)
+            {
+                if (gameObject.name == "MainMenu")
+                {
+                    SpaceCabin = PrefabAPI.InstantiateClone(gameObject.transform.Find("MENU: Multiplayer/World Position/HOLDER: Background").gameObject, "LAI_SPACECABIN", false);
+                    //https://forum.unity.com/threads/changing-objects-to-from-static-at-runtime.575080/#post-7140668
+                    SpaceCabin.isStatic = false;
+                    foreach (var tool in SpaceCabin.transform.GetComponentsInChildren<Transform>())
+                    {
+                        tool.gameObject.isStatic = false;
+                    }
+                    return;
+                }
+            }
+        }
+
+
 
         #endregion ActionSetup
 
@@ -31,14 +75,37 @@ namespace LobbyAppearanceImprovements
 
         public static void CaptainHelm_Setup(GameObject[] gameObjects)
         {
+            GameObject cabin = null;
+            GameObject skybox = null;
+            GameObject planet = null;
             foreach (var gameObject in gameObjects)
             {
-                if (gameObject.name == "Set 2 - Cabin")
+                switch (gameObject.name)
                 {
-                    CaptainHelmObject = PrefabAPI.InstantiateClone(gameObject, "Cabin");
-                    return;
+                    case "Set 2 - Cabin":
+                        cabin = gameObject;
+                        continue;
+                    case "Cutscene Space Skybox":
+                        skybox = gameObject;
+                        continue;
+                    case "Set 3 - Space, Small Planet":
+                        planet = gameObject;
+                        planet.SetActive(false); //for now
+                        continue;
                 }
             }
+            var newHolder = new GameObject();
+            cabin.transform.parent = newHolder.transform;
+            cabin.transform.position = new Vector3(1f, 1f, 1f);
+            cabin.transform.Find("CabinPosition").transform.localScale = Vector3.one * 200;
+            cabin.transform.Find("CabinPosition").transform.localPosition = new Vector3(-18, 4.2f, 6);
+
+            skybox.transform.parent = newHolder.transform;
+            skybox.transform.localScale = Vector3.one;
+            planet.transform.parent = newHolder.transform;
+            //planet.SetActive(true);
+            CaptainHelmObject = PrefabAPI.InstantiateClone(newHolder, "LAI_CaptainsHelm_Cabin");
+            UnityEngine.Object.Destroy(newHolder);
         }
 
         #endregion Captain's Helm Setup

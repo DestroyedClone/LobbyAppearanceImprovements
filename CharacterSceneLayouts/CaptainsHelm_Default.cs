@@ -16,7 +16,7 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
         public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>();
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
         {
-            { "CaptainBody", new CameraSetting(60f, new Vector3(0.05f, 1.79f, 2.45f)) }
+            { "CaptainBody", new CameraSetting(60f, new Vector3(1.153385f, 2.327963f, 23f)) }
         };
     }
 }

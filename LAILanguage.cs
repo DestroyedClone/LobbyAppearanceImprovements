@@ -18,6 +18,10 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_MAP_LOBBY_SUBTITLE", "Captain's Ship");
             LanguageAPI.Add("LAI_MAP_LOBBY_INFINITETOWER_TITLE", "U?S ??FE TR?V??S");
             LanguageAPI.Add("LAI_MAP_LOBBY_INFINITETOWER_SUBTITLE", "C?p??in's S??p");
+            LanguageAPI.Add("LAI_MAP_LOBBYMULTI_TITLE", "Survivor's Room");
+            LanguageAPI.Add("LAI_MAP_LOBBYMULTI_SUBTITLE", "The Multi Before The Play");
+            LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_TITLE", "Sunk t' Nadir"); //Sunk to + lowest point of anything
+            LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_SUBTITLE", "The Ocean Floor");
 
             //Scene Formatting Tokens
 

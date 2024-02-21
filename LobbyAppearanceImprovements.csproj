@@ -22,6 +22,7 @@
 	  <Compile Remove="CharacterSceneLayouts\Lobby_Original.cs" />
 	  <Compile Remove="CharacterSceneLayouts\Moon_Default.cs" />
 	  <Compile Remove="CharacterSceneLayouts\WispGraveyard_Snipers.cs" />
+	  <Compile Remove="Scenes\SpaceCabin.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
