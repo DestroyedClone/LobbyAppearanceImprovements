@@ -8,11 +8,11 @@ namespace LobbyAppearanceImprovements
 {
     public static class Commands
     {
-        //[ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
+        [ConCommand(commandName = "LAI_SpawnPrefab", flags = ConVarFlags.SenderMustBeServer, helpText = "path x y z")]
         public static void CMD_SpawnPrefab(ConCommandArgs args)
         {
             var path = args.GetArgString(0);
-            var gay = Resources.Load(path);
+            var gay = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<GameObject>(path).WaitForCompletion();
             var diorama = (GameObject)UnityEngine.Object.Instantiate(gay);
             diorama.transform.position = new Vector3(args.GetArgFloat(1), args.GetArgFloat(2), args.GetArgFloat(3));
         }
@@ -74,15 +74,6 @@ namespace LobbyAppearanceImprovements
             SelectLayout(args.GetArgString(0));
         }
 
-        //[ConCommand(commandName = "LAI_ChangeLobbyColor", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_ChangeLobbyColor {r} {g} {b} {a} | For previewing, does not save.")]
-        public static void ChangeLight(ConCommandArgs args)
-        {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
-            {
-                //Methods.ChangeLobbyLightColor(new Color32((byte)args.GetArgInt(0), (byte)args.GetArgInt(1), (byte)args.GetArgInt(2), (byte)args.GetArgInt(3)));
-            }
-        }
-
         [ConCommand(commandName = "LAI_getpos", flags = ConVarFlags.None, helpText = "lai_getpos | Returns bodyname, pos, rotation, in format for scenelayout file")]
         public static void CMD_GetPos(ConCommandArgs args)
         {
@@ -93,31 +84,6 @@ namespace LobbyAppearanceImprovements
             var rot = args.senderBody.transform.rotation;
             var text = "{ \"" + bodyName + "\", new [] {new Vector3(" + pos.x + "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
             Debug.Log(text);
-        }
-
-        //[ConCommand(commandName = "LAI_FadeOpacity", flags = ConVarFlags.ExecuteOnServer, helpText = "LAI_FadeOpacity {0-255} | For previewing, does not save.")]
-        public static void CMD_adjustfade(ConCommandArgs args)
-        {
-            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "lobby")
-            {
-                var ui_origin = GameObject.Find("CharacterSelectUI").transform;
-                var SafeArea = ui_origin.Find("SafeArea").transform;
-                var ui_left = SafeArea.Find("LeftHandPanel (Layer: Main)");
-                var ui_right = SafeArea.Find("RightHandPanel");
-
-                var shit = args.GetArgInt(0);
-
-                var leftBlurColor = ui_left.Find("BlurPanel").GetComponent<TranslucentImage>();
-                leftBlurColor.color = new Color(leftBlurColor.color.r,
-                    leftBlurColor.color.g,
-                    leftBlurColor.color.b,
-                    Mathf.Clamp(shit, 0f, 255f));
-                var rightBlurColor = ui_right.Find("RuleVerticalLayout").Find("BlurPanel").GetComponent<TranslucentImage>();
-                rightBlurColor.color = new Color(leftBlurColor.color.r,
-                    rightBlurColor.color.g,
-                    rightBlurColor.color.b,
-                    Mathf.Clamp(shit, 0f, 255f));
-            }
         }
     }
 }
