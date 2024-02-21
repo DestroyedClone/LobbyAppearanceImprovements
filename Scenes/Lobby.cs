@@ -11,6 +11,8 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Quaternion Rotation => Quaternion.identity;
         public override Vector3 Scale => Vector3.one;
 
+        public override string PreferredLayout => nameof(CharacterSceneLayouts.Lobby_ROR2);
+
         public static string[] PhysicsPropNames = new string[]
         {
             "PropAnchor", "ExtinguisherMesh", "FolderMesh", "LaptopMesh (1)", "ChairPropAnchor", "ChairMesh",
