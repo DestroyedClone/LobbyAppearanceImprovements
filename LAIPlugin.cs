@@ -92,6 +92,7 @@ namespace LobbyAppearanceImprovements
                 self.gameObject.AddComponent<Methods.LAICameraController>();
             CharSelUITransform = GameObject.Find("CharacterSelectUI").transform;
 
+            ValidateConfig();
             Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
 
             LAITitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
@@ -112,6 +113,20 @@ namespace LobbyAppearanceImprovements
 
             HookMethods.Hook_ToggleZooming(ConfigSetup.SIL_ZoomEnable.Value);
             HookMethods.Hook_DisableShaking(ConfigSetup.Shaking.Value);
+        }
+
+        private void ValidateConfig()
+        {
+            if (!LAISceneManager.sceneNameList.Contains(ConfigSetup.Scene_Selection.Value))
+            {
+                LAILogging.LogWarning($"Invalid scene name: {ConfigSetup.Scene_Selection.Value}, switching to {ConfigSetup.Scene_Selection.DefaultValue}", LoggingStyle.UserShouldSee);
+                ConfigSetup.Scene_Selection.Value = (string)ConfigSetup.Scene_Selection.DefaultValue;
+            }
+            if (!LAILayoutManager.layoutNameList.Contains(ConfigSetup.SIL_SelectedLayout.Value))
+            {
+                LAILogging.LogWarning($"Invalid layout name: {ConfigSetup.SIL_SelectedLayout.Value}, switching to {ConfigSetup.SIL_SelectedLayout.DefaultValue}", LoggingStyle.UserShouldSee);
+                ConfigSetup.SIL_SelectedLayout.Value = (string)ConfigSetup.SIL_SelectedLayout.DefaultValue;
+            }
         }
 
         //Defer?
