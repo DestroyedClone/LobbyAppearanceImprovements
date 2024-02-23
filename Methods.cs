@@ -278,11 +278,8 @@ namespace LobbyAppearanceImprovements
             {
                 layoutName = LAISceneManager.chosenScene.PreferredLayout != null ? LAISceneManager.chosenScene.PreferredLayout : nameof(Any_Empty);
             }
-            if (layoutName != (string)SIL_SelectedLayout.DefaultValue)
-            {
-                Methods.SelectLayout(layoutName, saveChanges);
-                resultLayout = true;
-            }
+            Methods.SelectLayout(layoutName, saveChanges);
+            resultLayout = true;
             return UnderstandConceptOfLove(resultScene, resultLayout);
         }
 
