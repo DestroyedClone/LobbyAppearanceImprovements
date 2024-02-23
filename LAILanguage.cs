@@ -22,7 +22,6 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_MAP_LOBBYMULTI_SUBTITLE", "The Multi Before The Play");
             LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_TITLE", "Sunk t' Nadir"); //Sunk to + lowest point of anything
             LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_SUBTITLE", "The Ocean Floor");
-
             //Scene Formatting Tokens
 
             LanguageAPI.Add("LAI_MAP_TITLE_FORMAT", "{0}");
@@ -33,6 +32,7 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_LAYOUT_ROR2_TITLE", "Risk of Rain, Too");
             LanguageAPI.Add("LAI_LAYOUT_PALADINONLY_TITLE", "Paladin's Entrance");
             LanguageAPI.Add("LAI_LAYOUT_CAPTAINSHELM_TITLE", "Outlook");
+            LanguageAPI.Add("LAI_LAYOUT_MOONDEFAULT_TITLE", "Silence");
         }
     }
 }

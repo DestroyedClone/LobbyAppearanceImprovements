@@ -13,6 +13,7 @@ namespace LobbyAppearanceImprovements
         public static Action<GameObject[]> SceneAssetAPI_LobbyAction;
         public static Action<GameObject[]> SceneAssetAPI_TitleAction;
         public static Action<GameObject[]> SceneAssetAPI_VoidOutroAction;
+        public static Action<GameObject[]> SceneAssetAPI_itmoonAction;
 
         public static void Init()
         {
@@ -27,6 +28,22 @@ namespace LobbyAppearanceImprovements
 
             SceneAssetAPI_VoidOutroAction += VoidOceanFloor_Setup;
             SceneAssetAPI.AddAssetRequest("voidoutro", SceneAssetAPI_VoidOutroAction);
+
+            SceneAssetAPI_itmoonAction += MoonSetup;
+            SceneAssetAPI.AddAssetRequest("itmoon", SceneAssetAPI_itmoonAction);
+        }
+
+        public static GameObject brotherConstellation;
+        private static void MoonSetup(GameObject[] obj)
+        {
+            foreach (var go in obj)
+            {
+                if (go.name == "HOLDER: Stage")
+                {
+                    brotherConstellation = PrefabAPI.InstantiateClone(go.transform.Find("HOLDER: Constellations/mdlBrotherConstellation").gameObject, "LAI_MITHRIXCONSTELLATION", false);
+                    return;
+                }
+            }
         }
 
         public static GameObject VoidOutroSet7;
