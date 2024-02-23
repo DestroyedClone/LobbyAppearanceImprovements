@@ -5,11 +5,11 @@ using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.Methods;
 
-namespace LobbyAppearanceImprovements.CharacterSceneLayouts
+namespace LobbyAppearanceImprovements.Layouts
 {
-    public abstract class CharSceneLayout
+    public abstract class LAILayout
     {
-        public CharSceneLayout()
+        public LAILayout()
         {
         }
 
@@ -35,8 +35,8 @@ namespace LobbyAppearanceImprovements.CharacterSceneLayouts
 
         public virtual string[] RequiredModGUIDs { get; }
 
-        public static Action<CharSceneLayout> onLayoutLoaded;
-        public static Action<CharSceneLayout> onLayoutUnloaded;
+        public static Action<LAILayout> onLayoutLoaded;
+        public static Action<LAILayout> onLayoutUnloaded;
 
         public abstract Dictionary<string, Vector3[]> CharacterLayouts { get; }
 

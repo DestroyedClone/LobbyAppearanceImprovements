@@ -1,6 +1,6 @@
 ﻿using BepInEx;
 using LeTai.Asset.TranslucentImage;
-using LobbyAppearanceImprovements.CharacterSceneLayouts;
+using LobbyAppearanceImprovements.Layouts;
 using LobbyAppearanceImprovements.Scenes;
 using RoR2;
 using RoR2.SurvivorMannequins;
@@ -43,7 +43,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        public static void SetCamera(CameraRigController cameraRig, CharSceneLayout.CameraSetting cameraSetting)
+        public static void SetCamera(CameraRigController cameraRig, LAILayout.CameraSetting cameraSetting)
         {
             SetCamera(cameraRig, cameraSetting.fov, cameraSetting.position, cameraSetting.rotation);
             //add pos and rot
@@ -227,7 +227,7 @@ namespace LobbyAppearanceImprovements
                 UnityEngine.Object.Destroy(LAILayoutManager.layoutInstance);
             }
 
-            var layoutObject = (CharSceneLayout)Activator.CreateInstance(layout);
+            var layoutObject = (LAILayout)Activator.CreateInstance(layout);
             LAILayoutManager.chosenLayout = layoutObject;
             LAILayoutManager.layoutInstance = layoutObject.CreateLayout();
             if (saveChanges)
@@ -1025,7 +1025,7 @@ namespace LobbyAppearanceImprovements
             // Error here on any_empty
             if (LAILayoutManager.chosenLayout != null && LAILayoutManager.chosenLayout.CharacterCameraSettings != null)
             {
-                if (LAILayoutManager.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out CharSceneLayout.CameraSetting cameraSetting))
+                if (LAILayoutManager.chosenLayout.CharacterCameraSettings.TryGetValue(bodyName, out LAILayout.CameraSetting cameraSetting))
                 {
                     Methods.SetCamera(null, cameraSetting);
                 }

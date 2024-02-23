@@ -1,4 +1,4 @@
-﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
+﻿using LobbyAppearanceImprovements.Layouts;
 using LobbyAppearanceImprovements.Scenes;
 using RoR2;
 using RoR2.UI;
@@ -25,10 +25,10 @@ namespace LobbyAppearanceImprovements
             SceneSetup.Init();
             On.RoR2.PreGameController.RefreshLobbyBackground += RemoveDefaultLobby;
             LAIScene.onSceneLoaded += CreateHeaderIfMissing;
-            CharSceneLayout.onLayoutLoaded += OnLayoutLoaded;
+            LAILayout.onLayoutLoaded += OnLayoutLoaded;
         }
 
-        private static void OnLayoutLoaded(CharSceneLayout layout)
+        private static void OnLayoutLoaded(LAILayout layout)
         {
             CreateOrUpdateHeaderText();
         }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace LobbyAppearanceImprovements.CharacterSceneLayouts
+namespace LobbyAppearanceImprovements.Layouts
 {
-    public class Lobby_ROR2 : CharSceneLayout
+    public class Lobby_ROR2 : LAILayout
     {
         public override string SceneLayout => "Lobby_ROR2";
         public override string SceneName => "Lobby";

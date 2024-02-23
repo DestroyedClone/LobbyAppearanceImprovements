@@ -1,4 +1,4 @@
-﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
+﻿using LobbyAppearanceImprovements.Layouts;
 using System;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace LobbyAppearanceImprovements.readme
             foreach (var entry in LAILayoutManager.layoutsDict)
             {
                 var characterStringBuilder = HG.StringBuilderPool.RentStringBuilder();
-                var lay = (CharSceneLayout)Activator.CreateInstance(entry.Value);
+                var lay = (LAILayout)Activator.CreateInstance(entry.Value);
                 foreach (var chr in lay.CharacterLayouts)
                 {
                     characterStringBuilder.Append($"{chr.Key}, ");

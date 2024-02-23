@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace LobbyAppearanceImprovements.CharacterSceneLayouts
+namespace LobbyAppearanceImprovements.Layouts
 {
-    public class Moon_Default : CharSceneLayout
+    public class Moon_Default : LAILayout
     {
         public override string SceneLayout => "Moon_Default";
         public override string SceneName => "Moon";

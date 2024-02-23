@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace LobbyAppearanceImprovements.CharacterSceneLayouts
+namespace LobbyAppearanceImprovements.Layouts
 {
-    internal class CaptainsHelm_Default : CharSceneLayout
+    internal class CaptainsHelm_Default : LAILayout
     {
         public override string SceneLayout => "CaptainsHelm_Default";
         public override string SceneName => "CaptainsHelm";

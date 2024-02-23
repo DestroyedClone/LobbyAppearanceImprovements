@@ -1,5 +1,5 @@
 ﻿using BepInEx;
-using LobbyAppearanceImprovements.CharacterSceneLayouts;
+using LobbyAppearanceImprovements.Layouts;
 using LobbyAppearanceImprovements.Scenes;
 using R2API.Utils;
 using RoR2.UI;
@@ -133,7 +133,7 @@ namespace LobbyAppearanceImprovements
         public void AssemblySetup() //credit to bubbet for base code
         {
             var sceneType = typeof(LAIScene);
-            var layoutType = typeof(CharSceneLayout);
+            var layoutType = typeof(LAILayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (type.IsAbstract)
@@ -153,7 +153,7 @@ namespace LobbyAppearanceImprovements
                 }
                 else if (layoutType.IsAssignableFrom(type))
                 {
-                    var sceneObjectInitializer = (CharSceneLayout)Activator.CreateInstance(type);
+                    var sceneObjectInitializer = (LAILayout)Activator.CreateInstance(type);
                     bool canLoadLayout = sceneObjectInitializer.CanLoadLayout();
                     if (!canLoadLayout)
                         continue;

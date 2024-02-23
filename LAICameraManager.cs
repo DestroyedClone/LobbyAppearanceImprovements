@@ -1,4 +1,4 @@
-﻿using LobbyAppearanceImprovements.CharacterSceneLayouts;
+﻿using LobbyAppearanceImprovements.Layouts;
 using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +7,7 @@ namespace LobbyAppearanceImprovements
 {
     internal static class LAICameraManager
     {
-        public static Dictionary<string, CharSceneLayout.CameraSetting> currentCameraSettings = new Dictionary<string, CharSceneLayout.CameraSetting>();
+        public static Dictionary<string, LAILayout.CameraSetting> currentCameraSettings = new Dictionary<string, LAILayout.CameraSetting>();
 
         //public static GameObject DefaultTextObject;
 

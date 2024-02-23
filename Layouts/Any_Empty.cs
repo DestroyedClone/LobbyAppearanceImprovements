@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace LobbyAppearanceImprovements.CharacterSceneLayouts
+namespace LobbyAppearanceImprovements.Layouts
 {
-    public class Any_Empty : CharSceneLayout
+    public class Any_Empty : LAILayout
     {
         public override string SceneLayout => "Any_Empty";
         public override string SceneName => "Any";

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LobbyAppearanceImprovements.CharacterSceneLayouts
+namespace LobbyAppearanceImprovements.Layouts
 {
-    public class Moon_PaladinOnly : CharSceneLayout
+    public class Moon_PaladinOnly : LAILayout
     {
         public override string SceneLayout => "Moon_PaladinOnly";
         public override string SceneName => "Moon";
