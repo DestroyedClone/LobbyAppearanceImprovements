@@ -33,6 +33,8 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_LAYOUT_PALADINONLY_TITLE", "Paladin's Entrance");
             LanguageAPI.Add("LAI_LAYOUT_CAPTAINSHELM_TITLE", "Outlook");
             LanguageAPI.Add("LAI_LAYOUT_MOONDEFAULT_TITLE", "Silence");
+
+            LanguageAPI.Add("LAI_EMPTY_TITLE", "");
         }
     }
 }
