@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LobbyAppearanceImprovements
 {
@@ -10,6 +8,7 @@ namespace LobbyAppearanceImprovements
         // Ordered by Layer //
         // UI //
         public static Action<bool> UI_HideFade { get; set; }
+
         public static Action<int> UI_BlurOpacity { get; set; }
         public static Action<float> UI_Scale { get; set; }
 
@@ -41,6 +40,7 @@ namespace LobbyAppearanceImprovements
         // Survivors In Lobby //
         // Anything related to the config setting to show displays in the lobby //
         public static Action<bool> SIL_Enabled { get; set; }
+
         public static Action<bool> SIL_LockedCharactersBlack { get; set; }
         public static Action<string> SIL_SelectedLayout { get; set; }
         public static Action<int> SelectViewMode { get; set; }
