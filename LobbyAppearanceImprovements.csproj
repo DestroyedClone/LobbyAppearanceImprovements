@@ -21,6 +21,7 @@
 	  <Compile Remove="Layouts\Lobby_Default.cs" />
 	  <Compile Remove="Layouts\Lobby_Original.cs" />
 	  <Compile Remove="Layouts\WispGraveyard_Snipers.cs" />
+	  <Compile Remove="Scenes\ContactLight.cs" />
 	  <Compile Remove="Scenes\SpaceCabin.cs" />
 	</ItemGroup>
 

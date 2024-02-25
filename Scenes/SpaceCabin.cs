@@ -18,5 +18,6 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => Vector3.one;
 
         //MainMenu/MENU: Multiplayer/World Position/HOLDER: Background/
+        public override Material SkyboxOverride => LoadAsset<Material>("");
     }
 }

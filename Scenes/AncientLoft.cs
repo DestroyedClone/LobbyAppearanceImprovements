@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -9,5 +10,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Position => new Vector3(3.5f, -3.25f, 3);
         public override Quaternion Rotation => Quaternion.Euler(0f, 30f, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Material SkyboxOverride => LoadAsset<Material>("RoR2/DLC1/ancientloft/matSkyboxAncientLoft.mat");
+
     }
 }

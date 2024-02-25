@@ -10,5 +10,6 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Position => new Vector3(3.5f, -4.6f, 21);
         public override Quaternion Rotation => Quaternion.Euler(0f, 210f, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Material SkyboxOverride => LoadAsset<Material>("RoR2/DLC1/snowyforest/matSkyboxSF.mat");
     }
 }
