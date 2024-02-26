@@ -5,6 +5,7 @@ using R2API.Utils;
 using RoR2.UI;
 using System;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.HookMethods;
@@ -66,6 +67,15 @@ namespace LobbyAppearanceImprovements
             LAISceneManager.Initialize();
 
             On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredAssemblySetup;
+
+            //RoR2.Stage.onServerStageBegin += CacheSkyboxMaterial;
+        }
+
+        public static StringBuilder stringBuilder = new StringBuilder();
+        private void CacheSkyboxMaterial(RoR2.Stage obj)
+        {
+            stringBuilder.AppendLine($"{obj.sceneDef.cachedName} - {RenderSettings.skybox} - {RenderSettings.skybox.name}");
+            Debug.Log(stringBuilder.ToString());
         }
 
         private void DeferredAssemblySetup(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)

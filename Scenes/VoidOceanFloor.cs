@@ -18,5 +18,8 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => Vector3.one;
 
         //MainMenu/MENU: Multiplayer/World Position/HOLDER: Background/
+        public override Material SkyboxOverride => LoadAsset<Material>("RoR2/DLC1/voidstage/matSkyboxVoidStage.mat");
+        //RoR2/DLC1/voidstage/matSkyboxVoidStage.mat
+        //RoR2/DLC1/voidstage/matSkyboxVoid.mat
     }
 }

@@ -10,6 +10,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Position => Vector3.zero;
         public override Quaternion Rotation => Quaternion.identity;
         public override Vector3 Scale => Vector3.one;
+        //public override Material SkyboxOverride => LoadAsset<Material>("");
 
         public override string PreferredLayout => nameof(Layouts.Lobby_ROR2);
 

@@ -127,7 +127,7 @@ namespace LobbyAppearanceImprovements
             cat = "Background";
             MeshProps = config.Bind(cat, "LobbyScene: Show Static MeshProps", false, "Toggle: all the stationary meshprops.");
             PhysicsProps = config.Bind(cat, "LobbyScene: Show Physics Props", false, "Toggle: all the physics props like the Chair.");
-            Shaking = config.Bind(cat, "LobbyScene: Shaking", false, "Toggles the random shaking that rattles the ship.");
+            Shaking = config.Bind(cat, "Shaking", false, "Toggles any shaking that may happen during by the scene itself. Does not toggle shaking generated from character displays.");
 
             // Custom Background //
             Scene_Selection = config.Bind(cat, "Select Scene", "lobby", "Adjust: Sets the current scene of the lobby.");

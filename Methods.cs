@@ -812,9 +812,12 @@ namespace LobbyAppearanceImprovements
         public static void Hook_DisableShaking(bool value)
         {
             Shaking.Value = value;
-            var shaker = UnityEngine.Object.FindObjectOfType<PreGameShakeController>();
-            if (shaker)
-                shaker.enabled = value;
+            var shaker = UnityEngine.Object.FindObjectsOfType<PreGameShakeController>();
+            foreach (var shake in shaker)
+                if (shake) shake.enabled = false;
+            var shaker2 = UnityEngine.Object.FindObjectsOfType<ShakeEmitter>();
+            foreach (var shake in shaker2)
+                if (shake) shake.enabled = value;
         }
 
         public static void Hook_UI_BlurOpacity(int value)
@@ -885,11 +888,12 @@ namespace LobbyAppearanceImprovements
             if (!Lobby.DirectionalLight) return;
             var light = Lobby.DirectionalLight.GetComponent<Light>();
             //why
-            light.color = new Color(Light_Color.Value.r/255, Light_Color.Value.g / 255, Light_Color.Value.b / 255, Light_Color.Value.a / 255);
+            light.color = new Color(Light_Color.Value.r / 255, Light_Color.Value.g / 255, Light_Color.Value.b / 255, Light_Color.Value.a / 255);
             light.intensity = Light_Intensity.Value;
             var flickerLight = Lobby.DirectionalLight.GetComponent<FlickerLight>();
             flickerLight.enabled = Light_Flicker.Value;
             flickerLight.initialLightIntensity = Light_Intensity.Value;
+            light.intensity = Light_Intensity.Value;
         }
 
         public static void Hook_RescalePads(float size)

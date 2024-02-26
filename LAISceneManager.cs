@@ -25,7 +25,14 @@ namespace LobbyAppearanceImprovements
             SceneSetup.Init();
             On.RoR2.PreGameController.RefreshLobbyBackground += RemoveDefaultLobby;
             LAIScene.onSceneLoaded += CreateHeaderIfMissing;
+            LAIScene.onSceneLoaded += OnSceneLoaded;
             LAILayout.onLayoutLoaded += OnLayoutLoaded;
+        }
+
+        private static void OnSceneLoaded(LAIScene scene)
+        {
+            HookMethods.Hook_DisableShaking(ConfigSetup.Shaking.Value);
+            RenderSettings.skybox = scene.SkyboxOverride;
         }
 
         private static void OnLayoutLoaded(LAILayout layout)
