@@ -6,9 +6,10 @@ namespace LobbyAppearanceImprovements.Scenes
     {
         public override string SceneNameToken => "MAP_ROOTJUNGLE";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/rootjungle/RootjungleDioramaDisplay.prefab");
-        public override Vector3 Position => new Vector3(0f, -5f, 30);
+        public override Vector3 Position => new Vector3(0, - 3.3f, 28.1f);
         public override Quaternion Rotation => Quaternion.Euler(0, 345, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/rootjungle/skyboxJungle.mat");
+        //needs light
     }
 }

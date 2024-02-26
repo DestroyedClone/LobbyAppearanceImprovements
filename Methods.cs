@@ -890,10 +890,10 @@ namespace LobbyAppearanceImprovements
             //why
             light.color = new Color(Light_Color.Value.r / 255, Light_Color.Value.g / 255, Light_Color.Value.b / 255, Light_Color.Value.a / 255);
             light.intensity = Light_Intensity.Value;
-            light.intensity = Light_Intensity.Value;
             var flickerLight = Lobby.DirectionalLight.GetComponent<FlickerLight>();
             flickerLight.enabled = Light_Flicker.Value;
             flickerLight.initialLightIntensity = Light_Intensity.Value;
+            light.intensity = Light_Intensity.Value;
         }
 
         public static void Hook_RescalePads(float size)

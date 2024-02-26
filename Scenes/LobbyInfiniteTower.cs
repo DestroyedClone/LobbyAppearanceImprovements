@@ -10,5 +10,6 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Quaternion Rotation => Quaternion.identity;
         public override Vector3 Scale => Vector3.one;
         //public override Material SkyboxOverride => LoadAsset<Material>("");
+        //RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerAssets/Skybox Orbiting Objects Template.prefab
     }
 }

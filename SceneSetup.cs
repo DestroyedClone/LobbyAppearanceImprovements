@@ -118,7 +118,7 @@ namespace LobbyAppearanceImprovements
             cabin.transform.Find("CabinPosition").transform.localPosition = new Vector3(-18, 4.2f, 6);
 
             skybox.transform.parent = newHolder.transform;
-            skybox.transform.localScale = Vector3.one;
+            skybox.transform.localScale = Vector3.one * 30;
             planet.transform.parent = newHolder.transform;
             //planet.SetActive(true);
             CaptainHelmObject = PrefabAPI.InstantiateClone(newHolder, "LAI_CaptainsHelm_Cabin");

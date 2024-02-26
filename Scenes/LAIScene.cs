@@ -92,9 +92,11 @@ namespace LobbyAppearanceImprovements.Scenes
             return PrefabAPI.InstantiateClone(LoadAsset(path), name, false);
         }
 
-        public static GameObject CloneFromAddressable(string path)
+        public static GameObject CloneFromAddressable(string path, Transform parentTransform = null)
         {
-            return UnityEngine.Object.Instantiate(LoadAsset(path));
+            var obj = UnityEngine.Object.Instantiate(LoadAsset(path));
+            if (parentTransform) obj.transform.parent = parentTransform;
+            return obj;
         }
 
         public string SceneTitleToken
@@ -109,6 +111,20 @@ namespace LobbyAppearanceImprovements.Scenes
             get
             {
                 return SceneNameToken + "_SUBTITLE";
+            }
+        }
+
+        public class PrefabSpawner : MonoBehaviour
+        {
+            public string AssetPath;
+            public Vector3 position;
+            public Quaternion rotation;
+
+            public void Awake()
+            {
+                var spawn = LAIScene.CloneFromAddressable(AssetPath, this.transform);
+                spawn.transform.position = position;
+                spawn.transform.rotation = rotation;
             }
         }
     }
