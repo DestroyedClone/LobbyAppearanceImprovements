@@ -117,14 +117,28 @@ namespace LobbyAppearanceImprovements.Scenes
         public class PrefabSpawner : MonoBehaviour
         {
             public string AssetPath;
-            public Vector3 position;
+            public Vector3 localPosition;
+            //public Vector3 localPosition;
             public Quaternion rotation;
+
+            public GameObject spawnedObject;
+
+            public bool hasSpawned = false;
 
             public void Awake()
             {
-                var spawn = LAIScene.CloneFromAddressable(AssetPath, this.transform);
-                spawn.transform.position = position;
-                spawn.transform.rotation = rotation;
+                //Position becomes localposition after use
+                spawnedObject = LAIScene.CloneFromAddressable(AssetPath, this.transform);
+                if (rotation != null) spawnedObject.transform.rotation = rotation;
+                if (localPosition != null) spawnedObject.transform.position = localPosition;
+                //if (localPosition != null) spawn.transform.localPosition = position;
+                enabled = false;
+            }
+
+            public void Editor_RespawnObject()
+            {
+                Destroy(spawnedObject);
+                Awake();
             }
         }
     }

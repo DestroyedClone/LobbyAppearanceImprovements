@@ -28,7 +28,7 @@ namespace LobbyAppearanceImprovements.Scenes
             //portal.transform.position = new Vector3(9, 0, 28);
             var portal = display.AddComponent<PrefabSpawner>();
             portal.AssetPath = "RoR2/Base/PortalArena/PortalArena.prefab";
-            portal.position = new Vector3(9, 0, 28);
+            portal.localPosition = new Vector3(9, 0, 28);
 
             var skybox = CloneFromAddressable("RoR2/Base/arena/ArenaSkybox.prefab");
             skybox.transform.parent = display.transform;

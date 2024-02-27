@@ -8,8 +8,8 @@ namespace LobbyAppearanceImprovements.Scenes
     {
         public override string SceneNameToken => "MAP_ARTIFACTWORLD";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(4f, -2.5f, 0);
-        public override Quaternion Rotation => Quaternion.Euler(0, 270, 0);
+        public override Vector3 Position => new Vector3(-2f, -11f, 7);
+        public override Quaternion Rotation => Quaternion.Euler(0, 90, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/artifactworld/matSkyboxArtifactWorld.mat");
 
@@ -24,7 +24,10 @@ namespace LobbyAppearanceImprovements.Scenes
             //portal.transform.position = new Vector3(0, 4, 23);
             var portal = display.AddComponent<PrefabSpawner>();
             portal.AssetPath = "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab";
-            portal.position = new Vector3(2.4f, - 11.1f, 3.8f);
+            //portal.position = new Vector3(0f, 5f, 30f);
+            //portal.localPosition = new Vector3(26, 16, 4); //annoying
+            //portal.localPosition = new Vector3(-46, 17, 4); //??????????????????
+            portal.localPosition = new Vector3(-20, 46, 5);
             portal.rotation = Quaternion.Euler(0, 270, 0);
 
             var skybox = CloneFromAddressable("RoR2/Base/artifactworld/ArtifactWorldSkybox.prefab", display.transform);
