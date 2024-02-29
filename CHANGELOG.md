@@ -1,13 +1,24 @@
 ﻿* v1.2.0
-	* CharSceneLayout: Added Lobby_ROR2
 	* Config
-		* Fixed BlurOpacity either being completely invisible or default
-		* Added Scene Header showing the Scene's Title and Subtitle as header
-		* Selected scenes are now case-insensitive only
+		* ➕ Added Scene Header: Showing the scene title, subtitle, and layout title.
+		* 🔧Fixed BlurOpacity not correctly parsing partial values
+		* 🔧Fixed Disable Shaking not disabling after a scene load
+		* 🔧Selected scenes are now lowercase only
+		* 🔧Added identifier to some config values that only work in Lobby scene
+		* ➕Added reset camera key (default '=')
+		* 🔧Light color inlobbyconfig now has a color display
+		* 🔧Renamed config descriptions for clarity.
 	* Language
-		* Added new English tokens for the new headers
+		* ➕Added new English tokens for the new headers
 	* Scenes
-		* Added 4 new scenes: AncientLoft, Lobby, LobbyInfiniteTower, SnowyForest, SulfurPools, VoidRaid, VoidStage
+		* ➕Added 8 new scenes: AncientLoft, Lobby, LobbyVoid, SnowyForest, SulfurPools, VoidOceanFloor, VoidRaid, VoidStage
+		* ➕Skybox now changes per scene
+	* Layouts
+		* 🔧Moon_Default now has a Mithrix Constellation from itmoon, and a dead commando prop
+		* ➕Added new layouts: Lobby_ROR2, Moon_Default
+		*  🔧 Removed some layouts temporarily due to internal code changes
+	* Other
+		* 🔧Various internal fixes and code reorganization and cleanup.
 * `v1.1.1`
 	* Added config category "Character Pad"
 		* Character Pad Scale goes here instead of Background
