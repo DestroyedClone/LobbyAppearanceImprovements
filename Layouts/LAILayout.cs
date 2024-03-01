@@ -23,6 +23,7 @@ namespace LobbyAppearanceImprovements.Layouts
         public abstract string Author { get; }
 
         public virtual string LayoutNameToken { get; }
+
         public string LayoutTitleToken
         {
             get
