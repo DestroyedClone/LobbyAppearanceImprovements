@@ -61,8 +61,9 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
  If a scene/layout has a 🔒 before it, that means that the scene/layout is locked to only load with those survivors installed.
  <details> <summary><b>Click to expand</b></summary>
  
-| Scene/Layout | Note | Image |
-|:--:|--|:--:|
+| Scene | Layout | Image |
+|:--:|:--:|:--:|
+| (any) | any_empty | Shows no character layout
 | ancientloft |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/ancientloft.webp) |
 | arena |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/arena.webp) |
 | artifactworld |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/artifactworld.webp) |
