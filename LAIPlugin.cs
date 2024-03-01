@@ -14,7 +14,6 @@ using static LobbyAppearanceImprovements.HookMethods;
 
 namespace LobbyAppearanceImprovements
 {
-    [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin(ModGuid, ModName, ModVer)]
     [BepInDependency("com.KingEnderBrine.InLobbyConfig")]
@@ -26,7 +25,11 @@ namespace LobbyAppearanceImprovements
     //Sniper Layout
     //[BepInDependency("com.Moffein.SniperClassic", BepInDependency.DependencyFlags.SoftDependency)]
     //[BepInDependency("Rein.Sniper", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [R2APISubmoduleDependency(nameof(R2API.SceneAssetAPI))]
+    [R2APISubmoduleDependency(nameof(R2API.R2API))]
+    [R2APISubmoduleDependency(nameof(R2API.PrefabAPI))]
+    [R2APISubmoduleDependency(nameof(R2API.LanguageAPI))]
     public partial class LAIPlugin : BaseUnityPlugin
     {
         public const string ModVer = "1.2.0";
