@@ -20,6 +20,19 @@ namespace LobbyAppearanceImprovements
         public static GameObject SubTitleInstance;
         public static GameObject LayoutTitleInstance;
 
+        public static Action<LAIScene> onVoteStarted;
+
+        public static bool VoteHasStarted = false;
+        /*public static bool ShouldStartEventBeActive
+        {
+            get
+            {
+                var con = ConfigSetup.Scene_EnableTimerStartEvent.Value;
+                return con == EventStateType.AlwaysOn
+                    || con == EventStateType.On && VoteHasStarted;
+            }
+        }*/
+
         public static void Initialize()
         {
             SceneSetup.Init();
@@ -27,6 +40,50 @@ namespace LobbyAppearanceImprovements
             LAIScene.onSceneLoaded += CreateHeaderIfMissing;
             LAIScene.onSceneLoaded += OnSceneLoaded;
             LAILayout.onLayoutLoaded += OnLayoutLoaded;
+            //On.RoR2.UI.CharacterSelectController.ClientSetReady += CharacterSelectController_ClientSetReady;
+            On.RoR2.PreGameController.Start += PreGameController_Start;
+            LAIScene.onSceneLoaded += ActivateVoteStartEffectIfNewSceneLoaded;
+        }
+
+        private static void ActivateVoteStartEffectIfNewSceneLoaded(LAIScene scene)
+        {
+            if (VoteHasStarted)
+                onVoteStarted.Invoke(scene);
+        }
+
+        private static void PreGameController_Start(On.RoR2.PreGameController.orig_Start orig, PreGameController self)
+        {
+            orig(self);
+            VoteHasStarted = false;
+            self.gameObject.AddComponent<VoteStartedEventController>();
+        }
+
+        public class VoteStartedEventController : MonoBehaviour
+        {
+            public VoteController voteController;
+
+            public float stopwatch;
+            public float duration = 1f;
+
+            public void Start()
+            {
+                voteController = PreGameController.instance.GetComponent<VoteController>();
+            }
+
+            public void FixedUpdate()
+            {
+                stopwatch -= Time.fixedDeltaTime;
+                if (stopwatch > 0)
+                {
+                    return;
+                }
+                stopwatch = duration;
+                if (!VoteHasStarted && voteController.NetworktimerIsActive)
+                {
+                    onVoteStarted.Invoke(chosenScene);
+                }
+                VoteHasStarted = voteController.NetworktimerIsActive;
+            }
         }
 
         private static void OnSceneLoaded(LAIScene scene)

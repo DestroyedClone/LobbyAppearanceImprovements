@@ -983,6 +983,13 @@ namespace LobbyAppearanceImprovements
             LAISceneManager.LayoutTitleInstance.SetActive(value);
         }
 
+        /*public static void Hook_AdjustVoteStartEvent(ConfigSetup.EventStateType value)
+        {
+            Scene_EnableTimerStartEvent.Value = value;
+
+
+        }*/
+
         public static void Hook_BlackenSurvivors(bool value)
         {
             SIL_LockedCharactersBlack.Value = value;

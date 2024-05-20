@@ -18,14 +18,15 @@ namespace LobbyAppearanceImprovements.Scenes
             display = PrefabCloneFromAddressable("RoR2/Base/mysteryspace/MysteryspaceDioramaDisplay.prefab", "LAI_Scene_MysterySpace");
 
             var sky = CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
+            LAISceneManager.onVoteStarted += OnVoteStarted;
         }
 
-        public void OnVoteStarted()
+        public void OnVoteStarted(LAIScene scene)
         {
             if (!(LAISceneManager.chosenScene is MysterySpace)) return;
             var sceneInstance = LAISceneManager.sceneInstance;
             if (!LAISceneManager.sceneInstance) return;
             sceneInstance.transform.Find("Ring/Ruins/MSObelisk/Stage1FX/").gameObject.SetActive(true);
-        }
+        } //disable shake emitter
     }
 }
