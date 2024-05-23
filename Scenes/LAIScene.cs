@@ -26,6 +26,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public virtual Material SkyboxOverride { get; } = defaultSkyboxMaterial;
 
         public static Material defaultSkyboxMaterial = LoadAsset<Material>("RoR2/Base/Common/Skyboxes/matSkybox1.mat");
+        public virtual string Credit { get; }
 
         public virtual void Init()
         {

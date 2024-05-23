@@ -22,6 +22,10 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_MAP_LOBBYMULTI_SUBTITLE", "The Multi Before The Play");
             LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_TITLE", "Sunk t' Nadir"); //Sunk to + lowest point of anything
             LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_SUBTITLE", "The Ocean Floor");
+
+            LanguageAPI.Add("LAI_MOD_COOLERECLIPSELOBBY_TITLE", "Eclipse"); //Sunk to + lowest point of anything
+            LanguageAPI.Add("LAI_MOD_COOLERECLIPSELOBBY_SUBTITLE", "Radiance and Ruin");
+
             //Scene Formatting Tokens
 
             LanguageAPI.Add("LAI_MAP_TITLE_FORMAT", "{0}");
