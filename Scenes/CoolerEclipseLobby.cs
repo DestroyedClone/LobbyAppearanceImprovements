@@ -10,7 +10,7 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class CoolerEclipseLobby : LAIScene
     {
-        public override string SceneNameToken => "MOD_COOLERECLIPSELOBBY";
+        public override string SceneNameToken => "LAI_MOD_COOLERECLIPSELOBBY";
         public override GameObject BackgroundPrefab => eclipseLobby;
         public override Vector3 Position => new Vector3(0f, 0f, 0);
         public override Quaternion Rotation => Quaternion.Euler(0f, 0f, 0);
