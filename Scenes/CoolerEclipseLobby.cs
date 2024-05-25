@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
-    public class CoolerEclipseLobby : LAIScene
+    public class Eclipse : LAIScene
     {
         public override string SceneNameToken => "LAI_MOD_COOLERECLIPSELOBBY";
         public override GameObject BackgroundPrefab => eclipseLobby;
