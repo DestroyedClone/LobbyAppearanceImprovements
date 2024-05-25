@@ -1,3 +1,4 @@
+
 | [![github issues/request link](https://raw.githubusercontent.com/DestroyedClone/PoseHelper/master/PoseHelper/github_link.webp)](https://github.com/DestroyedClone/LobbyAppearanceImprovements/issues) | [![discord invite](https://raw.githubusercontent.com/DestroyedClone/PoseHelper/master/PoseHelper/discord_link.webp)](https://discord.gg/DpHu3qXMHK) |
 |--|--|
 
@@ -70,6 +71,7 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 | blackbeach |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/blackbeach.webp) |
 | captainshelm | captainshelm_default | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/captainshelm.webp) |
 | dampcave |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/dampcave.webp) |
+| eclipse | | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/eclipse.webp) |
 | foggyswamp |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/foggyswamp.webp) |
 | frozenwall |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/frozenwall.webp) |
 | goldshores |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/goldshores.webp) |
@@ -79,6 +81,7 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 | lobby |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lobby.webp) |
 | lobby | lobby_ror2 | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lobby_ror2.webp) |
 | lobbyvoid |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lobbyvoid.webp) |
+| lakes | | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lakes.webp) |
 | moon |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/moon.webp) |
 | moon | moon_default | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/moon_default.webp) |
 | moon | moon_paladinonly | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/moon_paladinonly.webp) |
@@ -95,9 +98,13 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 
 </details>
 
+## Scene Credits
+* Nuxlar [⚡](https://thunderstore.io/package/Nuxlar/) [🐙](https://github.com/FocusedFault)
+	* CoolerEclipseLobby [⚡](https://thunderstore.io/package/Nuxlar/CoolerEclipseLobby/)
+
 ## Credits
 
- - Rico [⚡](https://thunderstore.io/package/Rico/) [🐙](https://github.com/RicoValdezio)- Icon
+- Rico [⚡](https://thunderstore.io/package/Rico/) [🐙](https://github.com/RicoValdezio) - Icon
 - Moffein [⚡](https://thunderstore.io/package/Moffein/) [🐙](https://github.com/Moffein) - Consultation
 - Max Kaufmann - [QuaternionUtil (github.com)](https://gist.github.com/maxattack/4c7b4de00f5c1b95a33b)
 

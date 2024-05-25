@@ -1,4 +1,9 @@
-﻿* v1.2.0
+﻿
+* v1.2.?
+	* Scenes
+		* ➕Added ? new scenes: lakes (Verdant Lakes), CoolerEclipseLobby (permission given by Nuxlar),
+		* ➕Added new event for scenes to have something activated upon the vote starting.
+* v1.2.0
 	* Config
 		* ➕ Added Scene Header: Showing the scene title, subtitle, and layout title.
 		* 🔧Fixed BlurOpacity not correctly parsing partial values
