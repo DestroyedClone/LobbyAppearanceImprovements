@@ -56,6 +56,11 @@ namespace LobbyAppearanceImprovements.Scenes
             return true;
         }
 
+        public bool IsSceneOfType<T>()
+        {
+            return this is T;
+        }
+
         public GameObject CreateScene(bool selectScene)
         {
             GameObject sceneInstance = null;

@@ -23,7 +23,8 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public void OnVoteStarted(LAIScene scene)
         {
-            if (!(LAISceneManager.chosenScene is MysterySpace)) return;
+            //if (!(scene is MysterySpace)) return;
+            if (!scene.IsSceneOfType<MysterySpace>()) return;
             var sceneInstance = LAISceneManager.sceneInstance;
             if (!LAISceneManager.sceneInstance) return;
             sceneInstance.transform.Find("Ring/Ruins/MSObelisk/Stage1FX/").gameObject.SetActive(true);
