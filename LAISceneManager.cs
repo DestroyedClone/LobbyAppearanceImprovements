@@ -39,10 +39,16 @@ namespace LobbyAppearanceImprovements
             On.RoR2.PreGameController.RefreshLobbyBackground += RemoveDefaultLobby;
             LAIScene.onSceneLoaded += CreateHeaderIfMissing;
             LAIScene.onSceneLoaded += OnSceneLoaded;
+            LAIScene.onSceneLoaded += CreateSeerTextOnLoad;
             LAILayout.onLayoutLoaded += OnLayoutLoaded;
             //On.RoR2.UI.CharacterSelectController.ClientSetReady += CharacterSelectController_ClientSetReady;
             On.RoR2.PreGameController.Start += PreGameController_Start;
             LAIScene.onSceneLoaded += ActivateVoteStartEffectIfNewSceneLoaded;
+        }
+
+        private static void CreateSeerTextOnLoad(LAIScene scene)
+        {
+
         }
 
         private static void ActivateVoteStartEffectIfNewSceneLoaded(LAIScene scene)
@@ -88,6 +94,7 @@ namespace LobbyAppearanceImprovements
 
         private static void OnSceneLoaded(LAIScene scene)
         {
+            HookMethods.Hook_MusicChoice(MusicChoice.Value);
             HookMethods.Hook_DisableShaking(ConfigSetup.Shaking.Value);
             RenderSettings.skybox = scene.SkyboxOverride;
         }

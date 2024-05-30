@@ -18,6 +18,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/mysteryspace/matSkyboxMysterySpace.mat"); //guessed
 
         public static GameObject eclipseLobby;
+        public override string MusicTrackName => "muMenuDLC1";
 
         public override string Credit => "Nuxlar";
 

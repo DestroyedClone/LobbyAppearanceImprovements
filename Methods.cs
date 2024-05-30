@@ -802,6 +802,12 @@ namespace LobbyAppearanceImprovements
 
     public static class HookMethods
     {
+        public static void Hook_MusicChoice(string value)
+        {
+            MusicChoice.Value = value;
+            LAIMusicManager.OnSceneLoaded();
+        }
+
         public static void Hook_UI_ShowFade(bool value)
         {
             UI_ShowFade.Value = value;

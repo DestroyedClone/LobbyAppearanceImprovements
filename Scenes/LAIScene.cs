@@ -1,4 +1,5 @@
 ﻿using R2API;
+using RoR2;
 using RoR2.UI;
 using System;
 using UnityEngine;
@@ -27,6 +28,9 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public static Material defaultSkyboxMaterial = LoadAsset<Material>("RoR2/Base/Common/Skyboxes/matSkybox1.mat");
         public virtual string Credit { get; }
+        public virtual string MusicTrackName { get; } = null;
+        public virtual MusicTrackDef MusicTrackDef { get; set; } = defaultMusicTrackDef;
+        public static MusicTrackDef defaultMusicTrackDef = LoadAsset<MusicTrackDef>("RoR2/Base/Common/muLogbook");
 
         public virtual void Init()
         {

@@ -11,6 +11,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => Vector3.one;
         public override string PreferredLayout => nameof(Layouts.CaptainsHelm_Default);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/intro/matIntroSkybox.mat");
+        public override string MusicTrackName => "muIntroCutscene";
         //RoR2/Base/intro/matIntroSkybox.mat
         //RoR2/Base/intro/matIntroSkyboxStars.mat
         //RoR2/Base/intro/Cutscene Space Skybox.prefab

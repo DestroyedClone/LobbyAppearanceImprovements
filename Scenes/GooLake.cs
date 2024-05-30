@@ -10,5 +10,6 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);
         public override Vector3 Scale => Vector3.one;
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/goolake/matSkyboxGoolake.mat");
+        public override string MusicTrackName => "muFULLSong19";
     }
 }

@@ -60,6 +60,7 @@ namespace LobbyAppearanceImprovements
             LAILanguage.Init();
             LAIMannequinManager.Init();
             LAICameraManager.Init();
+            LAIMusicManager.Init();
             //AssemblySetup();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;

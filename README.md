@@ -13,7 +13,6 @@ This mod is likely incompatible with other mods that modify the lobby scene itse
 * Automated things for unsupported characters
 * Selected character replaces layout character
 * Some layouts have been disabled, fix them
-* Add musictrack overrides
 * Add more events for scenes
 
 ## Default (For Reference)
@@ -38,6 +37,13 @@ This was taken with KingEnderBrine's [ScrollableLobbyUI](https://thunderstore.io
 Configuration option included that darkens all characters that are locked within a layout. May not work if the character is spawned outside of the regular method. Does not include characters selected by other players.
 
 ![enter image description here](https://raw.githubusercontent.com/DestroyedClone/LobbyAppearanceImprovements/master/readme/notunlocked.webp)
+## Sound
+**Music**: Set the music track to load for the current stage.
+
+ - 'default' will perform default behaviour, playing the original lobby theme or playing the void lobby theme if its a void lobby scene
+ - 'auto' will automatically choose the track for the stage
+ - For the remaining tracks, see this sheet: [Google Sheet](https://docs.google.com/spreadsheets/d/1N0xfKgtY8xQo1XGm_UEjj8Zyzr9WzH4OLj5Al7evyCo/edit?usp=sharing)
+
 ## Scenes
 This config selects different backgrounds for the lobby.
 

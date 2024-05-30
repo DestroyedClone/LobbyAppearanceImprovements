@@ -12,6 +12,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Quaternion Rotation => Quaternion.Euler(0, 90, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/artifactworld/matSkyboxArtifactWorld.mat");
+        public override string MusicTrackName => "muSong13";
 
         public static GameObject display { get; private set; }
 

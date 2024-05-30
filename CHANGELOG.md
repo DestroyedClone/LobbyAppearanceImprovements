@@ -1,6 +1,10 @@
 ﻿
 * v1.2.?
 	* Scenes
+		* ➕ Added new music option: auto, default, and defined
+			* auto chooses a pre-defined theme for the Scene
+			* default will play the default music or any other existing music overrides
+			* defined as in 'muFULLSong02' and the like
 		* ➕Added ? new scenes: lakes (Verdant Lakes), CoolerEclipseLobby (permission given by Nuxlar),
 		* ➕Added new event for scenes to have something activated upon the vote starting.
 * v1.2.0

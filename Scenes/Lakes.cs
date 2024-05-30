@@ -12,6 +12,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/CU8/lakes/matTLSkybox.mat"); //todo get actual lobby mat
 
         public static GameObject display;
+        public override string MusicTrackName => "muGameplayDLC2_01";
 
         public override void Init()
         {

@@ -31,6 +31,7 @@ namespace LobbyAppearanceImprovements
         public static float UI_Scale_Max = 1.75f;
 
         // Overlay //
+        public static ConfigEntry<string> MusicChoice { get; set; }
         // Anything that affects the scene as a whole //
         // Post Processing //
         public static ConfigEntry<bool> PostProcessing { get; set; }
@@ -100,10 +101,17 @@ namespace LobbyAppearanceImprovements
 
         public static void Bind(ConfigFile config)
         {
+            string cat;
+            cat = "Sound";
+            MusicChoice = config.Bind(cat, "Music", "default", "Adjust: Sets the current musictrack of the lobby." +
+                "\n\"default\" = Will play the default lobby music or, if the scene has one, the overrided music" +
+                "\n\"auto\" = Will auto choose the scene's track." + 
+                "For the rest, see the readme for valid tracks.");
+
             // CONFIG //
             // Ordered by Layer //
             // UI //
-            string cat = "UI";
+            cat = "UI";
             UI_ShowFade = config.Bind(cat, "Show Fade", true, "Toggle: Dark fade bars at the top and bottom of the lobby.");
             UI_BlurOpacity = config.Bind(cat, "Blur Opacity", 100, "Adjust: Blur opacity behind the UI." +
                 "\n0:fully transparent - 100:default");
@@ -179,6 +187,10 @@ namespace LobbyAppearanceImprovements
             inLobbyConfigEntry = new ModConfigEntry
             {
                 DisplayName = "Lobby Appearance Improvements",
+            };
+            inLobbyConfigEntry.SectionFields["Sound"] = new List<IConfigField>
+            {
+                new StringConfigField(MusicChoice.Definition.Key, MusicChoice.Description.Description, () => MusicChoice.Value, null, Hook_MusicChoice)
             };
             inLobbyConfigEntry.SectionFields["UI"] = new List<IConfigField>
             {

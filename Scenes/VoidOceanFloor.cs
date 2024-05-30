@@ -19,6 +19,7 @@ namespace LobbyAppearanceImprovements.Scenes
 
         //MainMenu/MENU: Multiplayer/World Position/HOLDER: Background/
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/DLC1/voidstage/matSkyboxVoidStage.mat");
+        public override string MusicTrackName => "muIntroCutscene";
         //RoR2/DLC1/voidstage/matSkyboxVoidStage.mat
         //RoR2/DLC1/voidstage/matSkyboxVoid.mat
     }
