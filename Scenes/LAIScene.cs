@@ -42,6 +42,11 @@ namespace LobbyAppearanceImprovements.Scenes
                 return;
             }
             HasSetup = true;
+            LAISceneManager.onVoteStarted += OnVoteStarted;
+        }
+
+        public virtual void OnVoteStarted(LAIScene scene)
+        {
         }
 
         public bool CanLoadScene()

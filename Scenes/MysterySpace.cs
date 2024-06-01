@@ -19,10 +19,9 @@ namespace LobbyAppearanceImprovements.Scenes
             display = PrefabCloneFromAddressable("RoR2/Base/mysteryspace/MysteryspaceDioramaDisplay.prefab", "LAI_Scene_MysterySpace");
 
             var sky = CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
-            LAISceneManager.onVoteStarted += OnVoteStarted;
         }
 
-        public void OnVoteStarted(LAIScene scene)
+        public override void OnVoteStarted(LAIScene scene)
         {
             //if (!(scene is MysterySpace)) return;
             if (!scene.IsSceneOfType<MysterySpace>()) return;
