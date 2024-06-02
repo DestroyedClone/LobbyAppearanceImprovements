@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class Limbo : LAIScene
     {
         public override string SceneNameToken => "MAP_LIMBO";
+        public override string SeerToken => "LAI_SEER_LIMBO";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/limbo/LimboDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(0f, -3.05f, 0);
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);

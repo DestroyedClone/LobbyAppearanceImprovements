@@ -989,6 +989,14 @@ namespace LobbyAppearanceImprovements
             LAISceneManager.LayoutTitleInstance.SetActive(value);
         }
 
+        public static void Hook_ToggleSceneSeerVisibility(bool value)
+        {
+            Scene_Seer.Value = value;
+
+            if (LAISceneManager.chosenScene == null) return;
+            LAISceneManager.SeerTextInstance.SetActive(value);
+        }
+
         /*public static void Hook_AdjustVoteStartEvent(ConfigSetup.EventStateType value)
         {
             Scene_EnableTimerStartEvent.Value = value;

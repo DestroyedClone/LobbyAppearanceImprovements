@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class Lakes : LAIScene
     {
         public override string SceneNameToken => "MAP_LAKES";
+        public override string SeerToken => "BAZAAR_SEER_LAKES";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(2.5f, -5.25f, 24.5f);
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);

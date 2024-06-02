@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class ShipGraveyard : LAIScene
     {
         public override string SceneNameToken => "MAP_SHIPGRAVEYARD";
+        public override string SeerToken => "BAZAAR_SEER_SHIPGRAVEYARD";
         public override GameObject BackgroundPrefab => LoadAsset("RoR2/Base/shipgraveyard/ShipgraveyardDioramaDisplay.prefab");
         public override Vector3 Position => new Vector3(5f, -3f, 15);
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);

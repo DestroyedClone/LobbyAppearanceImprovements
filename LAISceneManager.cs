@@ -19,6 +19,7 @@ namespace LobbyAppearanceImprovements
         public static GameObject TitleInstance;
         public static GameObject SubTitleInstance;
         public static GameObject LayoutTitleInstance;
+        public static GameObject SeerTextInstance;
 
         public static Action<LAIScene> onVoteStarted;
 
@@ -39,14 +40,35 @@ namespace LobbyAppearanceImprovements
             On.RoR2.PreGameController.RefreshLobbyBackground += RemoveDefaultLobby;
             LAIScene.onSceneLoaded += CreateHeaderIfMissing;
             LAIScene.onSceneLoaded += OnSceneLoaded;
-            LAIScene.onSceneLoaded += CreateSeerTextOnLoad;
+            //LAIScene.onSceneLoaded += CreateSeerTextOnLoad;
             LAILayout.onLayoutLoaded += OnLayoutLoaded;
             //On.RoR2.UI.CharacterSelectController.ClientSetReady += CharacterSelectController_ClientSetReady;
             On.RoR2.PreGameController.Start += PreGameController_Start;
             LAIScene.onSceneLoaded += ActivateVoteStartEffectIfNewSceneLoaded;
+            LAIScene.onSceneUnloaded += DestroySeerText;
+        }
+
+        private static void DestroySeerText(LAIScene scene)
+        {
+            if (SeerTextInstance)
+            {
+                //UnityEngine.Object.Destroy(SeerTextInstance);
+            }
         }
 
         private static void CreateSeerTextOnLoad(LAIScene scene)
+        {
+            if (!SeerTextInstance)
+            {
+                LAISceneManager.SeerTextInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
+                LAISceneManager.SeerTextInstance.name = $"LobbyAppearanceImprovements_Seer_Text";
+                LAISceneManager.SeerTextInstance.transform.localPosition = new Vector3(0f, -900f, 800f);
+            }
+            LAISceneManager.SeerTextInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_LAYOUT_FORMAT", RoR2.Language.GetString(LAISceneManager.chosenScene.SeerToken));
+            HookMethods.Hook_ToggleSceneSeerVisibility(ConfigSetup.Scene_Seer.Value);
+        }
+
+        public class FadeOutAndDestroy : MonoBehaviour
         {
 
         }
@@ -183,6 +205,7 @@ namespace LobbyAppearanceImprovements
             }
             LAISceneManager.LayoutTitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_LAYOUT_FORMAT", RoR2.Language.GetString(LAILayoutManager.chosenLayout.LayoutTitleToken));
             HookMethods.Hook_ToggleSceneHeaderVisibility(ConfigSetup.Scene_Header.Value);
+            CreateSeerTextOnLoad(LAISceneManager.chosenScene);
         }
     }
 }

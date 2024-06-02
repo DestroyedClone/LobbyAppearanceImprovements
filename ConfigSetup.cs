@@ -63,6 +63,7 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<string> Scene_Selection { get; set; }
 
         public static ConfigEntry<bool> Scene_Header { get; set; }
+        public static ConfigEntry<bool> Scene_Seer { get; set; }
         //public static ConfigEntry<EventStateType> Scene_EnableTimerStartEvent { get; set; }
         /*public enum EventStateType
         {
@@ -148,6 +149,7 @@ namespace LobbyAppearanceImprovements
             // Custom Background //
             Scene_Selection = config.Bind(cat, "Select Scene", "lobby", "Adjust: Sets the current scene of the lobby.");
             Scene_Header = config.Bind(cat, "Scene Header", true, "Toggle: Shows the scene's title and subtitle.");
+            Scene_Seer = config.Bind(cat, "Scene Seer", true, "Toggle: Shows the stage's seer text at the bottom.");
             /*Scene_EnableTimerStartEvent = config.Bind(cat, "Ready Events", EventStateType.On, "Adjust: Enables an event on the current Scene for when the vote starts." +
                 "\nAlways On: Event starts when scene is loaded | On: Event starts when timer starts | Off: Disabled.");
             Scene_EnableTimerStartEvent.SettingChanged += Scene_EnableTimerStartEvent_SettingChanged;*/
@@ -225,6 +227,7 @@ namespace LobbyAppearanceImprovements
             {
                 //new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
                 new BooleanConfigField(Scene_Header.Definition.Key, Scene_Header.Description.Description, () => Scene_Header.Value, Hook_ToggleSceneHeaderVisibility),
+                new BooleanConfigField(Scene_Seer.Definition.Key, Scene_Seer.Description.Description, () => Scene_Seer.Value, Hook_ToggleSceneSeerVisibility),
                 new StringConfigField(Scene_Selection.Definition.Key, Scene_Selection.Description.Description, () => Scene_Selection.Value, null, tempSelectSceneAction),
                 //new EnumConfigField<EventStateType>(Scene_EnableTimerStartEvent.Definition.Key, Scene_EnableTimerStartEvent.Description.Description, () => Scene_EnableTimerStartEvent.Value, Hook_AdjustVoteStartEvent),
                 new StringConfigField(SIL_SelectedLayout.Definition.Key, SIL_SelectedLayout.Description.Description, () => SIL_SelectedLayout.Value, null, tempSelectLayoutAction),

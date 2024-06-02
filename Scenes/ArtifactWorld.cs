@@ -7,6 +7,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class ArtifactWorld : LAIScene
     {
         public override string SceneNameToken => "MAP_ARTIFACTWORLD";
+        public override string SeerToken => "LAI_SEER_ARTIFACTWORLD";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(-2f, -11f, 7);
         public override Quaternion Rotation => Quaternion.Euler(0, 90, 0);

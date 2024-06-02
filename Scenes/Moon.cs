@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class Moon : LAIScene
     {
         public override string SceneNameToken => "MAP_MOON";
+        public override string SeerToken => "BAZAAR_SEER_MOON";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(0, -4.6f, 25);
         public override Quaternion Rotation => Quaternion.Euler(0f, 90f, 0);

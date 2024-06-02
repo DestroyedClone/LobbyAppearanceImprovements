@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class GolemPlains : LAIScene
     {
         public override string SceneNameToken => "MAP_GOLEMPLAINS";
+        public override string SeerToken => "BAZAAR_SEER_GOLEMPLAINS";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(9f, - 3.5f, 9);
         public override Quaternion Rotation => Quaternion.Euler(0, 240, 0);

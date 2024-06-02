@@ -17,6 +17,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public static Action<LAIScene> onSceneLoaded;
         public static Action<LAIScene> onSceneUnloaded;
         public abstract string SceneNameToken { get; }
+        public abstract string SeerToken { get; }
         public abstract GameObject BackgroundPrefab { get; }
         public abstract Vector3 Position { get; }
         public abstract Quaternion Rotation { get; }

@@ -6,6 +6,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class GoldShores : LAIScene
     {
         public override string SceneNameToken => "MAP_GOLDSHORES";
+        public override string SeerToken => "BAZAAR_SEER_GOLDSHORES";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(0, - 3.1f, 16);
         public override Quaternion Rotation => Quaternion.Euler(0, 30, 0);

@@ -6,6 +6,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class Arena : LAIScene
     {
         public override string SceneNameToken => "MAP_ARENA";
+        public override string SeerToken => "LAI_SEER_ARENA";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(3.5f, - 3.1f, 3);
         public override Quaternion Rotation => Quaternion.Euler(0f, 0f, 0);

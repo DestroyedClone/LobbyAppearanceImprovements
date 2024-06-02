@@ -8,6 +8,7 @@ namespace LobbyAppearanceImprovements.Scenes
     internal class VoidOceanFloor : LAIScene
     {
         public override string SceneNameToken => "LAI_MAP_VOIDOUTROFLOOR";
+        public override string SeerToken => "LAI_SEER_VOIDOCEANFLOOR";
 
         public override GameObject BackgroundPrefab => SceneSetup.VoidOutroSet7;
 

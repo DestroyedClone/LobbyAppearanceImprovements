@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class BlackBeach : LAIScene
     {
         public override string SceneNameToken => "MAP_BLACKBEACH";
+        public override string SeerToken => "BAZAAR_SEER_BLACKBEACH";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(0f, -2.4f, 5);
         public override Quaternion Rotation => new Quaternion();

@@ -5,6 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class WispGraveyard : LAIScene
     {
         public override string SceneNameToken => "MAP_WISPGRAVEYARD";
+        public override string SeerToken => "BAZAAR_SEER_WISPGRAVEYARD";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(0f, -10.7f, 15);
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);

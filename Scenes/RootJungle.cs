@@ -6,6 +6,7 @@ namespace LobbyAppearanceImprovements.Scenes
     public class RootJungle : LAIScene
     {
         public override string SceneNameToken => "MAP_ROOTJUNGLE";
+        public override string SeerToken => "BAZAAR_SEER_ROOTJUNGLE";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(0, -3.3f, 28.1f);
         public override Quaternion Rotation => Quaternion.Euler(0, 345, 0);

@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using RoR2;
+using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
     public class MysterySpace : LAIScene
     {
         public override string SceneNameToken => "MAP_MYSTERYSPACE";
+        public override string SeerToken => "LAI_SEER_MYSTERYSPACE";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new Vector3(0f, -5f, 30);
         public override Quaternion Rotation => Quaternion.Euler(0, 345, 0);
@@ -17,6 +19,8 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/mysteryspace/MysteryspaceDioramaDisplay.prefab", "LAI_Scene_MysterySpace");
+            var obelisk = display.transform.Find("Ring/Ruins/MSObelisk");
+            obelisk.GetComponent<PurchaseInteraction>().enabled = false;
 
             var sky = CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
         }
