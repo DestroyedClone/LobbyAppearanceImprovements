@@ -616,6 +616,8 @@ namespace LobbyAppearanceImprovements
 
                         if (Parallax.Value)
                             desiredPosition = GetDesiredPositionFromScreenFraction();
+                        else
+                            desiredPosition = DesiredCenterPosition;
                         if (MannequinEnableLocalTurn.Value)
                             RotateCamera();
 
