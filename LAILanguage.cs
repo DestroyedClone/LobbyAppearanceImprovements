@@ -27,8 +27,8 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_MOD_COOLERECLIPSELOBBY_SUBTITLE", "Radiance and Ruin");
 
 
-            LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_TITLE", "Sunk t' Nadir"); //Sunk to + lowest point of anything
-            LanguageAPI.Add("LAI_MAP_VOIDOUTROFLOOR_SUBTITLE", "The Ocean Floor");
+            LanguageAPI.Add("LAI_MAP_RESCUESHIP_TITLE", "Rescue Ship");
+            LanguageAPI.Add("LAI_MAP_RESCUESHIP_SUBTITLE", "Saved At Last");
 
             //Scene Formatting Tokens
 
@@ -55,7 +55,7 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_SEER_MYSTERYSPACE", "You dream of obliteration.");
             LanguageAPI.Add("LAI_SEER_VOIDOCEANFLOOR", "You dream of settling sand.");
             LanguageAPI.Add("LAI_SEER_VOIDRAID", "You dream of recollection.");
-            LanguageAPI.Add("LAI_SEER_", "");
+            LanguageAPI.Add("LAI_SEER_RESCUESHIP", "You dream of safety.");
             LanguageAPI.Add("LAI_SEER_", "");
             LanguageAPI.Add("LAI_SEER_", "");
 
