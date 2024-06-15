@@ -29,6 +29,8 @@ namespace LobbyAppearanceImprovements
 
             LanguageAPI.Add("LAI_MAP_RESCUESHIP_TITLE", "Rescue Ship");
             LanguageAPI.Add("LAI_MAP_RESCUESHIP_SUBTITLE", "Saved At Last");
+            LanguageAPI.Add("LAI_MAP_CODES_TITLE", "Dialer Event");
+            LanguageAPI.Add("LAI_MAP_CODES_SUBTITLE", "♦ ■ ■/♦ ● ■/♦ ■ ■");
 
             //Scene Formatting Tokens
 
@@ -56,7 +58,7 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_SEER_VOIDOCEANFLOOR", "You dream of settling sand.");
             LanguageAPI.Add("LAI_SEER_VOIDRAID", "You dream of recollection.");
             LanguageAPI.Add("LAI_SEER_RESCUESHIP", "You dream of safety.");
-            LanguageAPI.Add("LAI_SEER_", "");
+            LanguageAPI.Add("LAI_SEER_CODES", "You dream of reconfiguration.");
             LanguageAPI.Add("LAI_SEER_", "");
 
             LanguageAPI.Add("LAI_EMPTY_TITLE", "");
