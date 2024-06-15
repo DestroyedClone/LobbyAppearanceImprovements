@@ -2,6 +2,7 @@
 using LobbyAppearanceImprovements.Layouts;
 using LobbyAppearanceImprovements.Scenes;
 using R2API.Utils;
+using RoR2;
 using RoR2.UI;
 using System;
 using System.Reflection;
@@ -66,7 +67,7 @@ namespace LobbyAppearanceImprovements
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             LAISceneManager.Initialize();
 
-            On.RoR2.UI.MainMenu.MainMenuController.Start += DeferredAssemblySetup;
+            RoR2Application.onLoad += AssemblySetup;
 
             //RoR2.Stage.onServerStageBegin += CacheSkyboxMaterial;
         }
@@ -76,13 +77,6 @@ namespace LobbyAppearanceImprovements
         {
             stringBuilder.AppendLine($"{obj.sceneDef.cachedName} - {RenderSettings.skybox} - {RenderSettings.skybox.name}");
             Debug.Log(stringBuilder.ToString());
-        }
-
-        private void DeferredAssemblySetup(On.RoR2.UI.MainMenu.MainMenuController.orig_Start orig, RoR2.UI.MainMenu.MainMenuController self)
-        {
-            orig(self);
-            AssemblySetup();
-            On.RoR2.UI.MainMenu.MainMenuController.Start -= DeferredAssemblySetup;
         }
 
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
