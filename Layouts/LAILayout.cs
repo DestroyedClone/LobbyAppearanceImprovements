@@ -74,6 +74,10 @@ namespace LobbyAppearanceImprovements.Layouts
             }
             return true;
         }
+        public bool IsLayoutOfType<T>()
+        {
+            return this is T;
+        }
 
         public GameObject CreateLayout()
         {
