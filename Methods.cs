@@ -204,6 +204,7 @@ namespace LobbyAppearanceImprovements
 
             var sceneObject = (LAIScene)Activator.CreateInstance(scene);
             LAISceneManager.chosenScene = sceneObject;
+            LAISceneManager.chosenSceneAsString = sceneNameLower;
             sceneObject.CreateScene(true);
             ConfigSetup.Scene_Selection.Value = sceneNameLower;
         }

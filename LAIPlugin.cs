@@ -152,6 +152,7 @@ namespace LobbyAppearanceImprovements
                         continue;
                     var sceneName = type.Name.ToLower();
                     LAISceneManager.scenesDict[sceneName] = type;
+                    LAISceneManager.scenesReverseDict[type] = name;
                     LAISceneManager.sceneNameList.Add(sceneName);
                     sceneObjectInitializer.Init();
                 }

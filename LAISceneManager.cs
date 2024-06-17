@@ -12,7 +12,9 @@ namespace LobbyAppearanceImprovements
     internal static class LAISceneManager
     {
         public static LAIScene chosenScene = null;
+        public static string chosenSceneAsString = "None";
         public static Dictionary<string, Type> scenesDict = new Dictionary<string, Type>();
+        public static Dictionary<Type, string> scenesReverseDict = new Dictionary<Type, string>();
         public static List<string> sceneNameList = new List<string>();
         public static GameObject sceneInstance;
 
