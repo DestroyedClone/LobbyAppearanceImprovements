@@ -832,12 +832,9 @@ namespace LobbyAppearanceImprovements
         public static void Hook_DisableShaking(bool value)
         {
             Shaking.Value = value;
-            var shaker = UnityEngine.Object.FindObjectsOfType<PreGameShakeController>();
-            foreach (var shake in shaker)
-                if (shake) shake.enabled = false;
-            var shaker2 = UnityEngine.Object.FindObjectsOfType<ShakeEmitter>();
-            foreach (var shake in shaker2)
-                if (shake) shake.enabled = value;
+            var shaker = InstanceTracker.GetInstancesList<PreGameShakeController>();
+            if (shaker.Count == 0) return;
+            shaker[0].gameObject.SetActive(Shaking.Value);
         }
 
         public static void Hook_UI_BlurOpacity(int value)

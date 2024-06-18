@@ -70,6 +70,14 @@ namespace LobbyAppearanceImprovements
             RoR2Application.onLoad += AssemblySetup;
 
             //RoR2.Stage.onServerStageBegin += CacheSkyboxMaterial;
+            On.RoR2.PreGameShakeController.Awake += PreGameShakeController_Awake;
+        }
+
+        private void PreGameShakeController_Awake(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
+        {
+            InstanceTracker.Add(this);
+            self.gameObject.SetActive(ConfigSetup.Shaking.Value);
+            orig(self);
         }
 
         public static StringBuilder stringBuilder = new StringBuilder();
