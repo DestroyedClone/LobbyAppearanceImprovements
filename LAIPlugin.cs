@@ -8,6 +8,7 @@ using System;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.HookMethods;
 
@@ -90,7 +91,7 @@ namespace LobbyAppearanceImprovements
         private void CharacterSelectController_Awake(On.RoR2.UI.CharacterSelectController.orig_Awake orig, RoR2.UI.CharacterSelectController self)
         {
             orig(self);
-            CharacterSelectController = self;
+            if (Run.instance) return;
             if (UnityEngine.SceneManagement.SceneManager.sceneCount == 1)
             {
                 //_logger.LogMessage("good");
@@ -100,6 +101,7 @@ namespace LobbyAppearanceImprovements
                 //_logger.LogMessage("Preventing activating stuff");
                 return;
             }
+            CharacterSelectController = self;
             if (!self.gameObject.GetComponent<Methods.LAICameraController>())
                 self.gameObject.AddComponent<Methods.LAICameraController>();
             CharSelUITransform = GameObject.Find("CharacterSelectUI").transform;
