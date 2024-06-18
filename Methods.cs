@@ -70,9 +70,20 @@ namespace LobbyAppearanceImprovements
             }
             cameraRig.baseFov = fov + modifier;
             var currentCam = LAICameraManager.CurrentCameraController;
-            var desiredPosition = position == default ? currentCam.DefaultPosition : position;
+
+
+            Vector3 defaultPosition = currentCam.DefaultPosition;
+            Quaternion defaultRotation = currentCam.DefaultRotation;
+
+            if (LAISceneManager.sceneInstance && LAISceneManager.chosenScene.cameraPosition != Vector3.zero)
+            {
+                defaultPosition = LAISceneManager.chosenScene.cameraPosition;
+                defaultRotation = Quaternion.Euler(LAISceneManager.chosenScene.cameraRotation);
+            }
+
+            var desiredPosition = position == default ? defaultPosition : position;
             currentCam.DesiredCenterPosition = desiredPosition;
-            var desiredRotation = rotation == default ? currentCam.DefaultRotation : Quaternion.Euler(rotation);
+            var desiredRotation = rotation == default ? defaultRotation : Quaternion.Euler(rotation);
             currentCam.desiredRotation = desiredRotation;
 
             /*cameraRig.GenerateCameraModeContext(out RoR2.CameraModes.CameraModeBase.CameraModeContext cameraModeContext);
