@@ -80,7 +80,7 @@ namespace LobbyAppearanceImprovements
                 if (LAISceneManager.chosenScene.cameraPosition != Vector3.zero)
                 defaultPosition = LAISceneManager.chosenScene.cameraPosition;
                 if (LAISceneManager.chosenScene.cameraRotation != Vector3.zero)
-                defaultRotation = Quaternion.Euler(LAISceneManager.chosenScene.cameraRotation);
+                    defaultRotation = Quaternion.Euler(LAISceneManager.chosenScene.cameraRotation);
             }
 
             var desiredPosition = position == default ? defaultPosition : position;
