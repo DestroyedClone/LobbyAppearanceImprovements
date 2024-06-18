@@ -171,6 +171,11 @@ namespace LobbyAppearanceImprovements
                     }
                     break;
             }
+
+            var comp2 = gameObject.AddComponent<LAILayout.LAI_CharacterDisplay>();
+            comp2.bodyName = bodyPrefabName;
+            comp2.survivorDef = survivorDef;
+
             return gameObject;
         }
 

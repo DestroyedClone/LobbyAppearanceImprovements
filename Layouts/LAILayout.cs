@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using RoR2;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -115,6 +116,36 @@ namespace LobbyAppearanceImprovements.Layouts
         public void OnDestroy()
         {
             onLayoutUnloaded?.Invoke(this);
+        }
+
+        public class LAI_CharacterDisplay : MonoBehaviour
+        {
+            public string bodyName;
+            public SurvivorDef survivorDef;
+
+            public static Dictionary<SurvivorDef, GameObject> map = new Dictionary<SurvivorDef, GameObject>();
+            //public static Dictionary<SurvivorDef, GameObject> mapBodyNames = new Dictionary<SurvivorDef, GameObject>();
+
+            public void Awake()
+            {
+                InstanceTracker.Add(this);
+                //map[survivorDef] = gameObject;
+            }
+
+            public void OnDestroy()
+            {
+                InstanceTracker.Remove(this);
+                //map[survivorDef] = null;
+            }
+            public string nameOfThis = "";
+            public string exposed = "";
+            public void Update()
+            {
+                exposed = $"{{ \"{gameObject.name.Remove(0, gameObject.name.Length-"Body(Clone)".Length)}\", " +
+                    $"new Vector3[] {{" +
+                    $"new Vector3({transform.localPosition.x}f, {transform.localPosition.y}f, {transform.localPosition.z}f), " +
+                    $"new Vector3({transform.localRotation.x}f, {transform.localRotation.y}f, {transform.localRotation.z}f)}} }},";
+            }
         }
     }
 }
