@@ -13,7 +13,6 @@ namespace LobbyAppearanceImprovements
         public static void Init()
         {
             On.RoR2.MusicController.Start += MusicController_Start;
-            LAIScene.onSceneLoaded += OnSceneLoaded;
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
         }
 
