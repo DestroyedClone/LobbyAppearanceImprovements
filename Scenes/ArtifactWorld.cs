@@ -17,6 +17,8 @@ namespace LobbyAppearanceImprovements.Scenes
 
         public static GameObject display { get; private set; }
 
+        public GameObject portal;
+
         public override void Init()
         {
             base.Init();
@@ -24,15 +26,28 @@ namespace LobbyAppearanceImprovements.Scenes
 
             //var portal = CloneFromAddressable("RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab", DisplayPrefab.transform);
             //portal.transform.position = new Vector3(0, 4, 23);
-            var portal = display.AddComponent<PrefabSpawner>();
-            portal.AssetPath = "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab";
+            ///var portal = display.AddComponent<PrefabSpawner>();
+            ///portal.AssetPath = "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab";
             //portal.position = new Vector3(0f, 5f, 30f);
             //portal.localPosition = new Vector3(26, 16, 4); //annoying
             //portal.localPosition = new Vector3(-46, 17, 4); //??????????????????
-            portal.localPosition = new Vector3(-20, 46, 5);
-            portal.rotation = Quaternion.Euler(0, 270, 0);
+            ///portal.localPosition = new Vector3(-20, 46, 5);
+            ///portal.rotation = Quaternion.Euler(0, 270, 0);
 
             var skybox = CloneFromAddressable("RoR2/Base/artifactworld/ArtifactWorldSkybox.prefab", display.transform);
+        }
+
+        public override void OnVoteStarted(LAIScene scene)
+        {
+            base.OnVoteStarted(scene);
+            if (!scene.IsSceneOfType<Arena>()) return;
+            var sceneInstance = LAISceneManager.sceneInstance;
+            if (!LAISceneManager.sceneInstance) return;
+            if (portal)
+                return;
+            portal = CloneFromAddressable("RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab", display.transform);
+            portal.transform.localPosition = new Vector3(-20, 46, 5);
+            portal.transform.rotation = Quaternion.Euler(0, 270, 0);
         }
     }
 }

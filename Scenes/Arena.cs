@@ -15,6 +15,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string MusicTrackName => "muSong08";
 
         public static GameObject display;
+        public GameObject portalArena;
 
         public override void Init()
         {
@@ -28,12 +29,25 @@ namespace LobbyAppearanceImprovements.Scenes
             gem.transform.localScale = Vector3.one * 2;
             //var portal = CloneFromAddressable("RoR2/Base/PortalArena/PortalArena.prefab", display.transform);
             //portal.transform.position = new Vector3(9, 0, 28);
-            var portal = display.AddComponent<PrefabSpawner>();
-            portal.AssetPath = "RoR2/Base/PortalArena/PortalArena.prefab";
-            portal.localPosition = new Vector3(9, 0, 28);
+
+            //var portal = display.AddComponent<PrefabSpawner>();
+            //portal.AssetPath = "RoR2/Base/PortalArena/PortalArena.prefab";
+            //portal.localPosition = new Vector3(9, 0, 28);
 
             var skybox = CloneFromAddressable("RoR2/Base/arena/ArenaSkybox.prefab");
             skybox.transform.parent = display.transform;
+        }
+
+        public override void OnVoteStarted(LAIScene scene)
+        {
+            base.OnVoteStarted(scene);
+            if (!scene.IsSceneOfType<Arena>()) return;
+            var sceneInstance = LAISceneManager.sceneInstance;
+            if (!LAISceneManager.sceneInstance) return;
+            if (portalArena)
+                return;
+            portalArena = CloneFromAddressable("RoR2/Base/PortalArena/PortalArena.prefab", display.transform);
+            portalArena.transform.position = new Vector3(9, 0, 28);
         }
     }
 }

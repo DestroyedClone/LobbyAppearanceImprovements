@@ -7,7 +7,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "MAP_GOLEMPLAINS";
         public override string SeerToken => "BAZAAR_SEER_GOLEMPLAINS";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(9f, - 3.5f, 9);
+        public override Vector3 Position => new Vector3(4f, -3f, 24);
         public override Quaternion Rotation => Quaternion.Euler(0, 240, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/golemplains/matSkyboxGolemplainsFoggy.mat");
@@ -26,7 +26,7 @@ namespace LobbyAppearanceImprovements.Scenes
             plight.GetComponent<RoR2.FlickerLight>().enabled = false;
             var clight = plight.GetComponent<Light>();
             clight.color = new Color(0.76f, 0.7925f, 0, 1);
-            light.transform.localPosition = new Vector3(3.634f, 6.5f, 8.2942f);
+            light.transform.localPosition = new Vector3(1f, 6.5f, 21f);
             light.transform.localScale = Vector3.zero;
         }
     }
