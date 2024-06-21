@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using LobbyAppearanceImprovements.Layouts;
+using LobbyAppearanceImprovements.MannequinLayouts;
 using LobbyAppearanceImprovements.Scenes;
 using R2API.Utils;
 using RoR2;
@@ -148,6 +149,7 @@ namespace LobbyAppearanceImprovements
         {
             var sceneType = typeof(LAIScene);
             var layoutType = typeof(LAILayout);
+            var mannequinType = typeof(BaseMannequinLayout);
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (type.IsAbstract)
@@ -178,6 +180,18 @@ namespace LobbyAppearanceImprovements
                     LAILogging.LogMessage("Initializing Scene: " + type, LoggingStyle.ObscureSoOnlyDevSees);
                     sceneObjectInitializer.Init();
                 }
+                /*else if (mannequinType.IsAssignableFrom(type))
+                {
+                    var sceneObjectInitializer = (BaseMannequinLayout)Activator.CreateInstance(type);
+                    //bool canLoadMannequin = sceneObjectInitializer.CanLoadLayout();
+                    //if (!canLoadMannequin)
+                       // continue;
+                    var layoutNameLower = type.Name.ToLower();
+                    LAIMannequinManager.mannequinLayoutsDict[layoutNameLower] = type;
+                    LAIMannequinManager.mannequinLayoutNameList.Add(layoutNameLower);
+                    LAILogging.LogMessage("Initializing Mannequin Layout: " + type, LoggingStyle.ObscureSoOnlyDevSees);
+                    sceneObjectInitializer.Init();
+                }*/
             }
         }
     }

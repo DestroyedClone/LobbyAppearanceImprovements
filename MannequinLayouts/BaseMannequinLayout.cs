@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using static LobbyAppearanceImprovements.ConfigSetup;
 
 namespace LobbyAppearanceImprovements.MannequinLayouts
 {
@@ -12,29 +13,52 @@ namespace LobbyAppearanceImprovements.MannequinLayouts
 
         }
 
-        // Technical Name of the scene
-        public abstract string MannequinLayout { get; }
-
-        // Name of the Scene : "Lobby"
-        public abstract string SceneName { get; }
-
-        // Author of the scene : "DestroyedClone"
-        public abstract string Author { get; }
-
-        // Name of the layout : "Original Crew"
-        public abstract string LayoutName { get; }
+        public abstract string NameToken { get; }
+        public abstract string InternalName { get; }
+        public virtual string Credit { get; }
 
         public abstract List<TransformInfo> MannequinTransforms { get; }
 
         public struct TransformInfo
         {
+            public TransformInfo(Vector3 position, Vector3 rotation, Vector3 scale)
+            {
+                this.position = position;
+                this.rotation = rotation;
+                this.scale = scale;
+            }
+
             public Vector3 position;
-            public Quaternion rotation;
+            public Vector3 rotation;
             public Vector3 scale;
+        }
+
+        public bool HasSetup = false;
+        public virtual void Init()
+        {
+            var nameOfThis = GetType().Name;
+            LAILogging.LogMessage($"{nameOfThis}.Init :: Setting up mannequin layout.", LoggingStyle.UserShouldSee);
+            if (HasSetup)
+            {
+                LAILogging.LogMessage($"{nameOfThis}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
+                return;
+            }
+            HasSetup = true;
         }
 
         public void CreateMannequinLayout()
         {
+
+        }
+
+        public bool IsOfType<T>()
+        {
+            return this is T;
+        }
+
+        public virtual void ModifyMannequin(GameObject mannequinGameObject)
+        {
+            var go = mannequinGameObject;
 
         }
     }

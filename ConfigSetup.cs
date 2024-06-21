@@ -51,6 +51,7 @@ namespace LobbyAppearanceImprovements
 
         public static ConfigEntry<bool> MannequinEnableLocalTurn { get; set; }
         public static ConfigEntry<float> MannequinEnableLocalTurnMultiplier { get; set; }
+       // public static ConfigEntry<string> MannequinLayout { get; set; }
 
         // Background Elements //
         // Anything in the background unrelated to the characters //
@@ -96,6 +97,7 @@ namespace LobbyAppearanceImprovements
 
         public static string tempSceneName;
         public static string tempLayoutName;
+        //public static string tempMannequinName;
         public static bool tempConfirmChoice;
 
         #endregion tempvalues
@@ -138,6 +140,7 @@ namespace LobbyAppearanceImprovements
             MannequinScale = config.Bind(cat, "Character Display Scale", 1f, "Adjust: Resizes character displays."); //def 1f
             MannequinEnableLocalTurn = config.Bind(cat, "Character Rotate", true, "Toggle: Click and drag to rotate your character in the lobby.");
             MannequinEnableLocalTurnMultiplier = config.Bind(cat, "Character Rotate Speed", 2f, "Adjust: Sets the speed of character rotation.");
+            //MannequinLayout = config.Bind(cat, "Character Display Layout", "default", "Adjust: Sets the current layout of the character displays.");
 
             // Background Elements //
             // Anything in the background unrelated to the characters //
@@ -172,6 +175,7 @@ namespace LobbyAppearanceImprovements
 
             tempSelectSceneAction += SetNewScene;
             tempSelectLayoutAction += SetNewLayout;
+            //tempSelectMannequinAction += SetNewMannequin;
 
             tempSceneName = Scene_Selection.Value;
             tempLayoutName = SIL_SelectedLayout.Value;
@@ -213,6 +217,7 @@ namespace LobbyAppearanceImprovements
             };
             inLobbyConfigEntry.SectionFields["Mannequins"] = new List<IConfigField>
             {
+                //new StringConfigField(MannequinLayout.Definition.Key, MannequinLayout.Description.Description, () => MannequinLayout.Value, null, tempSelectMannequinAction),
                 new FloatConfigField(MannequinScale.Definition.Key, MannequinScale.Description.Description, () => MannequinScale.Value, Hook_RescalePads),
                 new BooleanConfigField(MannequinEnableLocalTurn.Definition.Key, MannequinEnableLocalTurn.Description.Description, () => MannequinEnableLocalTurn.Value, Hook_Rotate_Toggle),
                 new FloatConfigField(MannequinEnableLocalTurnMultiplier.Definition.Key, MannequinEnableLocalTurnMultiplier.Description.Description, () => MannequinEnableLocalTurnMultiplier.Value, Hook_Rotate_Speed),
@@ -241,6 +246,7 @@ namespace LobbyAppearanceImprovements
 
         public static Action<string> tempSelectSceneAction;
         public static Action<string> tempSelectLayoutAction;
+        //public static Action<string> tempSelectMannequinAction;
 
         public static void SetNewScene(string value)
         {
@@ -250,6 +256,11 @@ namespace LobbyAppearanceImprovements
         public static void SetNewLayout(string value)
         {
             tempLayoutName = value;
+        }
+
+        public static void SetNewMannequin(string value)
+        {
+            //tempMannequinName = value;
         }
 
         public static void SetSceneLayoutFromLobby(bool value)

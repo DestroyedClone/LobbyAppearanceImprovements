@@ -256,6 +256,25 @@ namespace LobbyAppearanceImprovements
             SetCamera();
         }
 
+        /*public static void SelectMannequin(string mannequinName)
+        {
+            var layoutNameLower = mannequinName.ToLower();
+            var selectedMannequin = LAIMannequinManager.mannequinLayoutsDict.TryGetValue(layoutNameLower, out var mannequin);
+            if (!selectedMannequin)
+            {
+                LAILogging.LogWarning($"SelectMannequin :: {mannequinName} \'(parsed as {layoutNameLower})\' not found!", ConfigSetup.LoggingStyle.UserShouldSee);
+                return;
+            }
+
+            var layoutObject = (LAILayout)Activator.CreateInstance(layout);
+            LAIMannequinManager.chosenLayout = layoutObject;
+            LAIMannequinManager.layoutInstance = layoutObject.CreateLayout();
+            ConfigSetup.SIL_SelectedLayout.Value = layoutNameLower;
+
+            //Resets camera on layout change
+            SetCamera();
+        }*/
+
         public static string GetDefaultLayoutNameForScene(string sceneName)
         {
             foreach (var kvp in LAILayoutManager.layoutsDict)
