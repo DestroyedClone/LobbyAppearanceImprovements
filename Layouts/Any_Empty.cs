@@ -12,8 +12,6 @@ namespace LobbyAppearanceImprovements.Layouts
 
         public override string LayoutNameToken => "LAI_EMPTY";
 
-        public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>()
-        {
-        };
+        public override Dictionary<string, Vector3[]> CharacterLayouts => new Dictionary<string, Vector3[]>();
     }
 }
