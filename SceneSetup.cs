@@ -1,7 +1,11 @@
-﻿using R2API;
+﻿using LobbyAppearanceImprovements.Scenes;
+using R2API;
 using RoR2;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace LobbyAppearanceImprovements
 {
@@ -14,6 +18,7 @@ namespace LobbyAppearanceImprovements
         public static Action<GameObject[]> SceneAssetAPI_TitleAction;
         public static Action<GameObject[]> SceneAssetAPI_VoidOutroAction;
         public static Action<GameObject[]> SceneAssetAPI_itmoonAction;
+        public static Action<GameObject[]> SceneAssetAPI_BazaarAction;
 
         public static void Init()
         {
@@ -31,6 +36,52 @@ namespace LobbyAppearanceImprovements
 
             SceneAssetAPI_itmoonAction += MoonSetup;
             SceneAssetAPI.AddAssetRequest("itmoon", SceneAssetAPI_itmoonAction);
+
+
+            //SceneAssetAPI_BazaarAction += BazaarStoreObject_Setup;
+            //SceneAssetAPI.AddAssetRequest("bazaar", SceneAssetAPI_BazaarAction);
+        }
+        public static string GetPath(this Transform current)
+        {
+            if (current.parent == null)
+                return "/" + current.name;
+            return current.parent.GetPath() + "/" + current.name;
+        }
+
+        private static void ShopTerminalBehavior_Start(On.RoR2.ShopTerminalBehavior.orig_Start orig, ShopTerminalBehavior self)
+        {
+            try
+            {
+                orig(self);
+            }
+            catch
+            {
+                Debug.Log("STB");
+                Debug.Log(GetPath(self.transform));
+            }
+        }
+
+        private static void PurchaseInteraction_Awake(On.RoR2.PurchaseInteraction.orig_Awake orig, PurchaseInteraction self)
+        {
+            try
+            {
+                orig(self);
+            }
+            catch
+            {
+                Debug.Log("PI");
+                Debug.Log(GetPath(self.transform));
+            }
+        }
+
+        private static void BazaarController_Awake(On.RoR2.BazaarController.orig_Awake orig, BazaarController self)
+        {
+            if (!Run.instance)
+            {
+                self.enabled = false;
+                return;
+            }
+            orig(self);
         }
 
         public static GameObject brotherConstellation;
@@ -121,7 +172,7 @@ namespace LobbyAppearanceImprovements
             skybox.transform.localScale = Vector3.one * 30;
             planet.transform.parent = newHolder.transform;
             //planet.SetActive(true);
-            CaptainHelmObject = PrefabAPI.InstantiateClone(newHolder, "LAI_CaptainsHelm_Cabin");
+            CaptainHelmObject = PrefabAPI.InstantiateClone(newHolder, "LAI_CaptainsHelm_Cabin", false);
             UnityEngine.Object.Destroy(newHolder);
         }
 
@@ -212,5 +263,160 @@ namespace LobbyAppearanceImprovements
         }
 
         #endregion UES Contact Light Setup
-    }
+
+        #region Bazaar Setup
+        public static GameObject BazaarStoreObject;
+
+        public static void BazaarStoreObject_Setup(GameObject[] gameObjects)
+        {
+            GameObject store = null;
+            GameObject cave2 = null;
+            GameObject sceneInfo = null;
+            foreach (var gameObject in gameObjects)
+            {
+                switch (gameObject.name)
+                {
+                    //case "GameManager":
+                        //gameObject.SetActive(false);
+                        //continue;
+                    case "HOLDER: Store":
+                        store = gameObject;
+                        continue;
+                    case "HOLDER: Starting Cave":
+                        cave2 = gameObject.transform.Find("Static").gameObject;
+                        continue;
+                    case "SceneInfo":
+                        sceneInfo = gameObject;
+                        continue;
+                }
+            }
+            //var lunarTable = store.transform.Find("HOLDER: Store/LunarShop/LunarTable/");
+            //store
+            foreach (var path in new string[]
+            {
+                "HOLDER: Store Platforms/LockedMage",
+                "CauldronShop/LunarCauldron, GreenToRed",
+                "CauldronShop/LunarCauldron, WhiteToGreen",
+                "SeerShop/SeerStation (1)",
+                "SeerShop/SeerStation",
+                "LunarShop/LunarRecycler",
+                "LunarShop/LunarTable/LunarShopTerminal (1)",
+                "LunarShop/LunarTable/LunarShopTerminal",
+                "LunarShop/LunarTable/LunarShopTerminal",
+                "LunarShop/LunarTable/LunarShopTerminal",
+                "LunarShop/LunarTable/LunarShopTerminal",
+            })
+            {
+                Transform transform = store.transform.Find(path);
+                transform.gameObject.name += "d";
+                if (transform.TryGetComponent(out PurchaseAvailabilityIndicator pai))
+                {
+                    UnityEngine.Object.Destroy(pai);
+                }
+                if (transform.TryGetComponent(out PurchaseInteraction pi))
+                {
+                    UnityEngine.Object.Destroy(pi);
+                }
+                if (transform.TryGetComponent(out ShopTerminalBehavior stb))
+                {
+                    UnityEngine.Object.Destroy(stb);
+                }
+            }
+
+
+            int i = 0;
+            foreach (var obj in store.GetComponentsInChildren<NetworkStateMachine>())
+            {
+                i++;
+                obj.enabled = false;
+                //UnityEngine.Object.Destroy(obj);
+            }
+            Debug.Log("NSMs: "+i);
+
+            /*
+            foreach (var obj in store.GetComponentsInChildren<Transform>())
+            {
+                var name = obj.name;
+                if (name.StartsWith("LunarShopTerminal"))
+                {
+                    UnityEngine.Object.Destroy(obj.GetComponent<PurchaseInteraction>());
+                    UnityEngine.Object.Destroy(obj.GetComponent<ShopTerminalBehavior>());
+                }
+                else if (name.StartsWith("SeerStation"))
+                {
+                    UnityEngine.Object.Destroy(obj.GetComponent<EntityStateMachine>());
+                    UnityEngine.Object.Destroy(obj.GetComponent<NetworkStateMachine>());
+                    UnityEngine.Object.Destroy(obj.GetComponent<SeerStationController>());
+                }
+            }*/
+
+            /*foreach (var pur in store.GetComponentsInChildren<NetworkStateMachine>())
+            {
+                UnityEngine.Object.Destroy(pur);
+            }
+            foreach (var pur in store.GetComponentsInChildren<PurchaseAvailabilityIndicator>())
+            {
+                UnityEngine.Object.Destroy(pur);
+            }
+            foreach (var pur in store.GetComponentsInChildren<ShopTerminalBehavior>())
+            {
+                UnityEngine.Object.Destroy(pur);
+            }
+            foreach (var pur in store.GetComponentsInChildren<PurchaseInteraction>())
+            {
+                UnityEngine.Object.Destroy(pur);
+            }
+            foreach (var pur in store.GetComponentsInChildren<SeerStationController>())
+            {
+                UnityEngine.Object.Destroy(pur);
+            }*/
+            var newHolder = new GameObject();
+            //var comp = newHolder.gameObject.AddComponent<Bazaar.LAIBazaarController>();
+            store.transform.parent = newHolder.transform;
+            store.transform.position = Vector3.zero;
+            cave2.transform.parent = newHolder.transform;
+            cave2.transform.position = Vector3.zero;
+
+            foreach (var pur in store.GetComponentsInChildren<PickupDisplay>())
+            {
+                //pur.gameObject.AddComponent<Bazaar.PUTracker>();
+            }
+
+            //var store = store.transform.Find("HOLDER: Store");
+            //var lunarShop = store.Find("LunarShop/LunarTable");
+            sceneInfo.transform.Find("PP, Global").parent = newHolder.transform;
+
+            BazaarStoreObject = PrefabAPI.InstantiateClone(newHolder, "LAI_Bazaar_Store", false);
+            UnityEngine.Object.Destroy(newHolder);
+        }
+
+        private static void GlobalEventManager_OnEnable(On.RoR2.GlobalEventManager.orig_OnEnable orig, GlobalEventManager self)
+        {
+            if (GlobalEventManager.instance)
+            {
+                LAILogging.LogMessage($"GEM OnEnable", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
+                self.enabled = false;
+                return;
+            }
+            orig(self);
+        }
+
+        public static void DestroyComponentInChildren(Transform parent)
+        {
+            // Get the type of the component from the name
+            // Destroy the component if it exists on the current GameObject
+            var component = parent.GetComponent<NetworkStateMachine>();
+            if (component != null)
+            {
+                UnityEngine.Object.Destroy(component);
+            }
+
+            // Recursively call this method on all child GameObjects
+            foreach (Transform child in parent)
+            {
+                DestroyComponentInChildren(child);
+            }
+        }
+            #endregion
+        }
 }
