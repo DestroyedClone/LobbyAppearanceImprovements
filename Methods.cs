@@ -539,8 +539,8 @@ namespace LobbyAppearanceImprovements
             // Defaults
             public string sepDefaults = "==Defaults==";
 
-            public Vector3 DefaultPosition { get; private set; }
-            public Quaternion DefaultRotation { get; private set; }
+            public readonly Vector3 DefaultPosition = Vector3.zero;
+            public readonly Quaternion DefaultRotation = Quaternion.identity;
 
             // Parallax
             public string setpParallax = "==Parallax==";
@@ -604,8 +604,6 @@ namespace LobbyAppearanceImprovements
                 }
 
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
-                DefaultPosition = sceneCamera.transform.position;
-                DefaultRotation = sceneCamera.transform.rotation;
                 if (!characterSelectController)
                 {
                     characterSelectController = UnityEngine.Object.FindObjectOfType<CharacterSelectController>();
