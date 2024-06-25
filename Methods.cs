@@ -72,14 +72,14 @@ namespace LobbyAppearanceImprovements
             var currentCam = LAICameraManager.CurrentCameraController;
 
 
-            Vector3 defaultPosition = currentCam.DefaultPosition;
-            Quaternion defaultRotation = currentCam.DefaultRotation;
+            Vector3 defaultPosition = currentCam.DefaultCameraPosition;
+            Quaternion defaultRotation = currentCam.DefaultCameraRotation;
 
             if (LAISceneManager.chosenScene != null)
             {
-                if (LAISceneManager.chosenScene.cameraPosition != Vector3.zero)
-                defaultPosition = LAISceneManager.chosenScene.cameraPosition;
-                if (LAISceneManager.chosenScene.cameraRotation != Vector3.zero)
+                if (LAISceneManager.chosenScene.cameraPosition != default)
+                    defaultPosition = LAISceneManager.chosenScene.cameraPosition;
+                if (LAISceneManager.chosenScene.cameraRotation != default)
                     defaultRotation = Quaternion.Euler(LAISceneManager.chosenScene.cameraRotation);
             }
 
@@ -536,14 +536,19 @@ namespace LobbyAppearanceImprovements
 
             public GameObject sceneCamera;
 
-            // Defaults
-            public string sepDefaults = "==Defaults==";
-
-            public readonly Vector3 DefaultPosition = Vector3.zero;
-            public readonly Quaternion DefaultRotation = Quaternion.identity;
-
-            // Parallax
-            public string setpParallax = "==Parallax==";
+            public Vector3 DefaultCameraPosition
+            {
+                get
+                {
+                    if (LAISceneManager.chosenScene != null && LAISceneManager.chosenScene.cameraPosition != default)
+                    {
+                        return LAISceneManager.chosenScene.cameraPosition;
+                    }
+                    return _defaultCameraPosition;
+                }
+            }
+            public static readonly Vector3 _defaultCameraPosition = new Vector3(0f, 1.24f, 0);
+            public readonly Quaternion DefaultCameraRotation = Quaternion.identity;
 
             private Vector3 desiredPosition;
             public Vector3 DesiredCenterPosition
@@ -568,11 +573,7 @@ namespace LobbyAppearanceImprovements
             private readonly float forwardLimit = 5f;
             private readonly float forwardMult = 0.25f;
 
-            // Zoom On Character
-            public string sepZoom = "==Zoom==";
-
             // Rotating Character
-            public string sepRotate = "==Rotate==";
 
             public Vector3 rotate_initialPosition;
             public Vector3 rotate_currentPosition;
@@ -580,8 +581,6 @@ namespace LobbyAppearanceImprovements
             public Vector3 rotate_defaultRotationChar;
 
             // Other
-            public string setpOther = "==Other==";
-
             private bool screenIsFocused = true;
             private Vector3 MousePosition;
 
@@ -615,10 +614,10 @@ namespace LobbyAppearanceImprovements
                     rotate_defaultRotationChar = new Vector3(0f, 219.0844f, 0f);
                 }
 
-                lastDesiredCenterPosition = DefaultPosition;
-                DesiredCenterPosition = DefaultPosition;
-                desiredPosition = DefaultPosition;
-                desiredRotation = DefaultRotation;
+                lastDesiredCenterPosition = DefaultCameraPosition;
+                DesiredCenterPosition = DefaultCameraPosition;
+                desiredPosition = DefaultCameraPosition;
+                desiredRotation = DefaultCameraRotation;
 
                 if (LAICameraManager.CurrentCameraController != null && LAICameraManager.CurrentCameraController != this)
                 {
@@ -659,7 +658,7 @@ namespace LobbyAppearanceImprovements
 
                         if (Input.GetKeyDown(ConfigSetup.SIL_ResetCameraKey.Value))
                         {
-                            if (DesiredCenterPosition == DefaultPosition)
+                            if (DesiredCenterPosition == DefaultCameraPosition)
                             {
                                 HookMethods.SetCameraFromSurvivor(LocalUserManager.GetFirstLocalUser().userProfile.GetSurvivorPreference().survivorIndex);
                             }
@@ -711,7 +710,7 @@ namespace LobbyAppearanceImprovements
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    desiredPosition = DefaultPosition;
+                    desiredPosition = DefaultCameraPosition;
                 }
 
                 if (Input.GetKeyDown(KeyCode.P))
@@ -724,8 +723,8 @@ namespace LobbyAppearanceImprovements
             {
                 if (reset)
                 {
-                    rotate_initialPosition = DefaultPosition;
-                    rotate_currentPosition = DefaultPosition;
+                    rotate_initialPosition = DefaultCameraPosition;
+                    rotate_currentPosition = DefaultCameraPosition;
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     if (survivorMannequinSlotControllers == null)
                     {
@@ -755,8 +754,8 @@ namespace LobbyAppearanceImprovements
                 }
                 if (Input.GetMouseButtonUp(0))
                 {
-                    rotate_initialPosition = DefaultPosition;
-                    rotate_currentPosition = DefaultPosition;
+                    rotate_initialPosition = DefaultCameraPosition;
+                    rotate_currentPosition = DefaultCameraPosition;
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_defaultRotationChar;
                 }
@@ -806,7 +805,7 @@ namespace LobbyAppearanceImprovements
 
             public void OnDisable()
             {
-                desiredPosition = DefaultPosition;
+                desiredPosition = DefaultCameraPosition;
             }
         }
 

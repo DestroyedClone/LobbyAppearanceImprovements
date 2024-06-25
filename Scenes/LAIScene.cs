@@ -12,6 +12,7 @@ namespace LobbyAppearanceImprovements.Scenes
     {
         public LAIScene()
         {
+            defaultMusicTrackDef = LoadAsset<MusicTrackDef>("RoR2/Base/Common/muLogbook");
         }
 
         public static Action<LAIScene> onSceneLoaded;
@@ -31,9 +32,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public virtual string Credit { get; }
         public virtual string MusicTrackName { get; } = null;
         public virtual MusicTrackDef MusicTrackDef { get; set; } = defaultMusicTrackDef;
-        public static MusicTrackDef defaultMusicTrackDef = LoadAsset<MusicTrackDef>("RoR2/Base/Common/muLogbook");
-        public virtual Vector3 cameraPosition { get; } = Vector3.zero;
-        public virtual Vector3 cameraRotation { get; } = Vector3.zero;
+        public static MusicTrackDef defaultMusicTrackDef = null;
+        public virtual Vector3 cameraPosition { get; } = default;
+        public virtual Vector3 cameraRotation { get; } = default;
 
         public virtual void Init()
         {
