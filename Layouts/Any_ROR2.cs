@@ -90,6 +90,13 @@ namespace LobbyAppearanceImprovements.Layouts
         {
             { "ancientloft", new Dictionary<string, Vector3[]>()
                 {
+                { "Captain", new Vector3[] {new Vector3(0.21f, 0.01f, 19.4f), new Vector3(0f, 0.9961947f, 0f)} },
+                { "Engi", new Vector3[] {new Vector3(-2.58f, -0.01f, 15f), new Vector3(0f, 0.9659258f, 0f)} },
+                { "Huntress", new Vector3[] {new Vector3(2.100001f, -0.1700004f, 16.16f), new Vector3(0f, 0.9961947f, 0f)} },
+                { "Merc", new Vector3[] {new Vector3(-1.22f, 0f, 16.28f), new Vector3(0f, 1f, 0f)} },
+                { "Railgunner", new Vector3[] {new Vector3(0.8999999f, 0f, 16.5774f), new Vector3(0f, 0.9799247f, 0f)} },
+                { "Treebot", new Vector3[] {new Vector3(-4.01f, -0.11f, 14.93f), new Vector3(0f, 0.9396926f, 0f)} },
+                { "Toolbot", new Vector3[] {new Vector3(-5.21f, 0.15f, 12.84f), new Vector3(0f, 0.9396926f, 0f)} },
                 }
             },
             { "arena", new Dictionary<string, Vector3[]>()
