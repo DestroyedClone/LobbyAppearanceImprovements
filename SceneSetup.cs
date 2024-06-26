@@ -48,42 +48,6 @@ namespace LobbyAppearanceImprovements
             return current.parent.GetPath() + "/" + current.name;
         }
 
-        private static void ShopTerminalBehavior_Start(On.RoR2.ShopTerminalBehavior.orig_Start orig, ShopTerminalBehavior self)
-        {
-            try
-            {
-                orig(self);
-            }
-            catch
-            {
-                Debug.Log("STB");
-                Debug.Log(GetPath(self.transform));
-            }
-        }
-
-        private static void PurchaseInteraction_Awake(On.RoR2.PurchaseInteraction.orig_Awake orig, PurchaseInteraction self)
-        {
-            try
-            {
-                orig(self);
-            }
-            catch
-            {
-                Debug.Log("PI");
-                Debug.Log(GetPath(self.transform));
-            }
-        }
-
-        private static void BazaarController_Awake(On.RoR2.BazaarController.orig_Awake orig, BazaarController self)
-        {
-            if (!Run.instance)
-            {
-                self.enabled = false;
-                return;
-            }
-            orig(self);
-        }
-
         public static GameObject brotherConstellation;
         private static void MoonSetup(GameObject[] obj)
         {
