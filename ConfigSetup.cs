@@ -222,12 +222,6 @@ namespace LobbyAppearanceImprovements
                 new BooleanConfigField(MannequinEnableLocalTurn.Definition.Key, MannequinEnableLocalTurn.Description.Description, () => MannequinEnableLocalTurn.Value, Hook_Rotate_Toggle),
                 new FloatConfigField(MannequinEnableLocalTurnMultiplier.Definition.Key, MannequinEnableLocalTurnMultiplier.Description.Description, () => MannequinEnableLocalTurnMultiplier.Value, Hook_Rotate_Speed),
             };
-            inLobbyConfigEntry.SectionFields["Background Elements"] = new List<IConfigField>
-            {
-                new BooleanConfigField(MeshProps.Definition.Key, MeshProps.Description.Description, () => MeshProps.Value, Hook_HideProps),
-                new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_HidePhysicsProps),
-                new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
-            };
             inLobbyConfigEntry.SectionFields["Scenes+Layouts"] = new List<IConfigField>
             {
                 //new SelectListField<string>(SelectedScene.Definition.Key, SelectedScene.Description.Description, SceneMethods.GetScenes, null, null, null),
@@ -240,6 +234,12 @@ namespace LobbyAppearanceImprovements
                 new BooleanConfigField(SIL_ZoomEnable.Definition.Key, SIL_ZoomEnable.Description.Description, () => SIL_ZoomEnable.Value, Hook_ToggleZooming),
                 new EnumConfigField<KeyCode>(SIL_ResetCameraKey.Definition.Key, SIL_ResetCameraKey.Description.Description, () => SIL_ResetCameraKey.Value),
                 new BooleanConfigField(SIL_LockedCharactersBlack.Definition.Key, SIL_LockedCharactersBlack.Description.Description, () => SIL_LockedCharactersBlack.Value, Hook_BlackenSurvivors),
+            };
+            inLobbyConfigEntry.SectionFields["Scene: Lobby"] = new List<IConfigField>
+            {
+                new BooleanConfigField(MeshProps.Definition.Key, MeshProps.Description.Description, () => MeshProps.Value, Hook_HideProps),
+                new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_HidePhysicsProps),
+                new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);
         }
