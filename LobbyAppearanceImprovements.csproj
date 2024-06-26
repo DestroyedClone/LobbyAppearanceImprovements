@@ -9,18 +9,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="MannequinLayouts\**" />
-	  <EmbeddedResource Remove="MannequinLayouts\**" />
-	  <None Remove="MannequinLayouts\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Compile Remove="Actions.cs" />
+	  <Compile Remove="Layouts\Any_ROR2.cs" />
 	  <Compile Remove="Layouts\Arena_Nemesis.cs" />
 	  <Compile Remove="Layouts\BlackBeach_League.cs" />
 	  <Compile Remove="Layouts\Lobby_Default.cs" />
 	  <Compile Remove="Layouts\Lobby_Original.cs" />
 	  <Compile Remove="Layouts\WispGraveyard_Snipers.cs" />
+	  <Compile Remove="MannequinLayouts\BowlingPins.cs" />
+	  <Compile Remove="Scenes\ArenaCellVent.cs" />
+	  <Compile Remove="Scenes\Bazaar.cs" />
 	  <Compile Remove="Scenes\ContactLight.cs" />
 	  <Compile Remove="Scenes\SpaceCabin.cs" />
 	</ItemGroup>

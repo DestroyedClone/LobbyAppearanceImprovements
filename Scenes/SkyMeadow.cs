@@ -12,6 +12,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/skymeadow/matSMSkybox.mat");
         public override string MusicTrackName => "muSong14";
+
         //RoR2/Base/skymeadow/matSMSkybox.mat
         //RoR2/Base/skymeadow/matSMSkyboxMoon.mat
         public static GameObject display;

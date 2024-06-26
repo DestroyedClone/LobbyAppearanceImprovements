@@ -12,6 +12,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => new Vector3(1, 1f, 1);
         public override string MusicTrackName => "muSong24";
         public static GameObject MoonDioramaFinal = null;
+
         //public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/moon2/matSkyboxMoon.mat");
         public static GameObject display;
 

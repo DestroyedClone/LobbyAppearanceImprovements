@@ -1,11 +1,10 @@
 ﻿using R2API;
 using RoR2;
-using RoR2.UI;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using static LobbyAppearanceImprovements.ConfigSetup;
-using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -50,7 +49,8 @@ namespace LobbyAppearanceImprovements.Scenes
             LAISceneManager.onVoteStarted += OnVoteStarted;
         }
 
-        public virtual void OnVoteStarted(LAIScene scene) {}
+        public virtual void OnVoteStarted(LAIScene scene)
+        { }
 
         public bool CanLoadScene()
         {
@@ -95,6 +95,7 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             onSceneUnloaded?.Invoke(this);
         }
+
         public static T LoadAsset<T>(string path)
         {
             return Addressables.LoadAssetAsync<T>(path).WaitForCompletion();
@@ -124,6 +125,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 return SceneNameToken + "_TITLE";
             }
         }
+
         public string SceneSubtitleToken
         {
             get
@@ -136,6 +138,7 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             public string AssetPath;
             public Vector3 localPosition;
+
             //public Vector3 localPosition;
             public Quaternion rotation;
 

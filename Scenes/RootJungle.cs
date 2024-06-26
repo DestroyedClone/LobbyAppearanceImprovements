@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using RoR2;
+﻿using RoR2;
+using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -13,8 +13,10 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/rootjungle/skyboxJungle.mat");
         public override string MusicTrackName => "muGameplayBase_09";
+
         //needs light
         public static GameObject display;
+
         public override void Init()
         {
             base.Init();
@@ -26,7 +28,7 @@ namespace LobbyAppearanceImprovements.Scenes
             plight.GetComponent<FlickerLight>().enabled = false;
             //var clight = plight.GetComponent<Light>();
             //clight.color = new Color(1, 0.88f, 0, 1);
-            light.transform.localPosition = new Vector3(-4.4258f, 8.5f, - 16.5173f);
+            light.transform.localPosition = new Vector3(-4.4258f, 8.5f, -16.5173f);
             light.transform.localScale = Vector3.zero;
         }
     }

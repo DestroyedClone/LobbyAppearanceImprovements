@@ -26,7 +26,7 @@ namespace LobbyAppearanceImprovements.Layouts
             List<GameObject> list = new List<GameObject>();
 
             var brother = UnityEngine.Object.Instantiate(SceneSetup.brotherConstellation);
-            brother.transform.position = new Vector3(0, - 790, 900);
+            brother.transform.position = new Vector3(0, -790, 900);
             brother.transform.rotation = Quaternion.Euler(0, 170, 0);
             brother.transform.localScale = Vector3.one * 500;
             list.Add(brother);

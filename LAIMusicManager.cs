@@ -1,8 +1,5 @@
 ﻿using LobbyAppearanceImprovements.Scenes;
 using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LobbyAppearanceImprovements
 {
@@ -10,6 +7,7 @@ namespace LobbyAppearanceImprovements
     {
         public static MusicController musicController;
         public static MusicTrackOverride musicTrackOverride;
+
         public static void Init()
         {
             On.RoR2.MusicController.Start += MusicController_Start;
@@ -56,7 +54,6 @@ namespace LobbyAppearanceImprovements
                 musicTrackOverride.track = musicTrack;
             }
         }
-
 
         private static void MusicController_Start(On.RoR2.MusicController.orig_Start orig, RoR2.MusicController self)
         {

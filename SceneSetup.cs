@@ -1,11 +1,7 @@
-﻿using LobbyAppearanceImprovements.Scenes;
-using R2API;
+﻿using R2API;
 using RoR2;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace LobbyAppearanceImprovements
 {
@@ -37,10 +33,10 @@ namespace LobbyAppearanceImprovements
             SceneAssetAPI_itmoonAction += MoonSetup;
             SceneAssetAPI.AddAssetRequest("itmoon", SceneAssetAPI_itmoonAction);
 
-
             //SceneAssetAPI_BazaarAction += BazaarStoreObject_Setup;
             //SceneAssetAPI.AddAssetRequest("bazaar", SceneAssetAPI_BazaarAction);
         }
+
         public static string GetPath(this Transform current)
         {
             if (current.parent == null)
@@ -49,6 +45,7 @@ namespace LobbyAppearanceImprovements
         }
 
         public static GameObject brotherConstellation;
+
         private static void MoonSetup(GameObject[] obj)
         {
             foreach (var go in obj)
@@ -62,6 +59,7 @@ namespace LobbyAppearanceImprovements
         }
 
         public static GameObject VoidOutroSet7;
+
         private static void VoidOceanFloor_Setup(GameObject[] obj)
         {
             foreach (var go in obj)
@@ -77,6 +75,7 @@ namespace LobbyAppearanceImprovements
         }
 
         public static GameObject SpaceCabin;
+
         private static void LobbyMulti_Setup(GameObject[] gameObjects)
         {
             foreach (var gameObject in gameObjects)
@@ -94,8 +93,6 @@ namespace LobbyAppearanceImprovements
                 }
             }
         }
-
-
 
         #endregion ActionSetup
 
@@ -229,6 +226,7 @@ namespace LobbyAppearanceImprovements
         #endregion UES Contact Light Setup
 
         #region Bazaar Setup
+
         public static GameObject BazaarStoreObject;
 
         public static void BazaarStoreObject_Setup(GameObject[] gameObjects)
@@ -241,8 +239,8 @@ namespace LobbyAppearanceImprovements
                 switch (gameObject.name)
                 {
                     //case "GameManager":
-                        //gameObject.SetActive(false);
-                        //continue;
+                    //gameObject.SetActive(false);
+                    //continue;
                     case "HOLDER: Store":
                         store = gameObject;
                         continue;
@@ -287,7 +285,6 @@ namespace LobbyAppearanceImprovements
                 }
             }
 
-
             int i = 0;
             foreach (var obj in store.GetComponentsInChildren<NetworkStateMachine>())
             {
@@ -295,7 +292,7 @@ namespace LobbyAppearanceImprovements
                 obj.enabled = false;
                 //UnityEngine.Object.Destroy(obj);
             }
-            Debug.Log("NSMs: "+i);
+            Debug.Log("NSMs: " + i);
 
             /*
             foreach (var obj in store.GetComponentsInChildren<Transform>())
@@ -381,6 +378,7 @@ namespace LobbyAppearanceImprovements
                 DestroyComponentInChildren(child);
             }
         }
-            #endregion
-        }
+
+        #endregion Bazaar Setup
+    }
 }

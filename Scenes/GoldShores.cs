@@ -8,7 +8,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "MAP_GOLDSHORES";
         public override string SeerToken => "BAZAAR_SEER_GOLDSHORES";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(0, - 3.1f, 16);
+        public override Vector3 Position => new Vector3(0, -3.1f, 16);
         public override Quaternion Rotation => Quaternion.Euler(0, 30, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/goldshores/matSkyboxGoldshores.mat");
@@ -35,7 +35,7 @@ namespace LobbyAppearanceImprovements.Scenes
             light.transform.localScale = Vector3.zero;
 
             var beacon = CloneFromAddressable("RoR2/Base/goldshores/GoldshoresBeacon.prefab", display.transform);
-            beacon.transform.localPosition = new Vector3(4,0,19);
+            beacon.transform.localPosition = new Vector3(4, 0, 19);
             //UnityEngine.Object.Destroy(beacon.GetComponent<>());
         }
 
@@ -55,7 +55,6 @@ namespace LobbyAppearanceImprovements.Scenes
             voteStartedObject.transform.localPosition = new Vector3(0, 0, 33);
             voteStartedObject.transform.rotation = Quaternion.identity;
             //lai_spawnprefab "RoR2/Base/goldshores/ActivateGoldBeacon.prefab" 4 10 19
-
         }
     }
 }

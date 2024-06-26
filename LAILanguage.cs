@@ -26,7 +26,6 @@ namespace LobbyAppearanceImprovements
             LanguageAPI.Add("LAI_MOD_COOLERECLIPSELOBBY_TITLE", "Eclipse");
             LanguageAPI.Add("LAI_MOD_COOLERECLIPSELOBBY_SUBTITLE", "Radiance and Ruin");
 
-
             LanguageAPI.Add("LAI_MAP_RESCUESHIP_TITLE", "Rescue Ship");
             LanguageAPI.Add("LAI_MAP_RESCUESHIP_SUBTITLE", "Saved At Last");
             LanguageAPI.Add("LAI_MAP_CODES_TITLE", "Dialer Event");

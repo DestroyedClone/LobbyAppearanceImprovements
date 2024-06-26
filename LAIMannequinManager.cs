@@ -1,16 +1,13 @@
-﻿using LobbyAppearanceImprovements.Layouts;
-using LobbyAppearanceImprovements.MannequinLayouts;
+﻿using LobbyAppearanceImprovements.MannequinLayouts;
 using RoR2.SurvivorMannequins;
-using System.Collections.Generic;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements
 {
     internal static class LAIMannequinManager
     {
         public static SurvivorMannequinDioramaController mannequinDioramaController = null;
-
 
         public static BaseMannequinLayout chosenMannequinLayout = null;
         public static Dictionary<string, Type> mannequinLayoutsDict = new Dictionary<string, Type>();

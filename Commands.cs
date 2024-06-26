@@ -1,5 +1,4 @@
-﻿using LeTai.Asset.TranslucentImage;
-using RoR2;
+﻿using RoR2;
 using System;
 using UnityEngine;
 using static LobbyAppearanceImprovements.Methods;

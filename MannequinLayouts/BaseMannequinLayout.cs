@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using static LobbyAppearanceImprovements.ConfigSetup;
 
@@ -10,7 +8,6 @@ namespace LobbyAppearanceImprovements.MannequinLayouts
     {
         public BaseMannequinLayout()
         {
-
         }
 
         public abstract string NameToken { get; }
@@ -34,6 +31,7 @@ namespace LobbyAppearanceImprovements.MannequinLayouts
         }
 
         public bool HasSetup = false;
+
         public virtual void Init()
         {
             var nameOfThis = GetType().Name;
@@ -48,7 +46,6 @@ namespace LobbyAppearanceImprovements.MannequinLayouts
 
         public void CreateMannequinLayout()
         {
-
         }
 
         public bool IsOfType<T>()
@@ -59,7 +56,6 @@ namespace LobbyAppearanceImprovements.MannequinLayouts
         public virtual void ModifyMannequin(GameObject mannequinGameObject)
         {
             var go = mannequinGameObject;
-
         }
     }
 }

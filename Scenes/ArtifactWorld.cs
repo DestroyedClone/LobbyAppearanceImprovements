@@ -1,6 +1,4 @@
-﻿using R2API;
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {

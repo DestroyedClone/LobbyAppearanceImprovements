@@ -13,7 +13,6 @@ using UnityEngine.EventSystems;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.LAIPlugin;
 using static LobbyAppearanceImprovements.Scenes.LAIScene;
-using static UnityEngine.ColorUtility;
 
 //using static LobbyAppearanceImprovements.StaticValues;
 
@@ -21,7 +20,6 @@ namespace LobbyAppearanceImprovements
 {
     public static class Methods
     {
-
         public class LAI_CharDisplayTracker : MonoBehaviour
         {
             public CharacterModel characterModel;
@@ -71,7 +69,6 @@ namespace LobbyAppearanceImprovements
             }
             cameraRig.baseFov = fov + modifier;
             var currentCam = LAICameraManager.CurrentCameraController;
-
 
             Vector3 defaultPosition = currentCam.DefaultCameraPosition;
             Quaternion defaultRotation = currentCam.DefaultCameraRotation;
@@ -1042,8 +1039,6 @@ namespace LobbyAppearanceImprovements
         /*public static void Hook_AdjustVoteStartEvent(ConfigSetup.EventStateType value)
         {
             Scene_EnableTimerStartEvent.Value = value;
-
-
         }*/
 
         public static void Hook_BlackenSurvivors(bool value)

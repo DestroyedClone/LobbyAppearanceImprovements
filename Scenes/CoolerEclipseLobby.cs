@@ -1,8 +1,5 @@
 ﻿using R2API;
 using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -29,7 +26,6 @@ namespace LobbyAppearanceImprovements.Scenes
             GameObject eclipseWeather = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/eclipseworld/Weather, Eclipse.prefab").WaitForCompletion();
             eclipseLobby = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/GameModes/InfiniteTowerRun/InfiniteTowerRun.prefab").WaitForCompletion().GetComponent<InfiniteTowerRun>().lobbyBackgroundPrefab, "LAI_CoolerEclipseLobbyNux", false);
 
-
             eclipseLobby.transform.GetChild(6).gameObject.SetActive(true);
             eclipseLobby.transform.GetChild(6).GetChild(0).gameObject.SetActive(true);
 
@@ -51,7 +47,6 @@ namespace LobbyAppearanceImprovements.Scenes
             Transform eclipseRing = eclipse.GetChild(0);
             eclipseRing.localPosition = Vector3.zero;
             eclipseRing.localEulerAngles = new Vector3(0f, 120f, 0f);
-
         }
     }
 }

@@ -13,6 +13,7 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/golemplains/matSkyboxGolemplainsFoggy.mat");
         public override string MusicTrackName => "muFULLSong18";
         public static GameObject display;
+
         public override void Init()
         {
             base.Init();

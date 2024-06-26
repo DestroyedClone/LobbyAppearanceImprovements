@@ -75,6 +75,7 @@ namespace LobbyAppearanceImprovements.Layouts
             }
             return true;
         }
+
         public bool IsLayoutOfType<T>()
         {
             return this is T;
@@ -137,8 +138,10 @@ namespace LobbyAppearanceImprovements.Layouts
                 InstanceTracker.Remove(this);
                 //map[survivorDef] = null;
             }
+
             public string nameOfThis = "";
             public string exposed = "";
+
             public void Update()
             {
                 exposed = $"{{ \"{gameObject.name}\", " +

@@ -1,7 +1,6 @@
 ﻿using BepInEx.Configuration;
 using InLobbyConfig;
 using InLobbyConfig.Fields;
-using R2API.Utils;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +31,7 @@ namespace LobbyAppearanceImprovements
 
         // Overlay //
         public static ConfigEntry<string> MusicChoice { get; set; }
+
         // Anything that affects the scene as a whole //
         // Post Processing //
         public static ConfigEntry<bool> PostProcessing { get; set; }
@@ -51,7 +51,7 @@ namespace LobbyAppearanceImprovements
 
         public static ConfigEntry<bool> MannequinEnableLocalTurn { get; set; }
         public static ConfigEntry<float> MannequinEnableLocalTurnMultiplier { get; set; }
-       // public static ConfigEntry<string> MannequinLayout { get; set; }
+        // public static ConfigEntry<string> MannequinLayout { get; set; }
 
         // Background Elements //
         // Anything in the background unrelated to the characters //
@@ -97,6 +97,7 @@ namespace LobbyAppearanceImprovements
 
         public static string tempSceneName;
         public static string tempLayoutName;
+
         //public static string tempMannequinName;
         public static bool tempConfirmChoice;
 
@@ -108,7 +109,7 @@ namespace LobbyAppearanceImprovements
             cat = "Sound";
             MusicChoice = config.Bind(cat, "Music", "default", "Adjust: Sets the current musictrack of the lobby." +
                 "\n\"default\" = Will play the default lobby music or, if the scene has one, the overrided music" +
-                "\n\"auto\" = Will auto choose the scene's track." + 
+                "\n\"auto\" = Will auto choose the scene's track." +
                 "For the rest, see the readme for valid tracks.");
 
             // CONFIG //

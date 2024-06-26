@@ -72,7 +72,6 @@ namespace LobbyAppearanceImprovements
 
         public class FadeOutAndDestroy : MonoBehaviour
         {
-
         }
 
         private static void ActivateVoteStartEffectIfNewSceneLoaded(LAIScene scene)

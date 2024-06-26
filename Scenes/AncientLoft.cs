@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -13,6 +12,5 @@ namespace LobbyAppearanceImprovements.Scenes
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/DLC1/ancientloft/matSkyboxAncientLoft.mat");
         public override string MusicTrackName => "muGameplayDLC1_01";
-
     }
 }

@@ -9,7 +9,6 @@ using System;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.HookMethods;
 
@@ -83,6 +82,7 @@ namespace LobbyAppearanceImprovements
         }
 
         public static StringBuilder stringBuilder = new StringBuilder();
+
         private void CacheSkyboxMaterial(RoR2.Stage obj)
         {
             stringBuilder.AppendLine($"{obj.sceneDef.cachedName} - {RenderSettings.skybox} - {RenderSettings.skybox.name}");

@@ -9,11 +9,12 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "LAI_MAP_CODES";
         public override string SeerToken => "LAI_SEER_CODES";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(17f, - 26.2f, 107f);
+        public override Vector3 Position => new Vector3(17f, -26.2f, 107f);
         public override Quaternion Rotation => Quaternion.Euler(0, 165, 0);
         public override Vector3 Scale => new Vector3(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/skymeadow/matSMSkybox.mat");
         public override string MusicTrackName => "muSong14";
+
         //RoR2/Base/skymeadow/matSMSkybox.mat
         //RoR2/Base/skymeadow/matSMSkyboxMoon.mat
         public static GameObject display;
@@ -30,7 +31,7 @@ namespace LobbyAppearanceImprovements.Scenes
             var buttonContainer = zone.Find("ButtonContainer");
             for (int i = 1; i < 10; i++)
             {
-                var btn = buttonContainer.Find("PortalDialerButton "+i.ToString());
+                var btn = buttonContainer.Find("PortalDialerButton " + i.ToString());
                 if (btn)
                 {
                     UnityEngine.Object.Destroy(btn.gameObject);
@@ -52,7 +53,6 @@ namespace LobbyAppearanceImprovements.Scenes
             UnityEngine.Object.Destroy(dialer.GetComponent<PurchaseAvailabilityIndicator>());
             UnityEngine.Object.Destroy(dialer.GetComponent<PurchaseInteraction>());
             UnityEngine.Object.Destroy(dialer.GetComponent<NetworkIdentity>());
-
         }
 
         public override void OnVoteStarted(LAIScene scene)
