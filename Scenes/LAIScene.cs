@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using static LobbyAppearanceImprovements.ConfigSetup;
+using System.Collections.Generic;
 
 namespace LobbyAppearanceImprovements.Scenes
 {
@@ -49,9 +50,7 @@ namespace LobbyAppearanceImprovements.Scenes
             LAISceneManager.onVoteStarted += OnVoteStarted;
         }
 
-        public virtual void OnVoteStarted(LAIScene scene)
-        {
-        }
+        public virtual void OnVoteStarted(LAIScene scene) {}
 
         public bool CanLoadScene()
         {
@@ -158,6 +157,21 @@ namespace LobbyAppearanceImprovements.Scenes
             {
                 Destroy(spawnedObject);
                 Awake();
+            }
+        }
+
+        public class PostProcessingMarker : MonoBehaviour
+        {
+            public List<GameObject> postProcessingObjects = new List<GameObject>();
+
+            public void Awake()
+            {
+                InstanceTracker.Add(this);
+            }
+
+            public void OnDestroy()
+            {
+                InstanceTracker.Remove(this);
             }
         }
     }

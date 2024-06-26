@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.LAIPlugin;
+using static LobbyAppearanceImprovements.Scenes.LAIScene;
 using static UnityEngine.ColorUtility;
 
 //using static LobbyAppearanceImprovements.StaticValues;
@@ -902,6 +903,13 @@ namespace LobbyAppearanceImprovements
             if (!LAISceneManager.sceneInstance) return;
             var obj = LAISceneManager.sceneInstance.transform.Find("PP");
             if (obj) obj.gameObject.SetActive(value);
+            foreach (var ins in InstanceTracker.GetInstancesList<PostProcessingMarker>())
+            {
+                foreach (var ppObj in ins.postProcessingObjects)
+                {
+                    ppObj.SetActive(value);
+                }
+            }
         }
 
         public static void Hook_LightUpdate_Color(UnityEngine.Color color)
