@@ -141,10 +141,10 @@ namespace LobbyAppearanceImprovements.Layouts
             public string exposed = "";
             public void Update()
             {
-                exposed = $"{{ \"{gameObject.name.Remove(0, gameObject.name.Length-"Body(Clone)".Length)}\", " +
+                exposed = $"{{ \"{gameObject.name}\", " +
                     $"new Vector3[] {{" +
                     $"new Vector3({transform.localPosition.x}f, {transform.localPosition.y}f, {transform.localPosition.z}f), " +
-                    $"new Vector3({transform.localRotation.x}f, {transform.localRotation.y}f, {transform.localRotation.z}f)}} }},";
+                    $"new Vector3({transform.localRotation.eulerAngles.x}f, {transform.localRotation.eulerAngles.y}f, {transform.localRotation.eulerAngles.z}f)}} }},";
             }
         }
     }
