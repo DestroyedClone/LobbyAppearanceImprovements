@@ -1,4 +1,5 @@
 
+
 | [![github issues/request link](https://raw.githubusercontent.com/DestroyedClone/PoseHelper/master/PoseHelper/github_link.webp)](https://github.com/DestroyedClone/LobbyAppearanceImprovements/issues) | [![discord invite](https://raw.githubusercontent.com/DestroyedClone/PoseHelper/master/PoseHelper/discord_link.webp)](https://discord.gg/DpHu3qXMHK) |
 |--|--|
 
@@ -65,7 +66,7 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 	7. If you are updating your choice, you'll need to set Confirm Choice to false before setting it to true.
 
 ## List of Scenes w/ Layouts
- If a scene/layout has a 🔒 before it, that means that the scene/layout is locked to only load with those survivors installed.
+ If a scene/layout has a 🔒 before it, that means that the scene/layout is locked to only load with those survivors installed. Screenshots were taken with [MusicDisplay](https://thunderstore.io/package/DestroyedClone/MusicDisplay/) installed.
  <details> <summary><b>Click to expand</b></summary>
  
 | Scene | Layout | Image |
