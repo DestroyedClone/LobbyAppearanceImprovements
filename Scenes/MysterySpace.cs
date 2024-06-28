@@ -23,6 +23,9 @@ namespace LobbyAppearanceImprovements.Scenes
             obelisk.GetComponent<PurchaseInteraction>().enabled = false;
 
             var sky = CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
+            var shakeMarker = display.gameObject.AddComponent<LAIScene.ShakingMarker>();
+            shakeMarker.shakeEmitters.Add(display.transform.Find("Ring/Ruins/MSObelisk/Stage1FX").GetComponent<ShakeEmitter>());
+            //has shakeemitter on it
         }
 
         public override void OnVoteStarted(LAIScene scene)

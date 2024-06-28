@@ -53,17 +53,21 @@ namespace LobbyAppearanceImprovements.Scenes
             UnityEngine.Object.Destroy(dialer.GetComponent<PurchaseAvailabilityIndicator>());
             UnityEngine.Object.Destroy(dialer.GetComponent<PurchaseInteraction>());
             UnityEngine.Object.Destroy(dialer.GetComponent<NetworkIdentity>());
+
+            var comp = display.AddComponent<PrefabSpawner>();
+            var dialerCont = display.transform.Find("Final Zone/ButtonContainer/PortalDialer").GetComponent<PortalDialerController>();
+            comp.localPosition = dialerCont.portalSpawnLocation.position;
+            comp.rotation = dialerCont.portalSpawnLocation.rotation;
+            comp.enabled = false;
+            //comp.AssetPath = "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab";
         }
 
         public override void OnVoteStarted(LAIScene scene)
         {
             base.OnVoteStarted(scene);
             if (!scene.IsSceneOfType<Codes>()) return;
-
-            var dialer = LAISceneManager.sceneInstance.GetComponentInChildren<PortalDialerController>();
-            GameObject original = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/PortalArtifactworld");
-
-            GameObject gameObject = UnityEngine.Object.Instantiate<GameObject>(original, dialer.portalSpawnLocation.position, dialer.portalSpawnLocation.rotation, LAISceneManager.sceneInstance.transform);
+            if (!LAISceneManager.sceneInstance) return;
+            LAISceneManager.sceneInstance.GetComponent<PrefabSpawner>().enabled = true;
         }
     }
 }

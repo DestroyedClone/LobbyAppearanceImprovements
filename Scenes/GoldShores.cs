@@ -36,6 +36,11 @@ namespace LobbyAppearanceImprovements.Scenes
 
             var beacon = CloneFromAddressable("RoR2/Base/goldshores/GoldshoresBeacon.prefab", display.transform);
             beacon.transform.localPosition = new Vector3(4, 0, 19);
+
+            var portal = display.AddComponent<PrefabSpawner>();
+            portal.AssetPath = "RoR2/Base/PortalGoldshores/PortalGoldshores.prefab";
+            portal.localPosition = new Vector3(0, 0, 33);
+            portal.rotation = Quaternion.identity;
             //UnityEngine.Object.Destroy(beacon.GetComponent<>());
         }
 
@@ -51,9 +56,6 @@ namespace LobbyAppearanceImprovements.Scenes
             {
                 origin = new Vector3(4, 10, 19)
             }, false);
-            voteStartedObject = CloneFromAddressable("RoR2/Base/PortalGoldshores/PortalGoldshores.prefab", display.transform);
-            voteStartedObject.transform.localPosition = new Vector3(0, 0, 33);
-            voteStartedObject.transform.rotation = Quaternion.identity;
             //lai_spawnprefab "RoR2/Base/goldshores/ActivateGoldBeacon.prefab" 4 10 19
         }
     }
