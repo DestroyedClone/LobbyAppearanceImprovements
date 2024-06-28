@@ -856,6 +856,18 @@ namespace LobbyAppearanceImprovements
             var shaker = InstanceTracker.GetInstancesList<PreGameShakeController>();
             if (shaker.Count == 0) return;
             shaker[0].gameObject.SetActive(Shaking.Value);
+
+            foreach (var ins in InstanceTracker.GetInstancesList<LAIScene.ShakingMarker>())
+            {
+                foreach (var ppObj in ins.shakingObjects)
+                {
+                    ppObj.SetActive(value);
+                }
+                foreach (var ppObj in ins.shakeEmitters)
+                {
+                    ppObj.enabled = value;
+                }
+            }
         }
 
         public static void Hook_UI_BlurOpacity(int value)
