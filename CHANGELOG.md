@@ -5,10 +5,11 @@
 			* auto chooses a pre-defined theme for the Scene
 			* default will play the default music or any other existing music overrides
 			* defined as in if you put 'muFULLSong02' it will play its respective associated track.
-		* ➕Added 3 new scenes: 
+		* ➕Added 4 new scenes: 
 			* codes (Artifact Code event)
 			* lakes (Verdant Lakes)
 			* eclipse (CoolerEclipseLobby, permission given by Nuxlar),
+			* rescueship (Moon Escape)
 		* ➕Added new event for scenes to have something activated upon the vote starting.
 		* 🔧Updated some scenes
 			* AncientLoft: Changed pos/rot
@@ -16,7 +17,7 @@
 			* ArtifactWorld: Portal is changed to OnVoteStarted
 			* Goldshores: Added beacon, added OnVoteStarted effect
 		* ➕UI now has an option to show Seer text for the scene below the Ready button.
-		* 🔧Disabling shaking config should now properly disable the lobby shaking.
+		* 🔧Disabling shaking config should now properly disable the lobby shaking. Probably won't.
 		* 🔧Added fix to possibly add mod compat with DropInMultiplayer GUI
 		* 🔧Post processing should disable post processing when other stages have them, instead of just the lobby.
 		* 🔧Background Elements is now renamed to "Scene: Lobby" and put below Scenes+Layouts
