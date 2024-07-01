@@ -59,7 +59,7 @@ namespace LobbyAppearanceImprovements.Scenes
             comp.localPosition = dialerCont.portalSpawnLocation.position;
             comp.rotation = dialerCont.portalSpawnLocation.rotation;
             comp.enabled = false;
-            //comp.AssetPath = "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab";
+            comp.AssetPath = "RoR2/Base/PortalArtifactworld/PortalArtifactworld.prefab";
         }
 
         public override void OnVoteStarted(LAIScene scene)

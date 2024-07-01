@@ -114,6 +114,7 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 - Rico [⚡](https://thunderstore.io/package/Rico/) [🐙](https://github.com/RicoValdezio) - Icon
 - Moffein [⚡](https://thunderstore.io/package/Moffein/) [🐙](https://github.com/Moffein) - Consultation
 - Max Kaufmann - [QuaternionUtil (github.com)](https://gist.github.com/maxattack/4c7b4de00f5c1b95a33b)
+- CobaltKitsune - French Translation
 
 
 

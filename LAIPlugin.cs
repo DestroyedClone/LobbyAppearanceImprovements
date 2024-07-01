@@ -59,7 +59,6 @@ namespace LobbyAppearanceImprovements
 
             //DefaultTextObject = CreateDefaultTextObject();
             ConfigSetup.Initialize(Config);
-            LAILanguage.Init();
             LAIMannequinManager.Init();
             LAICameraManager.Init();
             LAIMusicManager.Init();

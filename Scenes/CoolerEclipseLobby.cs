@@ -7,7 +7,7 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class Eclipse : LAIScene
     {
-        public override string SceneNameToken => "LAI_MOD_COOLERECLIPSELOBBY";
+        public override string SceneNameToken => "LAI_MAP_COOLERECLIPSELOBBY";
         public override string SeerToken => "LAI_SEER_ECLIPSE";
         public override GameObject BackgroundPrefab => eclipseLobby;
         public override Vector3 Position => new Vector3(0f, 0f, 0);

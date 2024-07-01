@@ -21,6 +21,7 @@
 		* 🔧Post processing should disable post processing when other stages have them, instead of just the lobby.
 		* 🔧Background Elements is now renamed to "Scene: Lobby" and put below Scenes+Layouts
 		* 🔧Scenes use the background material from their respective stages.
+		* ➕Added French Translation (Thanks, CobaltKitsune!)
 * v1.2.0
 	* Config
 		* ➕ Added Scene Header: Showing the scene title, subtitle, and layout title.
