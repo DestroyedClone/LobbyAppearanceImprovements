@@ -12,10 +12,11 @@ namespace LobbyAppearanceImprovements.Scenes
     {
         public LAIScene()
         {
-            defaultMusicTrackDef = LoadAsset<MusicTrackDef>("RoR2/Base/Common/muLogbook");
+            //defaultMusicTrackDef = LoadAsset<MusicTrackDef>("RoR2/Base/Common/muLogbook");
         }
 
         public static Action<LAIScene> onSceneLoaded;
+        public static Action<LAIScene, GameObject> onSceneInstanceLoaded;
         public static Action<LAIScene> onSceneUnloaded;
         public abstract string SceneNameToken { get; }
         public abstract string SeerToken { get; }
@@ -39,14 +40,23 @@ namespace LobbyAppearanceImprovements.Scenes
         public virtual void Init()
         {
             var nameOfThis = GetType().Name;
-            LAILogging.LogMessage($"{nameOfThis}.Init :: Setting up scene.", LoggingStyle.UserShouldSee);
+            LAILogging.LogMessage($"{nameOfThis}.Init :: Setting up scene.", LoggingStyle.ObscureSoOnlyDevSees);
             if (HasSetup)
             {
-                LAILogging.LogMessage($"{nameOfThis}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage($"{nameOfThis}.Init :: Ran Init(), but has already set up!", LoggingStyle.ObscureSoOnlyDevSees);
                 return;
             }
             HasSetup = true;
             LAISceneManager.onVoteStarted += OnVoteStarted;
+            LAIScene.onSceneLoaded += ActivateVoteStartEventSingleplayer;
+        }
+
+        private void ActivateVoteStartEventSingleplayer(LAIScene scene)
+        {
+            if (RoR2Application.isInSinglePlayer)
+            {
+                OnVoteStarted(scene);
+            }
         }
 
         public virtual void OnVoteStarted(LAIScene scene)
@@ -87,6 +97,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 LAISceneManager.sceneInstance = sceneInstance;
                 HookMethods.Hook_Overlay_ShowPostProcessing(PostProcessing.Value);
                 onSceneLoaded?.Invoke(this);
+                onSceneInstanceLoaded?.Invoke(this, sceneInstance);
             }
             return sceneInstance;
         }
@@ -166,6 +177,22 @@ namespace LobbyAppearanceImprovements.Scenes
         public class PostProcessingMarker : MonoBehaviour
         {
             public List<GameObject> postProcessingObjects = new List<GameObject>();
+
+            public void Awake()
+            {
+                InstanceTracker.Add(this);
+            }
+
+            public void OnDestroy()
+            {
+                InstanceTracker.Remove(this);
+            }
+        }
+
+        public class ShakingMarker : MonoBehaviour
+        {
+            public List<GameObject> shakingObjects = new List<GameObject>();
+            public List<ShakeEmitter> shakeEmitters = new List<ShakeEmitter>();
 
             public void Awake()
             {

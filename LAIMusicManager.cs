@@ -27,7 +27,7 @@ namespace LobbyAppearanceImprovements
         {
             var choice = ConfigSetup.MusicChoice.Value;
             scene ??= LAISceneManager.chosenScene;
-            LAILogging.LogMessage($"Changing music track to \"{choice}\"", ConfigSetup.LoggingStyle.UserShouldSee);
+            LAILogging.LogMessage($"Changing music track to \"{choice}\"", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
             if (choice.ToLower() == "default")
             {
                 musicTrackOverride.enabled = false;
@@ -35,7 +35,7 @@ namespace LobbyAppearanceImprovements
             else if (choice.ToLower() == "auto")
             {
                 musicTrackOverride.enabled = true;
-                LAILogging.LogMessage($"Changing music track to {scene}'s \"{scene.MusicTrackName}\"", ConfigSetup.LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage($"Changing music track to {scene}'s \"{scene.MusicTrackName}\"", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 var musicTrack = MusicTrackCatalog.FindMusicTrackDef(scene.MusicTrackName);
                 if (musicTrack == null) musicTrackOverride.enabled = false;
                 musicTrackOverride.track = musicTrack;
@@ -47,7 +47,7 @@ namespace LobbyAppearanceImprovements
                 if (musicTrack == null)
                 {
                     //musicTrack = LAIScene.defaultMusicTrackDef;
-                    LAILogging.LogWarning("Couldn't find music choice \"{choice}\", defaulting...", ConfigSetup.LoggingStyle.UserShouldSee);
+                    LAILogging.LogWarning("Couldn't find music choice \"{choice}\", defaulting...", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                     musicTrackOverride.enabled = false;
                     return;
                 }

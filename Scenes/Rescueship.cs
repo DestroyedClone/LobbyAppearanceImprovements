@@ -19,7 +19,7 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/moon2/RescueshipMoon.prefab", "LAI_Scene_RescueShip");
-            display.transform.Find("escapeship").transform.localPosition = Vector3.zero; ;
+            display.transform.Find("escapeship").transform.localPosition = Vector3.zero;
 
             //var ship2 = CloneFromAddressable("RoR2/Base/outro/RescueshipOutroCutscene.prefab", display.transform);
         }

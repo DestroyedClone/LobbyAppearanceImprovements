@@ -17,7 +17,7 @@ namespace LobbyAppearanceImprovements.Layouts
         {
         };
 
-        // these fucks show up in the scene anyway but they get deleted after so who cares
+        // these fellows show up in the scene anyway but they get deleted after so it's of no concern.
         public static GameObject StatueHolders { get; set; }
 
         public static RuntimeAnimatorController gamingAnimatorController;
@@ -73,15 +73,17 @@ namespace LobbyAppearanceImprovements.Layouts
         [RoR2.SystemInitializer(dependencies: typeof(RoR2.SurvivorCatalog))]
         public void SetupStatueAsPrefab()
         {
-            if (SurvivorCatalog.FindSurvivorIndex("RobPaladin") < 0)
+            SurvivorIndex survivorIndex = SurvivorCatalog.FindSurvivorIndex("RobPaladin");
+            if (survivorIndex < 0)
             {
                 Debug.Log("Unable to init scene");
+                LAILogging.LogError($"Moon_PaladinOnly.SetupStatueAsPrefab: Couldn't find survivorIndex for \"RobPaladin\", aborting.", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 return;
             }
-            Debug.Log("Selecting Material");
+            //Debug.Log("Selecting Material");
             var moonTexture = Resources.Load<GameObject>("prefabs/stagedisplay/MoonDioramaDissplay").transform.Find("MoonBridgeCornerWithTerrain/Terrain").GetComponent<MeshRenderer>().sharedMaterial;
 
-            Debug.Log("Creating Statue");
+            //Debug.Log("Creating Statue");
             var model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);
             model.GetComponent<CharacterModel>().enabled = false;
             model.transform.Find("Armature/meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
@@ -103,7 +105,7 @@ namespace LobbyAppearanceImprovements.Layouts
                 newModel.transform.rotation = Quaternion.Euler(statuePos[1]);
             }
             StatueHolders = localStatueHolders;
-            gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(SurvivorCatalog.FindSurvivorIndex("RobPaladin")).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
+            gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(survivorIndex).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
         }
 
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()

@@ -111,14 +111,14 @@ namespace LobbyAppearanceImprovements
             var bodyPrefab = GetBodyPrefab(bodyPrefabName, strictName);
             if (!bodyPrefab)
             {
-                LAILogging.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage("CreateDisplay :: Aborted, no body prefab found for " + bodyPrefabName, ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 return null;
             }
 
             SurvivorDef survivorDef = SurvivorCatalog.FindSurvivorDefFromBody(bodyPrefab);
             if (!survivorDef)
             {
-                LAILogging.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName, ConfigSetup.LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage("CreateDisplay :: Aborted, no SurvivorDef found for " + bodyPrefabName, ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 return null;
             }
             GameObject displayPrefab = survivorDef.displayPrefab;
@@ -597,7 +597,7 @@ namespace LobbyAppearanceImprovements
                 }
                 else
                 {
-                    LAILogging.LogWarning("Two instances of LAICameraController were spawned?", ConfigSetup.LoggingStyle.UserShouldSee);
+                    LAILogging.LogWarning("Two instances of LAICameraController were spawned?", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 }
 
                 sceneCamera = GameObject.Find("Main Camera/Scene Camera");
@@ -619,7 +619,7 @@ namespace LobbyAppearanceImprovements
 
                 if (LAICameraManager.CurrentCameraController != null && LAICameraManager.CurrentCameraController != this)
                 {
-                    LAILogging.LogWarning("Somehow there are two camera parallaxes?", ConfigSetup.LoggingStyle.UserShouldSee);
+                    LAILogging.LogWarning("Somehow there are two camera parallaxes?", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 }
 
                 LAICameraManager.CurrentCameraController = this;
@@ -726,7 +726,7 @@ namespace LobbyAppearanceImprovements
                     //characterPads[0].padTransform.eulerAngles = rotate_defaultRotationChar;
                     if (survivorMannequinSlotControllers == null)
                     {
-                        LAILogging.LogError($"survivorMannequinSlotControllers is missing!", ConfigSetup.LoggingStyle.UserShouldSee);
+                        LAILogging.LogError($"survivorMannequinSlotControllers is missing!", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                         return;
                     }
                     if (survivorMannequinSlotControllers[0] == null)
@@ -736,7 +736,7 @@ namespace LobbyAppearanceImprovements
                     }
                     if (survivorMannequinSlotControllers[0].mannequinInstanceTransform == null)
                     {
-                        LAILogging.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!", ConfigSetup.LoggingStyle.UserShouldSee);
+                        LAILogging.LogError($"survivorMannequinSlotControllers[0].mannequinInstanceTransform is missing!", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                         return;
                     }
                     survivorMannequinSlotControllers[0].mannequinInstanceTransform.eulerAngles = rotate_initialPosition;
@@ -892,7 +892,7 @@ namespace LobbyAppearanceImprovements
                 rightBlurColor.color.b,
                 transparencyValue);
             LAILogging.LogMessage($"Transparency Value: {transparencyValue}" +
-                $"\nColor transparency: {leftBlurColor.color.a}", LoggingStyle.UserShouldSee);
+                $"\nColor transparency: {leftBlurColor.color.a}", LoggingStyle.ObscureSoOnlyDevSees);
         }
 
         public static void Hook_UIScale(float value)
@@ -1006,7 +1006,7 @@ namespace LobbyAppearanceImprovements
 
             if (!Lobby.MeshPropsRef)
             {
-                LAILogging.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef for Lobby scene", LoggingStyle.UserShouldSee);
+                LAILogging.LogWarning($"Hook_HidePhysicsProps: Missing MeshPropsRef for Lobby scene", LoggingStyle.ObscureSoOnlyDevSees);
                 return;
             }
             var meshPropHolder = Lobby.MeshPropsRef.transform;
