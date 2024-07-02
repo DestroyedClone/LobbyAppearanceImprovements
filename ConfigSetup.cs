@@ -107,7 +107,7 @@ namespace LobbyAppearanceImprovements
         {
             string cat;
             cat = "Sound";
-            MusicChoice = config.Bind(cat, "Music", "default", "Adjust: Sets the current musictrack of the lobby." +
+            MusicChoice = config.Bind(cat, "Music", "auto", "Adjust: Sets the current musictrack of the lobby." +
                 "\n\"default\" = Will play the default lobby music or, if the scene has one, the overrided music" +
                 "\n\"auto\" = Will auto choose the scene's track." +
                 "For the rest, see the readme for valid tracks.");
