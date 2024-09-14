@@ -5,12 +5,10 @@ namespace LobbyAppearanceImprovements
 {
     internal static class LAIMusicManager
     {
-        public static MusicController musicController;
         public static MusicTrackOverride musicTrackOverride;
 
         public static void Init()
         {
-            On.RoR2.MusicController.Start += MusicController_Start;
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
         }
 
@@ -53,12 +51,6 @@ namespace LobbyAppearanceImprovements
                 }
                 musicTrackOverride.track = musicTrack;
             }
-        }
-
-        private static void MusicController_Start(On.RoR2.MusicController.orig_Start orig, RoR2.MusicController self)
-        {
-            orig(self);
-            musicController = self;
         }
     }
 }
