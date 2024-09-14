@@ -157,6 +157,8 @@ namespace LobbyAppearanceImprovements.Scenes
 
             public bool hasSpawned = false;
 
+            public Action<GameObject> onObjectSpawned;
+
             public void Awake()
             {
                 //Position becomes localposition after use
@@ -164,6 +166,7 @@ namespace LobbyAppearanceImprovements.Scenes
                 if (rotation != null) spawnedObject.transform.rotation = rotation;
                 if (localPosition != null) spawnedObject.transform.position = localPosition;
                 //if (localPosition != null) spawn.transform.localPosition = position;
+                onObjectSpawned?.Invoke(spawnedObject);
                 enabled = false;
             }
 
