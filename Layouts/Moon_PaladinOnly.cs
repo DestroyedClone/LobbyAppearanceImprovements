@@ -81,7 +81,7 @@ namespace LobbyAppearanceImprovements.Layouts
                 return;
             }
             //Debug.Log("Selecting Material");
-            var moonTexture = Resources.Load<GameObject>("prefabs/stagedisplay/MoonDioramaDissplay").transform.Find("MoonBridgeCornerWithTerrain/Terrain").GetComponent<MeshRenderer>().sharedMaterial;
+            var moonTexture = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<GameObject>("RoR2/Base/moon/MoonDioramaDissplay.prefab").WaitForCompletion().transform.Find("MoonBridgeCornerWithTerrain/Terrain").GetComponent<MeshRenderer>().sharedMaterial;
 
             //Debug.Log("Creating Statue");
             var model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);

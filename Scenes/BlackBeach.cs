@@ -22,8 +22,8 @@ namespace LobbyAppearanceImprovements.Scenes
 
             var sky = CloneFromAddressable("RoR2/Base/blackbeach/BBSkybox.prefab", display.transform);
 
-            var light = CloneFromAddressable("RoR2/Base/bazaar/BazaarLight1.prefab", display.transform);
-            light.transform.Find("BlueFire").gameObject.SetActive(false);
+            var light = CloneFromAddressable("RoR2/Base/bazaar/Bazaar_Light.prefab", display.transform);
+            light.transform.Find("FireLODLevel").gameObject.SetActive(false);
             var plight = light.transform.Find("Point Light").gameObject;
             plight.GetComponent<RoR2.FlickerLight>().enabled = false;
             var clight = plight.GetComponent<Light>();

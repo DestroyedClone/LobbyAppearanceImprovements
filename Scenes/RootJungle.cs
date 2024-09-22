@@ -22,8 +22,8 @@ namespace LobbyAppearanceImprovements.Scenes
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/rootjungle/RootjungleDioramaDisplay.prefab", "LAI_Scene_RootJungle");
 
-            var light = CloneFromAddressable("RoR2/Base/bazaar/BazaarLight1.prefab", display.transform);
-            light.transform.Find("BlueFire").gameObject.SetActive(false);
+            var light = CloneFromAddressable("RoR2/Base/bazaar/Bazaar_Light.prefab", display.transform);
+            light.transform.Find("FireLODLevel").gameObject.SetActive(false);
             var plight = light.transform.Find("Point Light").gameObject;
             plight.GetComponent<FlickerLight>().enabled = false;
             //var clight = plight.GetComponent<Light>();

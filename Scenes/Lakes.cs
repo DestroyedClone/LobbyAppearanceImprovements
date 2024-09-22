@@ -18,12 +18,12 @@ namespace LobbyAppearanceImprovements.Scenes
         public override void Init()
         {
             base.Init();
-            display = PrefabCloneFromAddressable("RoR2/CU8/lakes/TLDioramaDisplay.prefab", "LAI_Scene_Lakes");
+            display = PrefabCloneFromAddressable("RoR2/DLC2/lakes/TLDioramaDisplay.prefab", "LAI_Scene_Lakes");
             //displayPrefab.transform.position = Position;
             //displayPrefab.transform.rotation = Rotation;
             //displayPrefab.transform.localScale = Scale;
 
-            var skybox = CloneFromAddressable("RoR2/CU8/lakes/Weather, Lakes.prefab");
+            var skybox = CloneFromAddressable("RoR2/DLC2/lakes/Weather, Lakes.prefab");
             skybox.transform.parent = display.transform;
         }
     }

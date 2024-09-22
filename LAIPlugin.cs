@@ -104,7 +104,7 @@ namespace LobbyAppearanceImprovements
             CharacterSelectController = self;
             if (!self.gameObject.GetComponent<Methods.LAICameraController>())
                 self.gameObject.AddComponent<Methods.LAICameraController>();
-            CharSelUITransform = GameObject.Find("CharacterSelectUI").transform;
+            CharSelUITransform = self.transform;
 
             ValidateConfig();
             Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);

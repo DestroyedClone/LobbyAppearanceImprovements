@@ -23,9 +23,9 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/skymeadow/PortalDialerEvent.prefab", "LAI_Scene_Codes");
-            UnityEngine.Object.Destroy(display.transform.Find("BBBoulderMediumRound1").gameObject);
-            UnityEngine.Object.Destroy(display.transform.Find("BBBoulderMediumRound1 (1)").gameObject);
-            UnityEngine.Object.Destroy(display.transform.Find("BBBoulderMediumRound1 (2)").gameObject);
+            //UnityEngine.Object.Destroy(display.transform.Find("BBBoulderMediumRound1").gameObject);
+            //UnityEngine.Object.Destroy(display.transform.Find("BBBoulderMediumRound1 (1)").gameObject);
+            //UnityEngine.Object.Destroy(display.transform.Find("BBBoulderMediumRound1 (2)").gameObject);
             Transform zone = display.transform.Find("Final Zone");
             zone.localPosition = Vector3.zero;
             var buttonContainer = zone.Find("ButtonContainer");

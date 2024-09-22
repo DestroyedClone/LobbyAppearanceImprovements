@@ -22,7 +22,7 @@ namespace LobbyAppearanceImprovements.Scenes
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/skymeadow/SkyMeadowDioramaDisplay.prefab", "LAI_Scene_SkyMeadow");
 
-            var sky = CloneFromAddressable("RoR2/Base/skymeadow/SMSkyboxPrefab.prefab", display.transform);
+            var sky = CloneFromAddressable("RoR2/Base/skymeadow/SM_SkyboxPrefab.prefab", display.transform);
         }
     }
 }
