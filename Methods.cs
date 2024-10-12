@@ -854,8 +854,8 @@ namespace LobbyAppearanceImprovements
         {
             Shaking.Value = value;
             var shaker = InstanceTracker.GetInstancesList<PreGameShakeController>();
-            if (shaker.Count == 0) return;
-            shaker[0].gameObject.SetActive(Shaking.Value);
+            if (shaker[0])
+                shaker[0].gameObject.SetActive(Shaking.Value);
 
             foreach (var ins in InstanceTracker.GetInstancesList<LAIScene.ShakingMarker>())
             {
