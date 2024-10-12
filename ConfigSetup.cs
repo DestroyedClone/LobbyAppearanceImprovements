@@ -234,13 +234,13 @@ namespace LobbyAppearanceImprovements
                 new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
                 new BooleanConfigField(SIL_ZoomEnable.Definition.Key, SIL_ZoomEnable.Description.Description, () => SIL_ZoomEnable.Value, Hook_ToggleZooming),
                 new EnumConfigField<KeyCode>(SIL_ResetCameraKey.Definition.Key, SIL_ResetCameraKey.Description.Description, () => SIL_ResetCameraKey.Value),
+                new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
                 new BooleanConfigField(SIL_LockedCharactersBlack.Definition.Key, SIL_LockedCharactersBlack.Description.Description, () => SIL_LockedCharactersBlack.Value, Hook_BlackenSurvivors),
             };
             inLobbyConfigEntry.SectionFields["Scene: Lobby"] = new List<IConfigField>
             {
                 new BooleanConfigField(MeshProps.Definition.Key, MeshProps.Description.Description, () => MeshProps.Value, Hook_HideProps),
                 new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_HidePhysicsProps),
-                new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);
         }
