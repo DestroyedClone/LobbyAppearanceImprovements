@@ -36,6 +36,9 @@ namespace LobbyAppearanceImprovements.Scenes
 
             var beacon = CloneFromAddressable("RoR2/Base/goldshores/GoldshoresBeacon.prefab", display.transform);
             beacon.transform.localPosition = new Vector3(4, 0, 19);
+            UnityEngine.Object.Destroy(beacon.GetComponent<PurchaseInteraction>());
+            UnityEngine.Object.Destroy(beacon.GetComponent<NetworkStateMachine>());
+            UnityEngine.Object.Destroy(beacon.GetComponent<EntityStateMachine>());
 
             var portal = display.AddComponent<PrefabSpawner>();
             portal.AssetPath = "RoR2/Base/PortalGoldshores/PortalGoldshores.prefab";

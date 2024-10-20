@@ -20,7 +20,7 @@ namespace LobbyAppearanceImprovements.Scenes
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/mysteryspace/MysteryspaceDioramaDisplay.prefab", "LAI_Scene_MysterySpace");
             var obelisk = display.transform.Find("Ring/Ruins/MSObelisk");
-            obelisk.GetComponent<PurchaseInteraction>().enabled = false;
+            UnityEngine.Object.Destroy(obelisk.GetComponent<PurchaseInteraction>());
 
             var sky = CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
             //has shakeemitter on it
