@@ -58,7 +58,7 @@ namespace LobbyAppearanceImprovements
         public static ConfigEntry<bool> MeshProps { get; set; }
 
         public static ConfigEntry<bool> PhysicsProps { get; set; }
-        public static ConfigEntry<bool> Shaking { get; set; }
+        public static ConfigEntry<bool> Lobby_Shaking { get; set; }
 
         // Custom Background //
         public static ConfigEntry<string> Scene_Selection { get; set; }
@@ -148,7 +148,7 @@ namespace LobbyAppearanceImprovements
             cat = "Background";
             MeshProps = config.Bind(cat, "LobbyScene: Show Static MeshProps", false, "Toggle: all the stationary meshprops.");
             PhysicsProps = config.Bind(cat, "LobbyScene: Show Physics Props", false, "Toggle: all the physics props like the Chair.");
-            Shaking = config.Bind(cat, "Shaking", false, "Toggles any shaking that may happen during by the scene itself. Does not toggle shaking generated from character displays.");
+            Lobby_Shaking = config.Bind(cat, "LobbyScene: Shaking", false, "Toggle: whether the physics objects are shaken periodically");
 
             // Custom Background //
             Scene_Selection = config.Bind(cat, "Select Scene", "lobby", "Adjust: Sets the current scene of the lobby.");
@@ -234,13 +234,13 @@ namespace LobbyAppearanceImprovements
                 new BooleanConfigField("Confirm Choice", "Click to confirm choice for scene.", () => tempConfirmChoice, SetSceneLayoutFromLobby),
                 new BooleanConfigField(SIL_ZoomEnable.Definition.Key, SIL_ZoomEnable.Description.Description, () => SIL_ZoomEnable.Value, Hook_ToggleZooming),
                 new EnumConfigField<KeyCode>(SIL_ResetCameraKey.Definition.Key, SIL_ResetCameraKey.Description.Description, () => SIL_ResetCameraKey.Value),
-                new BooleanConfigField(Shaking.Definition.Key, Shaking.Description.Description, () => Shaking.Value, Hook_DisableShaking),
                 new BooleanConfigField(SIL_LockedCharactersBlack.Definition.Key, SIL_LockedCharactersBlack.Description.Description, () => SIL_LockedCharactersBlack.Value, Hook_BlackenSurvivors),
             };
             inLobbyConfigEntry.SectionFields["Scene: Lobby"] = new List<IConfigField>
             {
-                new BooleanConfigField(MeshProps.Definition.Key, MeshProps.Description.Description, () => MeshProps.Value, Hook_HideProps),
-                new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_HidePhysicsProps),
+                new BooleanConfigField(MeshProps.Definition.Key, MeshProps.Description.Description, () => MeshProps.Value, Hook_Lobby_HideProps),
+                new BooleanConfigField(PhysicsProps.Definition.Key, PhysicsProps.Description.Description, () => PhysicsProps.Value, Hook_Lobby_HidePhysicsProps),
+                new BooleanConfigField(Lobby_Shaking.Definition.Key, Lobby_Shaking.Description.Description, () => Lobby_Shaking.Value, Hook_Lobby_DisableShaking),
             };
             ModConfigCatalog.Add(inLobbyConfigEntry);
         }

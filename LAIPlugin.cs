@@ -6,6 +6,7 @@ using R2API.Utils;
 using RoR2;
 using RoR2.UI;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -71,7 +72,27 @@ namespace LobbyAppearanceImprovements
 
             //RoR2.Stage.onServerStageBegin += CacheSkyboxMaterial;
             On.RoR2.PreGameShakeController.Awake += PreGameShakeController_Awake;
+            On.RoR2.UI.CharacterSelectController.OnEnable += CharacterSelectController_OnEnable;
+            On.RoR2.UI.CharacterSelectController.OnDisable += CharacterSelectController_OnDisable;
         }
+
+        private void CharacterSelectController_OnEnable(On.RoR2.UI.CharacterSelectController.orig_OnEnable orig, CharacterSelectController self)
+        {
+            orig(self);
+            On.RoR2.ShakeEmitter.ComputeTotalShakeAtPoint += ShakeEmitter_ComputeTotalShakeAtPoint;
+        }
+
+        private Vector3 ShakeEmitter_ComputeTotalShakeAtPoint(On.RoR2.ShakeEmitter.orig_ComputeTotalShakeAtPoint orig, Vector3 position)
+        {
+            return orig(position) * (CharacterSelectController ? CharacterSelectController.localUser.userProfile.screenShakeScale : 1);
+        }
+
+        private void CharacterSelectController_OnDisable(On.RoR2.UI.CharacterSelectController.orig_OnDisable orig, CharacterSelectController self)
+        {
+            On.RoR2.ShakeEmitter.ComputeTotalShakeAtPoint -= ShakeEmitter_ComputeTotalShakeAtPoint;
+            orig(self);
+        }
+
 
         private void PreGameShakeController_Awake(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
         {

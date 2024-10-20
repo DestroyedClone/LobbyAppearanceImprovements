@@ -49,8 +49,8 @@ namespace LobbyAppearanceImprovements.Scenes
             HookMethods.UpdateDirectionalLight();
 
             // Background Elements //
-            HookMethods.Hook_HideProps(ConfigSetup.MeshProps.Value);
-            HookMethods.Hook_HidePhysicsProps(ConfigSetup.PhysicsProps.Value);
+            HookMethods.Hook_Lobby_HideProps(ConfigSetup.MeshProps.Value);
+            HookMethods.Hook_Lobby_HidePhysicsProps(ConfigSetup.PhysicsProps.Value);
         }
     }
 }

@@ -850,12 +850,12 @@ namespace LobbyAppearanceImprovements
             CharSelUITransform.Find("TopSideFade").gameObject.SetActive(value);
         }
 
-        public static void Hook_DisableShaking(bool value)
+        public static void Hook_Lobby_DisableShaking(bool value)
         {
-            Shaking.Value = value;
+            Lobby_Shaking.Value = value;
             var shaker = InstanceTracker.GetInstancesList<PreGameShakeController>();
             if (shaker.Count > 0 && shaker[0])
-                shaker[0].gameObject.SetActive(Shaking.Value);
+                shaker[0].gameObject.SetActive(Lobby_Shaking.Value);
 
             foreach (var ins in InstanceTracker.GetInstancesList<LAIScene.ShakingMarker>())
             {
@@ -985,7 +985,7 @@ namespace LobbyAppearanceImprovements
             }
         }
 
-        public static void Hook_HideProps(bool value)
+        public static void Hook_Lobby_HideProps(bool value)
         {
             MeshProps.Value = value;
 
@@ -994,10 +994,10 @@ namespace LobbyAppearanceImprovements
                 var obj = GameObject.Find(propName);
                 if (obj) obj.SetActive(MeshProps.Value);
             }
-            Hook_HidePhysicsProps(PhysicsProps.Value);
+            Hook_Lobby_HidePhysicsProps(PhysicsProps.Value);
         }
 
-        public static void Hook_HidePhysicsProps(bool value)
+        public static void Hook_Lobby_HidePhysicsProps(bool value)
         {
             PhysicsProps.Value = value;
 
