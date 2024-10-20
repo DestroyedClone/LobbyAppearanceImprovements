@@ -68,7 +68,7 @@ namespace LobbyAppearanceImprovements
                 {
                     VoidOutroSet7 = PrefabAPI.InstantiateClone(go, "LAI_VOIDOUTROSET7", false);
                     VoidOutroSet7.transform.Find("CrabHolder").GetComponent<ShakeEmitter>().enabled = false;
-                    VoidOutroSet7.gameObject.SetActive(true);
+                    VoidOutroSet7.SetActive(true);
                     return;
                 }
             }
@@ -366,7 +366,7 @@ namespace LobbyAppearanceImprovements
         {
             // Get the type of the component from the name
             // Destroy the component if it exists on the current GameObject
-            var component = parent.GetComponent<NetworkStateMachine>();
+            if (parent.TryGetComponent<NetworkStateMachine>(out var component))
             if (component != null)
             {
                 UnityEngine.Object.Destroy(component);

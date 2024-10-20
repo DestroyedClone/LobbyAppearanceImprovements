@@ -7,9 +7,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "MAP_ARENA";
         public override string SeerToken => "LAI_SEER_ARENA";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(3.5f, -3.1f, 3);
+        public override Vector3 Position => new(3.5f, -3.1f, 3);
         public override Quaternion Rotation => Quaternion.Euler(0f, 0f, 0);
-        public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Vector3 Scale => new(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/arena/matSkyboxArena.mat");
         public override string MusicTrackName => "muSong08";
 

@@ -182,6 +182,7 @@ namespace LobbyAppearanceImprovements
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public static void SetupPaladinDisplay(GameObject gameObject)
         {
+            if (gameObject.TryGetComponent(out PaladinMod.Misc.MenuSound menuSound))
             UnityEngine.Object.Destroy(gameObject.GetComponent<PaladinMod.Misc.MenuSound>());
         }
 

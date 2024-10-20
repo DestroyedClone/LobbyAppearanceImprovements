@@ -7,9 +7,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "MAP_MERIDIAN";
         public override string SeerToken => "BAZAAR_SEER_MERIDIAN";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(2.5f, -5.25f, 24.5f);
+        public override Vector3 Position => new(2.5f, -5.25f, 24.5f);
         public override Quaternion Rotation => Quaternion.Euler(0, 0, 0);
-        public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Vector3 Scale => new (1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/DLC2/meridian/matSkyboxPM.mat"); //todo get actual lobby mat
         //RoR2/DLC2/meridian/matSkyboxPM.mat
         //RoR2/DLC2/meridian/matSkyboxPMActivate.mat

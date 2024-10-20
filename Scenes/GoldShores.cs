@@ -8,9 +8,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "MAP_GOLDSHORES";
         public override string SeerToken => "BAZAAR_SEER_GOLDSHORES";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(0, -3.1f, 16);
+        public override Vector3 Position => new(0, -3.1f, 16);
         public override Quaternion Rotation => Quaternion.Euler(0, 30, 0);
-        public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Vector3 Scale => new(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/goldshores/matSkyboxGoldshores.mat");
         public override string MusicTrackName => "muFULLSong02";
         public static GameObject display;
@@ -23,7 +23,7 @@ namespace LobbyAppearanceImprovements.Scenes
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/Base/goldshores/GoldshoresDiorama.prefab", "LAI_Scene_GoldShores");
 
-            var sky = CloneFromAddressable("RoR2/Base/goldshores/GoldshoresSkybox.prefab", display.transform);
+            CloneFromAddressable("RoR2/Base/goldshores/GoldshoresSkybox.prefab", display.transform);
 
             var light = CloneFromAddressable("RoR2/Base/bazaar/Bazaar_Light.prefab", display.transform);
             light.transform.Find("FireLODLevel").gameObject.SetActive(false);
@@ -51,7 +51,7 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             base.OnVoteStarted(scene);
             if (!scene.IsSceneOfType<GoldShores>()) return;
-            var sceneInstance = LAISceneManager.sceneInstance;
+            //var sceneInstance = LAISceneManager.sceneInstance;
             if (!LAISceneManager.sceneInstance) return;
             if (voteStartedObject)
                 return;

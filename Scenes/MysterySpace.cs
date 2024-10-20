@@ -8,9 +8,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "MAP_MYSTERYSPACE";
         public override string SeerToken => "LAI_SEER_MYSTERYSPACE";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(0f, -5f, 30);
+        public override Vector3 Position => new(0f, -5f, 30);
         public override Quaternion Rotation => Quaternion.Euler(0, 345, 0);
-        public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Vector3 Scale => new(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/mysteryspace/matSkyboxMysterySpace.mat");
         public override string MusicTrackName => "muSong21";
         public static GameObject display;
@@ -22,7 +22,7 @@ namespace LobbyAppearanceImprovements.Scenes
             var obelisk = display.transform.Find("Ring/Ruins/MSObelisk");
             UnityEngine.Object.Destroy(obelisk.GetComponent<PurchaseInteraction>());
 
-            var sky = CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
+            CloneFromAddressable("RoR2/Base/mysteryspace/MSSkybox.prefab", display.transform);
             //has shakeemitter on it
         }
 

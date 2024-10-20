@@ -9,9 +9,9 @@ namespace LobbyAppearanceImprovements.Scenes
         public override string SceneNameToken => "LAI_MAP_CODES";
         public override string SeerToken => "LAI_SEER_CODES";
         public override GameObject BackgroundPrefab => display;
-        public override Vector3 Position => new Vector3(17f, -26.2f, 107f);
+        public override Vector3 Position => new(17f, -26.2f, 107f);
         public override Quaternion Rotation => Quaternion.Euler(0, 165, 0);
-        public override Vector3 Scale => new Vector3(1f, 1f, 1f);
+        public override Vector3 Scale => new(1f, 1f, 1f);
         public override Material SkyboxOverride => LoadAsset<Material>("RoR2/Base/skymeadow/matSMSkybox.mat");
         public override string MusicTrackName => "muSong14";
 

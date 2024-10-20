@@ -97,11 +97,11 @@ namespace LobbyAppearanceImprovements
         private void PreGameShakeController_Awake(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
         {
             InstanceTracker.Add(this);
-            self.gameObject.SetActive(ConfigSetup.Shaking.Value);
+            self.gameObject.SetActive(ConfigSetup.Lobby_Shaking.Value);
             orig(self);
         }
 
-        public static StringBuilder stringBuilder = new StringBuilder();
+        public static StringBuilder stringBuilder = new();
 
         private void CacheSkyboxMaterial(RoR2.Stage obj)
         {
@@ -147,7 +147,7 @@ namespace LobbyAppearanceImprovements
             Hook_Rotate_Speed(MannequinEnableLocalTurnMultiplier.Value);
 
             HookMethods.Hook_ToggleZooming(ConfigSetup.SIL_ZoomEnable.Value);
-            HookMethods.Hook_DisableShaking(ConfigSetup.Shaking.Value);
+            HookMethods.Hook_Lobby_DisableShaking(ConfigSetup.Lobby_Shaking.Value);
         }
 
         private void ValidateConfig()
