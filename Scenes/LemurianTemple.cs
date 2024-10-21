@@ -4,7 +4,7 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class LemurianTemple : LAIScene 
     {
-        public override string SceneNameToken => "MAP_LEMURIANTEMPLE_TITLE";
+        public override string SceneNameToken => "MAP_LEMURIANTEMPLE";
         public override string SeerToken => "BAZAAR_SEER_LEMURIANTEMPLE";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new(2.5f, -5.25f, 24.5f);

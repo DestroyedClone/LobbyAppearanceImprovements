@@ -5,7 +5,7 @@ namespace LobbyAppearanceImprovements.Scenes
 {
     public class VillageNight : LAIScene 
     {
-        public override string SceneNameToken => "MAP_VILLAGENIGHT_TITLE";
+        public override string SceneNameToken => "MAP_VILLAGENIGHT";
         public override string SeerToken => "BAZAAR_SEER_VILLAGENIGHT";
         public override GameObject BackgroundPrefab => display;
         public override Vector3 Position => new(2.5f, -5.25f, 24.5f);
