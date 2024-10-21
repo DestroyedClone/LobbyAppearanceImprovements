@@ -1,4 +1,5 @@
-﻿using R2API;
+﻿using LobbyAppearanceImprovements.Scenes;
+using R2API;
 using RoR2;
 using System;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace LobbyAppearanceImprovements
         public static Action<GameObject[]> SceneAssetAPI_VoidOutroAction;
         public static Action<GameObject[]> SceneAssetAPI_itmoonAction;
         public static Action<GameObject[]> SceneAssetAPI_BazaarAction;
+        public static Action<GameObject[]> SceneAssetAPI_LemurianTempleAction;
 
         public static void Init()
         {
@@ -35,6 +37,52 @@ namespace LobbyAppearanceImprovements
 
             //SceneAssetAPI_BazaarAction += BazaarStoreObject_Setup;
             //SceneAssetAPI.AddAssetRequest("bazaar", SceneAssetAPI_BazaarAction);
+
+            SceneAssetAPI_LemurianTempleAction += LemurianTempleSetup;
+            SceneAssetAPI.AddAssetRequest("lemuriantemple", SceneAssetAPI_LemurianTempleAction);
+        }
+
+        public static GameObject chefLemTempleStuff;
+        private static void LemurianTempleSetup(GameObject[] obj)
+        {
+            var newHolder = new GameObject();
+            foreach (var go in obj)
+            {
+                if (go.name == "HOLDER: ChefZone")
+                {
+                    go.transform.parent = newHolder.transform;
+                }
+                else if (go.name == "HOLDER:Terrain")
+                {
+                    go.transform.parent = newHolder.transform;
+                    UnityEngine.Object.Destroy(go.transform.Find("Water Plane").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("Water Plane (1)").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("Water Plane (2)").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("Water Plane (3)").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("LTAltar").gameObject);
+                    //var terrain = go.transform.Find("LtTerrain");
+                    //UnityEngine.Object.Destroy(terrain.transform.Find("meshLTColumn").gameObject);
+                    //UnityEngine.Object.Destroy(terrain.transform.Find("meshLTGold").gameObject);
+                    //UnityEngine.Object.Destroy(terrain.transform.Find("meshLTSecretPlate").gameObject);
+                    //UnityEngine.Object.Destroy(terrain.transform.Find("meshLTStairs").gameObject);
+                }
+                else if (go.name == "HOLDER: Prop")
+                {
+                    go.transform.parent = newHolder.transform;
+                    UnityEngine.Object.Destroy(go.transform.Find("YellowCoral").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("Crystal").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("LTPebbles").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("GoldDecal").gameObject);
+                    UnityEngine.Object.Destroy(go.transform.Find("RedRoots").gameObject);
+                }
+                else if (go.name == "Weather, LemurianTemple")
+                {
+                    go.transform.parent = newHolder.transform;
+                }
+            }
+            chefLemTempleStuff = PrefabAPI.InstantiateClone(newHolder, "LAI_CHEFROOM", false);
+            //LAIScene.CloneFromAddressable("RoR2/DLC2/lakes/Weather, Lakes.prefab", chefLemTempleStuff.transform);
+            UnityEngine.Object.Destroy(newHolder);
         }
 
         public static string GetPath(this Transform current)
@@ -367,7 +415,6 @@ namespace LobbyAppearanceImprovements
             // Get the type of the component from the name
             // Destroy the component if it exists on the current GameObject
             if (parent.TryGetComponent<NetworkStateMachine>(out var component))
-            if (component != null)
             {
                 UnityEngine.Object.Destroy(component);
             }
