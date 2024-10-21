@@ -31,8 +31,8 @@ namespace LobbyAppearanceImprovements.Scenes
             //portal.position = new Vector3(0f, 5f, 30f);
             //portal.localPosition = new Vector3(26, 16, 4); //annoying
             //portal.localPosition = new Vector3(-46, 17, 4); //??????????????????
-            portal.localPosition = new Vector3(-20, 10.6f, 20);
-            portal.rotation = Quaternion.Euler(0, 270, 0);
+            portal.localPosition = new Vector3(10, 9, 39);
+            portal.rotation = Quaternion.Euler(0, 90, 0);
             portal.enabled = false;
 
             CloneFromAddressable("RoR2/Base/artifactworld/ArtifactWorldSkybox.prefab", display.transform);
