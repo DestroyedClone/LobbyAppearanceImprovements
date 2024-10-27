@@ -62,16 +62,13 @@ namespace LobbyAppearanceImprovements
         {
             if (!SeerTextInstance)
             {
-                LAISceneManager.SeerTextInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
+                LAISceneManager.SeerTextInstance = UnityEngine.Object.Instantiate(LAIAssets.bombardierTextObject, LAIPlugin.LAITextHolder.transform);
                 LAISceneManager.SeerTextInstance.name = $"LobbyAppearanceImprovements_Seer_Text";
-                LAISceneManager.SeerTextInstance.transform.localPosition = new Vector3(0f, -900f, 800f);
+                LAISceneManager.SeerTextInstance.transform.localPosition = new Vector3(0f, -480f, 0f);
+                SeerTextInstance.GetComponent<HGTextMeshProUGUI>().fontSizeMin = 50f;
             }
             LAISceneManager.SeerTextInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_LAYOUT_FORMAT", RoR2.Language.GetString(LAISceneManager.chosenScene.SeerToken));
             HookMethods.Hook_ToggleSceneSeerVisibility(ConfigSetup.Scene_Seer.Value);
-        }
-
-        public class FadeOutAndDestroy : MonoBehaviour
-        {
         }
 
         private static void ActivateVoteStartEffectIfNewSceneLoaded(LAIScene scene)
@@ -118,7 +115,7 @@ namespace LobbyAppearanceImprovements
         private static void OnSceneLoaded(LAIScene scene)
         {
             HookMethods.Hook_MusicChoice(MusicChoice.Value);
-            HookMethods.Hook_DisableShaking(ConfigSetup.Shaking.Value);
+            HookMethods.Hook_Lobby_DisableShaking(ConfigSetup.Lobby_Shaking.Value);
             RenderSettings.skybox = scene.SkyboxOverride;
         }
 
@@ -139,72 +136,36 @@ namespace LobbyAppearanceImprovements
             CreateOrUpdateHeaderText();
         }
 
-        //disgusting
-        private class TitleRefEnsurer : MonoBehaviour
-        {
-            public bool foundRef = false;
-            public float stopwatch;
-            private const float cooldown = 1f;
-
-            private void Awake()
-            {
-                stopwatch = cooldown;
-            }
-
-            private void FixedUpdate()
-            {
-                stopwatch -= Time.fixedDeltaTime;
-                if (stopwatch < 0)
-                {
-                    stopwatch = cooldown;
-                    var refCheck = LAIPlugin.CharacterSelectController.transform.Find("SurvivorNamePanel/SurvivorName");
-                    if (refCheck)
-                        LAIPlugin.LAITitleRef = refCheck;
-                    if (LAIPlugin.LAITitleRef)
-                    {
-                        LAILogging.LogMessage($"Found the titleref!", LoggingStyle.UserShouldSee);
-                        CreateOrUpdateHeaderText();
-                        enabled = false;
-                        Destroy(gameObject);
-                    }
-                }
-            }
-        }
-
         public static void CreateOrUpdateHeaderText()
         {
-            if (!LAIPlugin.LAITitleRef)
-            {
-                LAILogging.LogMessage($"LAITITLEREF missing, attempting spawn", LoggingStyle.UserShouldSee);
-                new GameObject("LAI_TEMP_ENSUREHEADERREF").AddComponent<TitleRefEnsurer>();
-                return;
-            }
-            LAILogging.LogMessage($"LAITITLEREF existing!, attempting spawn", LoggingStyle.UserShouldSee);
+            //LAILogging.LogMessage($"LAITITLEREF existing!, attempting spawn", LoggingStyle.UserShouldSee);
             if (!TitleInstance)
             {
-                LAISceneManager.TitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
+                LAISceneManager.TitleInstance = UnityEngine.Object.Instantiate(LAIAssets.bombardierTextObject, LAIPlugin.LAITextHolder.transform);
                 LAISceneManager.TitleInstance.name = $"LobbyAppearanceImprovements_Scene_Title";
                 LAISceneManager.TitleInstance.transform.localPosition = new Vector3(0f, 450f, 0f);
-                //TitleInstance.GetComponent<HGTextMeshProUGUI>().alpha = 0f;
+                TitleInstance.GetComponent<HGTextMeshProUGUI>().fontSizeMin = 80;
                 //TitleInstance.GetComponent<HGTextMeshProUGUI>().CrossFadeAlpha(1f, 3f, false);
             }
             LAISceneManager.TitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetString(LAISceneManager.chosenScene.SceneTitleToken);
             if (!SubTitleInstance)
             {
-                LAISceneManager.SubTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
+                LAISceneManager.SubTitleInstance = UnityEngine.Object.Instantiate(LAIAssets.bombardierTextObject, LAIPlugin.LAITextHolder.transform);
                 LAISceneManager.SubTitleInstance.name = $"LobbyAppearanceImprovements_Scene_Subtitle";
-                LAISceneManager.SubTitleInstance.transform.localPosition = new Vector3(0f, 500f, 300f);
+                LAISceneManager.SubTitleInstance.transform.localPosition = new Vector3(0f, 400f, 0f);
+                SubTitleInstance.GetComponent<HGTextMeshProUGUI>().fontSizeMin = 50;
                 //SubTitleInstance.GetComponent<HGTextMeshProUGUI>().alpha = 0f;
                 //SubTitleInstance.GetComponent<HGTextMeshProUGUI>().CrossFadeAlpha(1f, 3f, false);
             }
             LAISceneManager.SubTitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_SUBTTILE_FORMAT", RoR2.Language.GetString(LAISceneManager.chosenScene.SceneSubtitleToken));
             if (!LayoutTitleInstance)
             {
-                LAISceneManager.LayoutTitleInstance = UnityEngine.Object.Instantiate(LAIPlugin.LAITitleRef.gameObject, LAIPlugin.CharacterSelectController.transform);
+                LAISceneManager.LayoutTitleInstance = UnityEngine.Object.Instantiate(LAIAssets.bombardierTextObject, LAIPlugin.LAITextHolder.transform);
                 LAISceneManager.LayoutTitleInstance.name = $"LobbyAppearanceImprovements_Layout_Title";
-                LAISceneManager.LayoutTitleInstance.transform.localPosition = new Vector3(0f, 600f, 800f);
+                LAISceneManager.LayoutTitleInstance.transform.localPosition = new Vector3(0f, 360f, 0f);
+                LayoutTitleInstance.GetComponent<HGTextMeshProUGUI>().fontSizeMin = 40f;
             }
-            LAISceneManager.LayoutTitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_LAYOUT_FORMAT", RoR2.Language.GetString(LAILayoutManager.chosenLayout.LayoutTitleToken));
+            LAISceneManager.LayoutTitleInstance.GetComponent<HGTextMeshProUGUI>().text = RoR2.Language.GetStringFormatted("LAI_MAP_LAYOUT_FORMAT", RoR2.Language.GetString(LAILayoutManager.GetLayoutTitleToken()));
             HookMethods.Hook_ToggleSceneHeaderVisibility(ConfigSetup.Scene_Header.Value);
             CreateSeerTextOnLoad(LAISceneManager.chosenScene);
         }

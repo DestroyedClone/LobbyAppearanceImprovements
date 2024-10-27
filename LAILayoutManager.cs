@@ -11,5 +11,10 @@ namespace LobbyAppearanceImprovements
         public static Dictionary<string, Type> layoutsDict = new Dictionary<string, Type>();
         public static List<string> layoutNameList = new List<string>();
         public static GameObject layoutInstance;
+
+        public static string GetLayoutTitleToken()
+        {
+            return chosenLayout != null ? chosenLayout.LayoutTitleToken : string.Empty;
+        }
     }
 }

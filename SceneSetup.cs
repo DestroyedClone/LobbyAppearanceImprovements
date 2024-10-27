@@ -17,6 +17,7 @@ namespace LobbyAppearanceImprovements
         public static Action<GameObject[]> SceneAssetAPI_itmoonAction;
         public static Action<GameObject[]> SceneAssetAPI_BazaarAction;
         public static Action<GameObject[]> SceneAssetAPI_LemurianTempleAction;
+        public static Action<GameObject[]> SceneAssetAPI_OutroAction;
 
         public static void Init()
         {
@@ -32,14 +33,31 @@ namespace LobbyAppearanceImprovements
             SceneAssetAPI_VoidOutroAction += VoidOceanFloor_Setup;
             SceneAssetAPI.AddAssetRequest("voidoutro", SceneAssetAPI_VoidOutroAction);
 
-            SceneAssetAPI_itmoonAction += MoonSetup;
-            SceneAssetAPI.AddAssetRequest("itmoon", SceneAssetAPI_itmoonAction);
-
             //SceneAssetAPI_BazaarAction += BazaarStoreObject_Setup;
             //SceneAssetAPI.AddAssetRequest("bazaar", SceneAssetAPI_BazaarAction);
 
             SceneAssetAPI_LemurianTempleAction += LemurianTempleSetup;
             SceneAssetAPI.AddAssetRequest("lemuriantemple", SceneAssetAPI_LemurianTempleAction);
+
+            SceneAssetAPI_OutroAction += OutroSetup;
+            SceneAssetAPI.AddAssetRequest("outro", SceneAssetAPI_OutroAction);
+
+        }
+
+        public static GameObject outroArenaStuff;
+
+        private static void OutroSetup(GameObject[] obj)
+        {
+            foreach (var go in obj)
+            {
+                if (go.name == "Set 4 - Arena")
+                {
+                    go.SetActive(true);
+                    go.transform.Find("FX").gameObject.SetActive(false);
+                    outroArenaStuff = PrefabAPI.InstantiateClone(go, "LAI_OutroArena");
+                    return;
+                }
+            }
         }
 
         public static GameObject chefLemTempleStuff;
@@ -90,20 +108,6 @@ namespace LobbyAppearanceImprovements
             if (current.parent == null)
                 return "/" + current.name;
             return current.parent.GetPath() + "/" + current.name;
-        }
-
-        public static GameObject brotherConstellation;
-
-        private static void MoonSetup(GameObject[] obj)
-        {
-            foreach (var go in obj)
-            {
-                if (go.name == "HOLDER: Stage")
-                {
-                    brotherConstellation = PrefabAPI.InstantiateClone(go.transform.Find("HOLDER: Constellations/mdlBrotherConstellation").gameObject, "LAI_MITHRIXCONSTELLATION", false);
-                    return;
-                }
-            }
         }
 
         public static GameObject VoidOutroSet7;

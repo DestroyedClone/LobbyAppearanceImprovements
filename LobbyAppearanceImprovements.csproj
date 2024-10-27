@@ -18,7 +18,12 @@
 	  <Compile Remove="Layouts\WispGraveyard_Snipers.cs" />
 	  <Compile Remove="MannequinLayouts\BowlingPins.cs" />
 	  <Compile Remove="Scenes\ArenaCellVent.cs" />
+	  <Compile Remove="Scenes\BattleMeridian.cs" />
+	  <Compile Remove="Scenes\BattleMoonArena.cs" />
+	  <Compile Remove="Scenes\BattleProvidence.cs" />
+	  <Compile Remove="Scenes\BattleVoid.cs" />
 	  <Compile Remove="Scenes\Bazaar.cs" />
+	  <Compile Remove="Scenes\ChefUnlock.cs" />
 	  <Compile Remove="Scenes\ContactLight.cs" />
 	  <Compile Remove="Scenes\SpaceCabin.cs" />
 	</ItemGroup>

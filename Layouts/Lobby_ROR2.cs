@@ -26,6 +26,10 @@ namespace LobbyAppearanceImprovements.Layouts
             { "Captain", new [] {new Vector3(2.21f, 0.01f, 19.40f), new Vector3(0f, 190f, 0f) } },
             { "Railgunner", new [] {new Vector3(1.3f, 3.6595f, 22.5774f), new Vector3(0f, 203f, 0f) } },
             { "VoidSurvivor", new [] {new Vector3(3f, 0f, 5.5f), new Vector3(0f, 290f, 0f) } },
+            //{ "", new [] {new Vector3(f, f, f), new Vector3(f, f, f) } },
+            { "Seeker", new [] {new Vector3(-4f, 0f, 22f), new Vector3(0f, 170f, 0f) } },
+            { "FalseSon", new [] {new Vector3(5.2f, 0f, 9f), new Vector3(0f, 270f, 0f) } },
+            { "Chef", new [] {new Vector3(-6.2f, 0f, 18f), new Vector3(0f, 170f, 0f) } },
         };
 
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
@@ -43,6 +47,12 @@ namespace LobbyAppearanceImprovements.Layouts
             {"RailgunnerBody", new CameraSetting( 60, new Vector3(1, 4.74f, 19) ) },
             {"VoidSurvivorBody", new CameraSetting( 60, new Vector3(3, 0.74f, 2.5f) ) },
             {"Bandit2Body", new CameraSetting( 60, new Vector3(3.5f, 1.74f, 9.5f) ) },
+            //{"", new CameraSetting( 60, new Vector3(f, f, f) ) },
+            {"SeekerBody", new CameraSetting( 60, new Vector3(-3.8f, 1.64f, 19.5f), new Vector3(0, 350, 0) ) },
+            //-3.8 0.4 19.5
+            {"FalseSonBody", new CameraSetting( 60, new Vector3(2.2f, 1.54f, 8.7f), new Vector3(0, 80, 0) ) },
+            //2.2 0.3 8.7
+            {"ChefBody", new CameraSetting( 60, new Vector3(-5.2f, 1.24f, 15.5f), new Vector3(0, 330, 0) ) },
         };
     }
 }

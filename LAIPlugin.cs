@@ -6,10 +6,11 @@ using R2API.Utils;
 using RoR2;
 using RoR2.UI;
 using System;
-using System.Linq;
+using System.Collections;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using static LobbyAppearanceImprovements.ConfigSetup;
 using static LobbyAppearanceImprovements.HookMethods;
 
@@ -17,29 +18,23 @@ using static LobbyAppearanceImprovements.HookMethods;
 
 namespace LobbyAppearanceImprovements
 {
+    [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.NoNeedForSync, VersionStrictness.DifferentModVersionsAreOk)]
     [BepInPlugin(ModGuid, ModName, ModVer)]
     [BepInDependency("com.KingEnderBrine.InLobbyConfig")]
 
-    //Scene Depedencies
+    //Scene Dependencies
     //PaladinOnly
-    [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
-
-    //Sniper Layout
-    //[BepInDependency("com.Moffein.SniperClassic", BepInDependency.DependencyFlags.SoftDependency)]
-    //[BepInDependency("Rein.Sniper", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency(R2API.R2API.PluginGUID, R2API.R2API.PluginVersion)]
+        [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
     public partial class LAIPlugin : BaseUnityPlugin
     {
-        public const string ModVer = "1.2.0";
+        public const string ModVer = "1.3.0";
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
-        //public static GameObject glassArtifact = Resources.Load<GameObject>("prefabs/pickupmodels/artifacts/PickupGlass");
-        //public static GameObject cubeObject = glassArtifact.transform.Find("mdlArtifactSimpleCube").gameObject;
-
         public static Transform CharSelUITransform;
         public static Transform LAITitleRef;
+        public static GameObject LAITextHolder;
 
         public static CharacterSelectController CharacterSelectController
         {
@@ -58,12 +53,13 @@ namespace LobbyAppearanceImprovements
         {
             LAILogging.Init(Logger);
 
-            //DefaultTextObject = CreateDefaultTextObject();
+            StartCoroutine(CallInit());
+
             ConfigSetup.Initialize(Config);
             LAIMannequinManager.Init();
             LAICameraManager.Init();
             LAIMusicManager.Init();
-            //AssemblySetup();
+            LAIPatches.Init();
 
             On.RoR2.UI.CharacterSelectController.Awake += CharacterSelectController_Awake;
             LAISceneManager.Initialize();
@@ -72,27 +68,20 @@ namespace LobbyAppearanceImprovements
 
             //RoR2.Stage.onServerStageBegin += CacheSkyboxMaterial;
             On.RoR2.PreGameShakeController.Awake += PreGameShakeController_Awake;
-            On.RoR2.UI.CharacterSelectController.OnEnable += CharacterSelectController_OnEnable;
-            On.RoR2.UI.CharacterSelectController.OnDisable += CharacterSelectController_OnDisable;
         }
-
-        private void CharacterSelectController_OnEnable(On.RoR2.UI.CharacterSelectController.orig_OnEnable orig, CharacterSelectController self)
+        private IEnumerator CallInit()
         {
-            orig(self);
-            On.RoR2.ShakeEmitter.ComputeTotalShakeAtPoint += ShakeEmitter_ComputeTotalShakeAtPoint;
-        }
+            var initTask = LAIAssets.Init(); // Start async method
+            while (!initTask.IsCompleted) // Wait until task is completed
+            {
+                yield return null; // Continue waiting on next frame
+            }
 
-        private Vector3 ShakeEmitter_ComputeTotalShakeAtPoint(On.RoR2.ShakeEmitter.orig_ComputeTotalShakeAtPoint orig, Vector3 position)
-        {
-            return orig(position) * (CharacterSelectController ? CharacterSelectController.localUser.userProfile.screenShakeScale : 1);
+            if (initTask.Exception != null)
+            {
+                Debug.LogError("Exception in LAIAssets.Init: " + initTask.Exception);
+            }
         }
-
-        private void CharacterSelectController_OnDisable(On.RoR2.UI.CharacterSelectController.orig_OnDisable orig, CharacterSelectController self)
-        {
-            On.RoR2.ShakeEmitter.ComputeTotalShakeAtPoint -= ShakeEmitter_ComputeTotalShakeAtPoint;
-            orig(self);
-        }
-
 
         private void PreGameShakeController_Awake(On.RoR2.PreGameShakeController.orig_Awake orig, PreGameShakeController self)
         {
@@ -127,10 +116,19 @@ namespace LobbyAppearanceImprovements
                 self.gameObject.AddComponent<Methods.LAICameraController>();
             CharSelUITransform = self.transform;
 
-            ValidateConfig();
-            Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
+            if (!LAITextHolder)
+                LAITextHolder = new GameObject("LAI_TextHolder");
+
+            LAITextHolder.transform.parent = self.transform.Find("SafeArea");
+            //var csf = LAITextHolder.gameObject.AddComponent<ContentSizeFitter>();
+            //var vlg = LAITextHolder.gameObject.AddComponent<VerticalLayoutGroup>();
+            LAITextHolder.transform.localPosition = new (100, 0, 0);
+            //LAITextHolder.gameObject.AddComponent<Image>();
 
             LAITitleRef = self.activeSurvivorInfoPanel.transform.Find("SurvivorNamePanel/SurvivorName");
+
+            ValidateConfig();
+            Methods.LoadSceneAndLayout(Scene_Selection.Value, SIL_SelectedLayout.Value);
 
             // UI //
             Hook_UI_ShowFade(UI_ShowFade.Value);

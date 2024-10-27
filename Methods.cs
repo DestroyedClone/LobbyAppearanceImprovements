@@ -170,6 +170,10 @@ namespace LobbyAppearanceImprovements
                         SetupPaladinDisplay(gameObject);
                     }
                     break;
+
+                case "Chef":
+                    gameObject.transform.Find("mdlChef").gameObject.GetComponent<CharacterModel>().enabled = false;
+                    break;
             }
 
             var comp2 = gameObject.AddComponent<LAILayout.LAI_CharacterDisplay>();

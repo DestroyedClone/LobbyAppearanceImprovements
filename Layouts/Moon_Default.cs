@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LobbyAppearanceImprovements.Scenes;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace LobbyAppearanceImprovements.Layouts
@@ -25,7 +26,7 @@ namespace LobbyAppearanceImprovements.Layouts
         {
             List<GameObject> list = new List<GameObject>();
 
-            var brother = UnityEngine.Object.Instantiate(SceneSetup.brotherConstellation);
+            var brother = LAIScene.CloneFromAddressable("RoR2/DLC1/itmoon/mdlBrotherConstellation.prefab");
             brother.transform.position = new Vector3(0, -790, 900);
             brother.transform.rotation = Quaternion.Euler(0, 170, 0);
             brother.transform.localScale = Vector3.one * 500;
