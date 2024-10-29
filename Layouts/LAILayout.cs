@@ -105,10 +105,10 @@ namespace LobbyAppearanceImprovements.Layouts
         // For creating objects at runtime
         public virtual void Init()
         {
-            LAILogging.LogMessage($"{SceneLayout}.Init :: Setting up layout.", LoggingStyle.UserShouldSee);
+            LAILogging.LogMessage($"{SceneLayout}.Init :: Setting up layout.", LoggingStyle.ObscureSoOnlyDevSees);
             if (HasSetup)
             {
-                LAILogging.LogMessage($"{SceneLayout}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage($"{SceneLayout}.Init :: Ran Init(), but has already set up!", LoggingStyle.ObscureSoOnlyDevSees);
                 return;
             }
             HasSetup = true;

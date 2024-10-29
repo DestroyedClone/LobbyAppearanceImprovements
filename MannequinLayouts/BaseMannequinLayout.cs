@@ -35,10 +35,10 @@ namespace LobbyAppearanceImprovements.MannequinLayouts
         public virtual void Init()
         {
             var nameOfThis = GetType().Name;
-            LAILogging.LogMessage($"{nameOfThis}.Init :: Setting up mannequin layout.", LoggingStyle.UserShouldSee);
+            LAILogging.LogMessage($"{nameOfThis}.Init :: Setting up mannequin layout.", LoggingStyle.ObscureSoOnlyDevSees);
             if (HasSetup)
             {
-                LAILogging.LogMessage($"{nameOfThis}.Init :: Ran Init(), but has already set up!", LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage($"{nameOfThis}.Init :: Ran Init(), but has already set up!", LoggingStyle.ObscureSoOnlyDevSees);
                 return;
             }
             HasSetup = true;

@@ -1,4 +1,24 @@
-﻿
+﻿* v1.3.0
+	* Fixed for Seekers of the Storm
+	* Scenes
+		➕ Added 11 new scenes:
+			* ArtifactWorld01
+			* ArtifactWorld02
+			* ArtifactWorld03
+			* Habitat
+			* HabitatFall
+			* HelminthRoost
+			* LakesNight
+			* LemurianTemple
+			* Meridian
+			* Village
+			* VillageNight
+	* Header and Footer text now are centered relative to the character select UI instead of relative to the screen.
+	* Config
+		* Shaking config now only affects Lobby and name is changed to reflect that.
+	* RoR2 Patch
+		* Fixed user setting screen shake scale not working in lobby.
+	* Some unneeded logging has been removed.
 * v1.2.?
 	* Scenes
 		* ➕ Added new music option: auto, default, and defined

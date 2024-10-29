@@ -419,7 +419,7 @@ namespace LobbyAppearanceImprovements
 
             public SkinnedMeshRenderer GetTargetRenderer(string cachedName)
             {
-                LAILogging.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.", ConfigSetup.LoggingStyle.UserShouldSee);
+                LAILogging.LogMessage($"ClickToSelectCharacter.GetTargetRenderer :: Checking cached name {cachedName}.", ConfigSetup.LoggingStyle.ObscureSoOnlyDevSees);
                 string path = "";
 
                 switch (cachedName)
