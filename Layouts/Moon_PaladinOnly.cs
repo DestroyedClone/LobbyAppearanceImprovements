@@ -86,26 +86,25 @@ namespace LobbyAppearanceImprovements.Layouts
             //Debug.Log("Creating Statue");
             var model = Methods.CreateDisplay("RobPaladin", Vector3.zero, Vector3.zero);
             model.GetComponent<CharacterModel>().enabled = false;
-            model.transform.Find("Armature/meshPaladin").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
-            model.transform.Find("Armature/meshSword").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
-            model.transform.Find("Armature/spine").gameObject.SetActive(false);
+            model.transform.Find("meshPaladinDefault").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
+            model.transform.Find("meshPaladinDefault_Cape").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
+            model.transform.Find("meshPaladinDefault_Sword").gameObject.GetComponent<SkinnedMeshRenderer>().material = moonTexture;
+            model.transform.Find("Armature/base").gameObject.SetActive(false);
             model.name = "PaladinStatue";
             //model.GetComponent<Animator>().playbackTime = 5;
             model.transform.position = new Vector3(0, -50f, 0);
             //model.GetComponent<Animator>();
 
-            var localStatueHolders = new GameObject();
-            localStatueHolders.name = "HOLDER: Statues";
+            var localStatueHolders = new GameObject("HOLDER: Statues");
 
             foreach (var statuePos in statuePositionsAndRotations)
             {
                 var newModel = GameObject.Instantiate<GameObject>(model);
                 newModel.transform.parent = localStatueHolders.transform;
-                newModel.transform.position = statuePos[0];
-                newModel.transform.rotation = Quaternion.Euler(statuePos[1]);
+                newModel.transform.SetPositionAndRotation(statuePos[0], Quaternion.Euler(statuePos[1]));
             }
             StatueHolders = localStatueHolders;
-            gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(survivorIndex).bodyPrefab?.GetComponentInChildren<Animator>().runtimeAnimatorController;
+            gamingAnimatorController = SurvivorCatalog.GetSurvivorDef(survivorIndex).bodyPrefab.GetComponentInChildren<Animator>().runtimeAnimatorController;
         }
 
         public override Dictionary<string, CameraSetting> CharacterCameraSettings => new Dictionary<string, CameraSetting>()
