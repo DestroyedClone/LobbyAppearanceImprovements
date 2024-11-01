@@ -21,9 +21,7 @@ namespace LobbyAppearanceImprovements.Scenes
         {
             base.Init();
             display = PrefabCloneFromAddressable("RoR2/DLC2/meridian/PMDioramaDisplay.prefab", "LAI_Scene_Meridian");
-            //displayPrefab.transform.position = Position;
-            //displayPrefab.transform.rotation = Rotation;
-            //displayPrefab.transform.localScale = Scale;
+            var childLoc = display.AddComponent<ChildLocator>();
 
             var skybox = CloneFromAddressable("RoR2/DLC2/meridian/Weather, Meridian.prefab");
             skybox.transform.parent = display.transform;
@@ -34,10 +32,36 @@ namespace LobbyAppearanceImprovements.Scenes
             head.transform.rotation = Quaternion.Euler(330, 180, 0);
             head.transform.localPosition = new Vector3(-3, 4, 12);
             head.transform.Find("Point Light").gameObject.SetActive(false);
-            head.transform.Find("meshPMEyesGlow").gameObject.SetActive(false);
-            head.transform.Find("meshPMCrownAuraBeams").gameObject.SetActive(false);
-            head.transform.Find("meshPMCrownGlow").gameObject.SetActive(false);
-            head.transform.Find("ColossusGoldEnergyDecal").gameObject.SetActive(false);
+
+            Transform eyeGlow = head.transform.Find("meshPMEyesGlow");
+            eyeGlow.gameObject.SetActive(false);
+            Transform crownAuraBeams = head.transform.Find("meshPMCrownAuraBeams");
+            crownAuraBeams.gameObject.SetActive(false);
+            Transform crownGlow = head.transform.Find("meshPMCrownGlow");
+            crownGlow.gameObject.SetActive(false);
+            Transform goldDecal = head.transform.Find("ColossusGoldEnergyDecal");
+            goldDecal.gameObject.SetActive(false);
+
+            childLoc.transformPairs = new ChildLocator.NameTransformPair[]
+            {
+                new ChildLocator.NameTransformPair() {name = "eyeGlow", transform = eyeGlow},
+                new ChildLocator.NameTransformPair() {name = "crownAuraBeams", transform = crownAuraBeams},
+                new ChildLocator.NameTransformPair() {name = "crownGlow", transform = crownGlow},
+                new ChildLocator.NameTransformPair() {name = "goldDecal", transform = goldDecal},
+            };
+        }
+
+        public override void OnVoteStarted(LAIScene scene)
+        {
+            base.OnVoteStarted(scene);
+            if (!scene.IsSceneOfType<Meridian>()) return;
+            //var sceneInstance = LAISceneManager.sceneInstance;
+            if (!LAISceneManager.sceneInstance) return;
+            var childLoc = LAISceneManager.sceneInstance.GetComponent<ChildLocator>();
+            foreach (var child in childLoc.transformPairs)
+            {
+                child.transform.gameObject.SetActive(true);
+            }
         }
     }
 }
