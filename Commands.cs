@@ -2,6 +2,8 @@
 using System;
 using UnityEngine;
 using static LobbyAppearanceImprovements.Methods;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LobbyAppearanceImprovements
 {
@@ -83,6 +85,116 @@ namespace LobbyAppearanceImprovements
             var rot = args.senderBody.transform.rotation;
             var text = "{ \"" + bodyName + "\", new [] {new Vector3(" + pos.x + "f, " + pos.y + "f, " + pos.z + "f), new Vector3(" + rot.x + ", " + rot.y + "f, " + rot.z + "f) } },";
             Debug.Log(text);
+        }
+
+        [ConCommand(commandName = "LAI_CycleScenes", flags = ConVarFlags.None, helpText = "")]
+        public static void CMD_CycleScenes(ConCommandArgs args)
+        {
+            return;
+            new GameObject().AddComponent<LAI_SceneCycler>();
+        }
+
+        public class LAI_SceneCycler : MonoBehaviour
+        {
+            public List<string> sceneNames = new List<string>();
+            public float durationPerScene = 3f;
+            private float stopwatch = 0;
+            public int index = 0;
+
+            private bool hasTakenScreenshot = false;
+            private float delayBeforeScreenshot = 2f;
+
+            public void Awake()
+            {
+                sceneNames = LAISceneManager.scenesDict.Keys.ToList();
+                SelectScene(sceneNames[index]);
+            }
+
+            public void Update()
+            {
+                stopwatch += Time.deltaTime;
+                if (stopwatch > delayBeforeScreenshot)
+                {
+                    if (!hasTakenScreenshot)
+                    {
+                        hasTakenScreenshot = true;
+                        ScreenCapture.CaptureScreenshot($"C:/Users/destr/Pictures/0Screenshots/{sceneNames[index]}.png");
+                    }
+                }
+                if (stopwatch < durationPerScene)
+                    return;
+                stopwatch = 0;
+                index++;
+                hasTakenScreenshot = false;
+                try
+                {
+                    SelectScene(sceneNames[index]);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e.ToString());
+                    new GameObject().AddComponent<LAI_LayoutCycler>();
+                    enabled = false;
+                    Destroy(this.gameObject);
+                }
+            }
+        }
+
+        public class LAI_LayoutCycler : MonoBehaviour
+        {
+            public List<string> layoutNames = new List<string>();
+            public float durationPerScene = 3f;
+            private float stopwatch = 0;
+            public int index = 0;
+
+            private bool hasTakenScreenshot = false;
+            private float delayBeforeScreenshot = 2f;
+
+            public void Awake()
+            {
+                layoutNames = LAILayoutManager.layoutsDict.Keys.ToList();
+                layoutNames.Sort();
+                while (layoutNames[index].StartsWith("any_"))
+                {
+                    index++;
+                }
+                Methods.LoadSceneAndLayout(GetSceneNameFromLayout(layoutNames[index]), layoutNames[index]);
+                SelectScene(layoutNames[index]);
+            }
+
+            public string GetSceneNameFromLayout(string layoutName)
+            {
+                var holder = layoutName.Split('_');
+                return holder[0];
+            }
+
+            public void Update()
+            {
+                stopwatch += Time.deltaTime;
+                if (stopwatch > delayBeforeScreenshot)
+                {
+                    if (!hasTakenScreenshot)
+                    {
+                        hasTakenScreenshot = true;
+                        ScreenCapture.CaptureScreenshot($"C:/Users/destr/Pictures/0Screenshots/{layoutNames[index]}.png");
+                    }
+                }
+                if (stopwatch < durationPerScene)
+                    return;
+                stopwatch = 0;
+                index++;
+                hasTakenScreenshot = false;
+                try
+                {
+                    Methods.LoadSceneAndLayout(GetSceneNameFromLayout(layoutNames[index]), layoutNames[index]);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e.ToString());
+                    enabled = false;
+                    Destroy(this.gameObject);
+                }
+            }
         }
     }
 }
