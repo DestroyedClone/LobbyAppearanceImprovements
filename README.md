@@ -1,5 +1,6 @@
 
 
+
 | [![github issues/request link](https://raw.githubusercontent.com/DestroyedClone/PoseHelper/master/PoseHelper/github_link.webp)](https://github.com/DestroyedClone/LobbyAppearanceImprovements/issues) | [![discord invite](https://raw.githubusercontent.com/DestroyedClone/PoseHelper/master/PoseHelper/discord_link.webp)](https://discord.gg/DpHu3qXMHK) |
 |--|--|
 
@@ -75,6 +76,9 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 | ancientloft |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/ancientloft.webp) |
 | arena |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/arena.webp) |
 | artifactworld |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/artifactworld.webp) |
+| artifactworld01 |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/artifactworld01.webp) |
+| artifactworld02 |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/artifactworld02.webp) |
+| artifactworld03 |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/artifactworld03.webp) |
 | blackbeach |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/blackbeach.webp) |
 | captainshelm | captainshelm_default | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/captainshelm.webp) |
 | dampcave |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/dampcave.webp) |
@@ -84,11 +88,17 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 | goldshores |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/goldshores.webp) |
 | golemplains |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/golemplains.webp) |
 | goolake |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/goolake.webp) |
+| habitat|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/habitat.webp) |
+| habitatfall|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/habitatfall.webp) |
+| helminthroost|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/helminthroost.webp) |
+| lakes|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lakes.webp) |
+| lakesnight|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lakesnight.webp) |
+| lemuriantemple|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lemuriantemple.webp) |
 | limbo |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/limbo.webp) |
 | lobby |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lobby.webp) |
 | lobby | lobby_ror2 | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lobby_ror2.webp) |
 | lobbyvoid |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lobbyvoid.webp) |
-| lakes | | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/lakes.webp) |
+| meridian|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/meridian.webp) |
 | moon |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/moon.webp) |
 | moon | moon_default | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/moon_default.webp) |
 | moon | moon_paladinonly | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/moon_paladinonly.webp) |
@@ -98,6 +108,8 @@ Some layouts are locked behind mods being loaded, and all scenes and layouts are
 | skymeadow |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/skymeadow.webp) |
 | snowyforest |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/snowyforest.webp) |
 | sulfurpools |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/sulfurpools.webp) |
+| village|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/village.webp) |
+| villagenight|  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/villagenight.webp) |
 | voidoceanfloor |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/voidoceanfloor.webp) |
 | voidraid |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/voidraid.webp) |
 | voidstage |  | ![Preview](https://github.com/DestroyedClone/LobbyAppearanceImprovements/raw/master/readme/Scenes/voidstage.webp) |
