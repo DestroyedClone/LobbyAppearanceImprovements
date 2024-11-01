@@ -1,14 +1,14 @@
 {
   "name": "LobbyAppearanceImprovements",
-  "version_number": "1.2.0",
+  "version_number": "1.3.0",
   "website_url": "https://github.com/DestroyedClone/PoseHelper/tree/master/LobbyAppearanceImprovements",
-  "description": "1.2.0 - More Scenes and Settings | Adds new features to the lobby",
+  "description": "1.3.0 - SOTS update | Adds new features to the lobby",
   "dependencies": [
-    "bbepis-BepInExPack-5.4.2113",
+    "bbepis-BepInExPack-5.4.2117",
     "RiskofThunder-R2API_Language-1.0.1",
-    "RiskofThunder-R2API_Prefab-1.0.3",
+    "RiskofThunder-R2API_Prefab-1.0.4",
     "RiskofThunder-R2API_SceneAsset-1.1.2",
-    "RiskofThunder-R2API_Core-5.0.12",
-    "KingEnderBrine-InLobbyConfig-1.4.1"
+    "RiskofThunder-R2API_Core-5.1.2",
+    "KingEnderBrine-InLobbyConfig-1.5.0"
   ]
 }
