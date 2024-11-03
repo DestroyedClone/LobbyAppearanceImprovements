@@ -36,11 +36,11 @@ namespace LobbyAppearanceImprovements
             //SceneAssetAPI_BazaarAction += BazaarStoreObject_Setup;
             //SceneAssetAPI.AddAssetRequest("bazaar", SceneAssetAPI_BazaarAction);
 
-            SceneAssetAPI_LemurianTempleAction += LemurianTempleSetup;
-            SceneAssetAPI.AddAssetRequest("lemuriantemple", SceneAssetAPI_LemurianTempleAction);
+            //SceneAssetAPI_LemurianTempleAction += LemurianTempleSetup;
+            //SceneAssetAPI.AddAssetRequest("lemuriantemple", SceneAssetAPI_LemurianTempleAction);
 
-            SceneAssetAPI_OutroAction += OutroSetup;
-            SceneAssetAPI.AddAssetRequest("outro", SceneAssetAPI_OutroAction);
+            //SceneAssetAPI_OutroAction += OutroSetup;
+            //SceneAssetAPI.AddAssetRequest("outro", SceneAssetAPI_OutroAction);
 
         }
 
