@@ -165,6 +165,7 @@ namespace LobbyAppearanceImprovements
                 {
                     case "Set 2 - Cabin":
                         cabin = gameObject;
+                        cabin.SetActive(true);
                         continue;
                     case "Cutscene Space Skybox":
                         skybox = gameObject;

@@ -1,7 +1,13 @@
-﻿* v1.3.0
+﻿* 1.4.0
+	* Fixed for Alloyed Collective
+		* Updated outdated asset reference causing whole mod to fail.
+	* Fixed changelog for v1.3.0 not bulletpointing added scenes
+	* Fixed manifest linking old repository page.
+	* Fixed Cabin in CaptainsHelm being disabled by setting it active when acquiring the object
+* v1.3.0
 	* Fixed for Seekers of the Storm
 	* Scenes
-		➕ Added 11 new scenes:
+		* ➕ Added 11 new scenes:
 			* ArtifactWorld01
 			* ArtifactWorld02
 			* ArtifactWorld03
