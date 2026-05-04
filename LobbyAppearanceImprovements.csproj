@@ -54,4 +54,8 @@
 	  </Reference>
 	</ItemGroup>
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="set OUT=$(SolutionDir)Release\$(ProjectName)\&#xD;&#xA;set ZIP=$(SolutionDir)Release\$(ProjectName).zip&#xD;&#xA;&#xD;&#xA;xcopy /Y &quot;$(IntermediateOutputPath)$(TargetName).dll&quot; &quot;%25OUT%25&quot;&#xD;&#xA;xcopy /Y &quot;$(IntermediateOutputPath)$(TargetName).pdb&quot; &quot;%25OUT%25&quot;&#xD;&#xA;xcopy /Y /E /I &quot;$(ProjectDir)language\&quot; &quot;%25OUT%25language\&quot;&#xD;&#xA;xcopy /Y /E /I &quot;$(ProjectDir)thunderstore\*&quot; &quot;%25OUT%25&quot;&#xD;&#xA;&#xD;&#xA;if exist &quot;%25ZIP%25&quot; del &quot;%25ZIP%25&quot;&#xD;&#xA;powershell -Command &quot;Compress-Archive -Path '%25OUT%25*' -DestinationPath '%25ZIP%25'&quot;" />
+	</Target>
+
 </Project>
