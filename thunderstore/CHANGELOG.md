@@ -1,4 +1,4 @@
-﻿* 1.4.0
+* 1.4.0
 	* Fixed for Alloyed Collective
 		* Updated outdated asset reference causing whole mod to fail.
 	* Fixed changelog for v1.3.0 not bulletpointing added scenes
