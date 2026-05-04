@@ -28,7 +28,7 @@ namespace LobbyAppearanceImprovements
         [BepInDependency("com.rob.Paladin", BepInDependency.DependencyFlags.SoftDependency)]
     public partial class LAIPlugin : BaseUnityPlugin
     {
-        public const string ModVer = "1.3.0";
+        public const string ModVer = "1.4.0";
         public const string ModName = "LobbyAppearanceImprovements";
         public const string ModGuid = "com.DestroyedClone.LobbyAppearanceImprovements";
 
